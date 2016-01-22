@@ -271,10 +271,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Transforms the specified <see cref="Vector3"/> with the specified <see cref="Matrix3x3"/>.
+        ///     Transforms the specified <see cref="Vector3"/> with the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> that should be transformed.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix3x3"/>.</param>
+        /// <param name="matrix">The transformation <see cref="Matrix4x4"/>.</param>
         /// <returns>The transformed <see cref="Vector3"/>.</returns>
         public static Vector3 Transform(Vector3 vector, Matrix4x4 matrix)
         {

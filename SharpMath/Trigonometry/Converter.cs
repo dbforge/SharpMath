@@ -9,9 +9,9 @@ namespace SharpMath.Trigonometry
             return degrees * (Math.PI / 180);
         }
 
-        public static double RadiansToDegrees(double degrees)
+        public static double RadiansToDegrees(double radians)
         {
-            return degrees * (180 / Math.PI);
+            return radians * (180 / Math.PI);
         }
     }
 }

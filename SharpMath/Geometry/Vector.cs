@@ -143,13 +143,7 @@ namespace SharpMath.Geometry
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static double ScalarProduct(Vector firstVector, Vector secondVector)
         {
-            if (firstVector.Dimension != secondVector.Dimension)
-                throw new DimensionException("The dimensions of the vectors do not equal each other.");
-
-            double result = 0;
-            for (uint i = 0; i < firstVector.Dimension; ++i)
-                result += firstVector[i] * secondVector[i];
-            return result;
+            return firstVector.ScalarProduct(secondVector);
         }
 
         /// <summary>
@@ -292,7 +286,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is orthogonal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthogonalTo(Vector other)
         {
-            return AreOrthogonal(this, other);
+            return ScalarProduct(other) == 0;
         }
 
         /// <summary>
@@ -303,7 +297,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthogonal(Vector firstVector, Vector secondVector)
         {
-            return ScalarProduct(firstVector, secondVector) == 0;
+            return firstVector.IsOrthogonalTo(secondVector);
         }
 
         /// <summary>
@@ -313,7 +307,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is orthonormal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthonormalTo(Vector other)
         {
-            return AreOrthonormal(this, other);
+            return IsOrthogonalTo(other) && IsNormalized && other.IsNormalized;
         }
 
         /// <summary>
@@ -324,7 +318,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are orthonormal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthonormal(Vector firstVector, Vector secondVector)
         {
-            return AreOrthogonal(firstVector, secondVector) && firstVector.IsNormalized && secondVector.IsNormalized;
+            return firstVector.IsOrthonormalTo(secondVector);
         }
 
         /// <summary>
@@ -334,7 +328,19 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is parallel to another one, otherwise <c>false</c>.</returns>
         public bool IsParallelTo(Vector other)
         {
-            return AreParallel(this, other);
+            double firstResult = 0;
+            for (uint i = 0; i < Dimension; ++i)
+            {
+                if (i == 0)
+                    firstResult = other[i] / this[i];
+                else
+                {
+                    if (other[i] / this[i] != firstResult)
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -345,19 +351,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are parallel to each other, otherwise <c>false</c>.</returns>
         public bool AreParallel(Vector firstVector, Vector secondVector)
         {
-            double firstResult = 0;
-            for (uint i = 0; i < firstVector.Dimension; ++i)
-            {
-                if (i == 0)
-                    firstResult = secondVector[i]/ firstVector[i];
-                else
-                {
-                    if (secondVector[i] / firstVector[i] != firstResult)
-                        return false;
-                }
-            }
-
-            return true;
+            return firstVector.IsParallelTo(secondVector);
         }
 
         public bool AreAntiParallel(Vector firstVector, Vector secondVector)

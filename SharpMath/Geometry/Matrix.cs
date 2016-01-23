@@ -156,7 +156,20 @@ namespace SharpMath.Geometry
         /// <returns>The augmented <see cref="Matrix"/>.</returns>
         public Matrix AugmentHorizontally(Matrix other)
         {
-            return AugmentHorizontally(this, other);
+            if (RowCount != other.RowCount)
+                throw new InvalidOperationException("Cannot the augment the first matrix as its row count doesn't match the row count of the second one.");
+
+            var resultMatrix = new Matrix(RowCount, ColumnCount + other.ColumnCount);
+            for (uint y = 0; y < resultMatrix.RowCount; ++y)
+            {
+                for (uint fx = 0; fx < ColumnCount; ++fx)
+                    resultMatrix[y, fx] = this[y, fx];
+
+                for (uint sx = 0; sx < other.ColumnCount; ++sx)
+                    resultMatrix[y, ColumnCount + sx] = other[y, sx];
+            }
+
+            return resultMatrix;
         }
 
         /// <summary>
@@ -167,56 +180,42 @@ namespace SharpMath.Geometry
         /// <returns>The augmented <see cref="Matrix"/>.</returns>
         public static Matrix AugmentHorizontally(Matrix firstMatrix, Matrix secondMatrix)
         {
-            if (firstMatrix.RowCount != secondMatrix.RowCount)
-                throw new InvalidOperationException("Cannot the augment the first matrix as its row count doesn't match the row count of the second one.");
-            
-            var resultMatrix = new Matrix(firstMatrix.RowCount, firstMatrix.ColumnCount + secondMatrix.ColumnCount);
-            for (uint y = 0; y < resultMatrix.RowCount; ++y)
-            {
-                for (uint fx = 0; fx < firstMatrix.ColumnCount; ++fx)
-                    resultMatrix[y, fx] = firstMatrix[y, fx];
+            return firstMatrix.AugmentHorizontally(secondMatrix);
+        }
 
-                for (uint sx = 0; sx < secondMatrix.ColumnCount; ++sx)
-                    resultMatrix[y, firstMatrix.ColumnCount + sx] = secondMatrix[y, sx];
+        /// <summary>
+        ///     Augments this <see cref="Matrix"/> with the specified <see cref="Matrix"/> by attaching at to the bottom.
+        /// </summary>
+        /// <param name="other">The <see cref="Matrix"/> to augment this one with.</param>
+        /// <returns>The augmented <see cref="Matrix"/>.</returns>
+        public Matrix AugmentVertically(Matrix other)
+        {
+            if (ColumnCount != other.ColumnCount)
+                throw new InvalidOperationException("Cannot the augment the first matrix as its column count doesn't match the column count of the second one.");
+
+            var resultMatrix = new Matrix(RowCount + other.RowCount, ColumnCount);
+            for (uint x = 0; x < resultMatrix.ColumnCount; ++x)
+            {
+                for (uint fy = 0; fy < RowCount; ++fy)
+                    resultMatrix[fy, x] = this[fy, x];
+
+                for (uint sy = 0; sy < other.RowCount; ++sy)
+                    resultMatrix[RowCount + sy, x] = other[sy, x];
             }
 
             return resultMatrix;
         }
 
         /// <summary>
-        ///     Augments this <see cref="Matrix"/> with the specified <see cref="Matrix"/> attaching it to the bottom.
-        /// </summary>
-        /// <param name="other">The <see cref="Matrix"/> to augment this one with.</param>
-        /// <returns>The augmented <see cref="Matrix"/>.</returns>
-        public Matrix AugmentVertically(Matrix other)
-        {
-            return AugmentVertically(this, other);
-        }
-
-        /// <summary>
-        ///     Augments a <see cref="Matrix"/> with an other <see cref="Matrix"/> attaching it to the bottom.
+        ///     Augments a <see cref="Matrix"/> with an other <see cref="Matrix"/> by attaching it at the bottom.
         /// </summary>
         /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
         /// <param name="secondMatrix">The second <see cref="Matrix"/> to augment the first one with.</param>
         /// <returns>The augmented <see cref="Matrix"/>.</returns>
         public static Matrix AugmentVertically(Matrix firstMatrix, Matrix secondMatrix)
         {
-            if (firstMatrix.ColumnCount != secondMatrix.ColumnCount)
-                throw new InvalidOperationException("Cannot the augment the first matrix as its column count doesn't match the column count of the second one.");
-
-            var resultMatrix = new Matrix(firstMatrix.RowCount + secondMatrix.RowCount, firstMatrix.ColumnCount);
-            for (uint x = 0; x < resultMatrix.ColumnCount; ++x)
-            {
-                for (uint fy = 0; fy < firstMatrix.RowCount; ++fy)
-                    resultMatrix[fy, x] = firstMatrix[fy, x];
-
-                for (uint sy = 0; sy < secondMatrix.RowCount; ++sy)
-                    resultMatrix[firstMatrix.RowCount + sy, x] = secondMatrix[sy, x];
-            }
-
-            return resultMatrix;
+            return firstMatrix.AugmentVertically(secondMatrix);
         }
-        // TODO: Check Augment-documentation
 
         /// <summary>
         ///     Calculates a sub <see cref="Matrix"/> of this <see cref="Matrix"/> by removing the specified column and row.
@@ -349,7 +348,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Divides the specified <see cref="Matrix"/> by multipling it with the reciprocal of the specified scalar.
+        ///     Multiplies the specified <see cref="Matrix"/> with the reciprocal of the specified scalar.
         /// </summary>
         /// <param name="matrix">The <see cref="Matrix"/>.</param>
         /// <param name="scalar">The scalar.</param>

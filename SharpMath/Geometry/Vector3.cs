@@ -167,17 +167,17 @@ namespace SharpMath.Geometry
         /// <returns>Returns the calculated <see cref="Vector3"/>.</returns>
         public static Vector3 CrossProduct(Vector3 firstVector, Vector3 secondVector)
         {
-            return new Vector3((firstVector.Y * secondVector.Z - firstVector.Z * secondVector.Y), (firstVector.Z * secondVector.X - firstVector.X * secondVector.Z), (firstVector.X * secondVector.Y - firstVector.Y * secondVector.X));
+            return firstVector.CrossProduct(secondVector);
         }
 
         /// <summary>
         ///     Calculates the area of the parallelogram that this and the specified <see cref="Vector3"/> instances span.
         /// </summary>
-        /// <param name="secondVector">The other <see cref="Vector3"/>.</param>
+        /// <param name="other">The other <see cref="Vector3"/>.</param>
         /// <returns>Returns the area of the spanned parallelogram.</returns>
-        public double Area(Vector3 vector)
+        public double Area(Vector3 other)
         {
-            return CrossProduct(this, vector).Magnitude;
+            return CrossProduct(this, other).Magnitude;
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns the area of the spanned parallelogram.</returns>
         public static double Area(Vector3 firstVector, Vector3 secondVector)
         {
-            return CrossProduct(firstVector, secondVector).Magnitude;
+            return firstVector.Area(secondVector);
         }
         
         /// <summary>
@@ -260,7 +260,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator * for calculating the scalar product of two <see cref="Vector3"/> instances.
         /// </summary>
-        /// <param name="vector">The first <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
         /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
         /// <returns>
         ///     The scalar that has been calculated.

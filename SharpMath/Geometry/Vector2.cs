@@ -181,6 +181,16 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Transforms this <see cref="Vector2"/> with the specified <see cref="Matrix3x3"/>.
+        /// </summary>
+        /// <param name="matrix">The transformation <see cref="Matrix3x3"/>.</param>
+        /// <returns>The transformed <see cref="Vector2"/>.</returns>
+        public Vector2 Transform(Matrix3x3 matrix)
+        {
+            return matrix * this;
+        }
+
+        /// <summary>
         ///     Transforms the specified <see cref="Vector2"/> with the specified <see cref="Matrix3x3"/>.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> that should be transformed.</param>
@@ -188,7 +198,7 @@ namespace SharpMath.Geometry
         /// <returns>The transformed <see cref="Vector2"/>.</returns>
         public static Vector2 Transform(Vector2 vector, Matrix3x3 matrix)
         {
-            return matrix * vector;
+            return vector.Transform(matrix);
         }
 
         /// <summary>
@@ -199,17 +209,7 @@ namespace SharpMath.Geometry
         /// <returns>The transformed <see cref="Vector2"/>.</returns>
         public static Vector2 Transform(Matrix3x3 matrix, Vector2 vector)
         {
-            return Transform(vector, matrix);
-        }
-
-        /// <summary>
-        ///     Transforms this <see cref="Vector2"/> with the specified <see cref="Matrix3x3"/>.
-        /// </summary>
-        /// <param name="matrix">The transformation <see cref="Matrix3x3"/>.</param>
-        /// <returns>The transformed <see cref="Vector2"/>.</returns>
-        public Vector2 Transform(Matrix3x3 matrix)
-        {
-            return Transform(matrix, this);
+            return vector.Transform(matrix);
         }
 
         /// <summary>

@@ -117,25 +117,25 @@ namespace SharpMath.Geometry
         public static Vector2 operator *(Matrix3x3 matrix, Vector2 vector)
         {
             var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
-            return resultMatrix.GetColumnVector(0).Convert<Vector2>();
+            return resultMatrix.GetRowVector(0).Convert<Vector2>();
         }
 
         public static Vector2 operator *(Vector2 vector, Matrix3x3 matrix)
         {
             var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
-            return resultMatrix.GetColumnVector(0).Convert<Vector2>();
+            return resultMatrix.GetRowVector(0).Convert<Vector2>();
         }
 
         public static Vector3 operator *(Matrix3x3 matrix, Vector3 vector)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector3.FromVector(resultMatrix.GetColumnVector(0));
+            return Vector3.FromVector(resultMatrix.GetRowVector(0));
         }
 
         public static Vector3 operator *(Vector3 vector, Matrix3x3 matrix)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector3.FromVector(resultMatrix.GetColumnVector(0));
+            return Vector3.FromVector(resultMatrix.GetRowVector(0));
         }
 
         public static Matrix3x3 operator *(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)

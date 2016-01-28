@@ -8,13 +8,14 @@ namespace SharpMath.Geometry
     public class Polygon : IGeometricFigure<Point2D>
     {
         public List<Point2D> Points { get; protected set; } = new List<Point2D>();
-        public uint CornerCount => (uint)Points.Count();
 
         public Polygon()
         { }
 
         public Polygon(params Point2D[] points)
         {
+            if (points.Length < 3)
+                throw new ArgumentException("A polygon needs to have at least 3 points.");
             Points = points.ToList();
         }
 
@@ -26,7 +27,7 @@ namespace SharpMath.Geometry
             get
             {
                 double perimeter = 0;
-                for (int i = 0, j = 1; i < CornerCount - 1 && j < CornerCount; ++i, ++j)
+                for (int i = 0, j = 1; i < Points.Count - 1 && j < Points.Count; ++i, ++j)
                 {
                     perimeter += (Points[j] - Points[i]).Magnitude;
                 }
@@ -43,8 +44,8 @@ namespace SharpMath.Geometry
             get
             {
                 double value = 0;
-                //for (int i = 0; i < Points.Count - 1; ++i)
-                //    value += Vector2.Area(Points[i], Points[i + 1]);
+                for (int i = 0; i < Points.Count - 1; ++i)
+                    value += Vector2.Area(Points[i], Points[i + 1]);
                 return Math.Abs(value * 0.5);
             }
         }

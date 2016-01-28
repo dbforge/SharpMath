@@ -102,7 +102,7 @@ namespace SharpMath.Geometry
 
         public bool Contains(Polygon other)
         {
-            return Points.All(ContainsPoint);
+            return other.Points.All(ContainsPoint);
         }
 
         public bool ContainsPoint(Point2D point)

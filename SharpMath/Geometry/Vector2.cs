@@ -111,7 +111,7 @@ namespace SharpMath.Geometry
         /// </summary>
         public Vector2 CrossProduct => new Vector2(Y, -X);
 
-        public double Area(Vector2 firstVector, Vector2 secondVector)
+        public static double Area(Vector2 firstVector, Vector2 secondVector)
         {
             return firstVector.X * secondVector.Y - firstVector.Y * secondVector.X;
         }

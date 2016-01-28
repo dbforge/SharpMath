@@ -56,7 +56,7 @@ namespace SharpMath.Tests
             var resultVector = vector.CrossProduct(secondVector);
 
             Assert.AreEqual(-15, resultVector.X);
-            Assert.AreEqual(-1, resultVector.Y);
+            Assert.AreEqual(1, resultVector.Y);
             Assert.AreEqual(10, resultVector.Z);
         }
 

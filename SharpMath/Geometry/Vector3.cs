@@ -156,7 +156,7 @@ namespace SharpMath.Geometry
         /// <returns>Returns the calculated <see cref="Vector3"/>.</returns>
         public Vector3 CrossProduct(Vector3 other)
         {
-            return new Vector3((Y * other.Z - Z * other.Y), (X * other.Z - Z * other.X), (X * other.Y - Y * other.X)); 
+            return new Vector3((Y * other.Z - Z * other.Y), (Z * other.X - X * other.Z), (X * other.Y - Y * other.X)); 
         }
 
         /// <summary>

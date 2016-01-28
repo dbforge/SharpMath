@@ -45,17 +45,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\Domain.cs" />
-    <Compile Include="Analysis\Function.cs" />
-    <Compile Include="Analysis\Interval.cs" />
-    <Compile Include="Analysis\IntervalValue.cs" />
-    <Compile Include="Analysis\IntervalValueOption.cs" />
-    <Compile Include="Analysis\IntervalValueOptionAttribute.cs" />
-    <Compile Include="Analysis\Monotony.cs" />
-    <Compile Include="Analysis\MonotonyType.cs" />
-    <Compile Include="Analysis\Rule.cs" />
-    <Compile Include="Analysis\RuleSet\IRuleSet.cs" />
-    <Compile Include="Analysis\Signs.cs" />
     <Compile Include="Equations\EquationNotSolvableException.cs" />
     <Compile Include="Equations\LinearEquation.cs" />
     <Compile Include="Equations\LinearEquationSystem.cs" />

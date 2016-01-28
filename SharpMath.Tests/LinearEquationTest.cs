@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Equations;
+using SharpMath.Equations.Exceptions;
 
 namespace SharpMath.Tests
 {

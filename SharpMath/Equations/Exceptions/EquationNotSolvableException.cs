@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpMath.Equations
+namespace SharpMath.Equations.Exceptions
 {
     public class EquationNotSolvableException : Exception
     {

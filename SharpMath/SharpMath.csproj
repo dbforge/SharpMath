@@ -45,7 +45,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Equations\EquationNotSolvableException.cs" />
+    <Compile Include="Equations\Exceptions\EquationNotSolvableException.cs" />
     <Compile Include="Equations\LinearEquation.cs" />
     <Compile Include="Equations\LinearEquationSystem.cs" />
     <Compile Include="Expressions\CharEx.cs" />

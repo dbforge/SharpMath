@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SharpMath.Expressions;
 using SharpMath.Geometry;
 using SharpMath.Equations;
+using SharpMath.Equations.Exceptions;
 
 namespace SharpMath
 {

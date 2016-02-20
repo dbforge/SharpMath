@@ -386,7 +386,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Converts this <see cref="Vector"/> into a <see cref="Vector"/> of another dimension.
         /// </summary>
-        /// <typeparam name="T">The vector type that the current <see cref="Vector"/> should be converted to.</typeparam>
+        /// <typeparam name="T">The <see cref="Vector"/> type that the current <see cref="Vector"/> should be converted to.</typeparam>
         /// <returns>This <see cref="Vector"/> converted into the given type.</returns>
         public T Convert<T>() where T : Vector, new() // Type parameter because we need to create an instance of that specific type
         {

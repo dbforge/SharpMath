@@ -30,8 +30,8 @@ namespace SharpMath.Geometry
 
         public static Line2D FromPoints(Point2D a, Point2D b)
         {
-            var vectorA = Vector2.FromVector(a);
-            var vectorB = Vector2.FromVector(b);
+            var vectorA = a.PositionVector;
+            var vectorB = b.PositionVector;
 
             var offset = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
             var slope = vectorA.Y / (offset * vectorA.X); // Insert a point

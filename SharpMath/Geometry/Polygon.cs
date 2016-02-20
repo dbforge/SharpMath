@@ -29,7 +29,7 @@ namespace SharpMath.Geometry
                 double perimeter = 0;
                 for (int i = 0, j = 1; i < Points.Count - 1 && j < Points.Count; ++i, ++j)
                 {
-                    perimeter += (Points[j] - Points[i]).Magnitude;
+                    perimeter += (Points[j] - Points[i]).PositionVector.Magnitude;
                 }
 
                 return perimeter;
@@ -45,7 +45,7 @@ namespace SharpMath.Geometry
             {
                 double value = 0;
                 for (int i = 0; i < Points.Count - 1; ++i)
-                    value += Vector2.Area(Points[i], Points[i + 1]);
+                    value += Vector2.Area(Points[i].PositionVector, Points[i + 1].PositionVector);
                 return Math.Abs(value * 0.5);
             }
         }
@@ -100,11 +100,21 @@ namespace SharpMath.Geometry
             }
         }
 
+        /// <summary>
+        ///     Determiunes whether this <see cref="Polygon"/> fully contains the specified <see cref="Polygon"/>.
+        /// </summary>
+        /// <param name="other">The other <see cref="Polygon"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="Polygon"/> is inside this one; otherwise <c>false</c>.</returns>
         public bool Contains(Polygon other)
         {
             return other.Points.All(ContainsPoint);
         }
 
+        /// <summary>
+        ///     Determines whether this <see cref="Polygon"/> contains the specified <see cref="Point"/>.
+        /// </summary>
+        /// <param name="point">The <see cref="Point"/> to check.</param>
+        /// <returns><c>true</c> if this <see cref="Polygon"/> contains the specified <see cref="Point"/>; otherwise <c>false</c>.</returns>
         public bool ContainsPoint(Point2D point)
         {
             double t = -1;
@@ -193,14 +203,14 @@ namespace SharpMath.Geometry
         private static double PointDistanceToLine(Point2D point, Line2D line)
         {
             // Parameter point in 3D
-            var point3D = point.Convert<Vector3>();
+            var point3D = point.Convert<Point3D>();
 
             // Get any point on the line to define the line 3-dimensional
             var lineOriginPoint = line.GetPoint(0);
             var line3D = new Line3D(new Point3D(lineOriginPoint.X, lineOriginPoint.Y, 0), new Vector3(1, line.Slope, 0));
 
-            Vector3 crossProduct = Vector3.CrossProduct(line3D.Direction, point3D - line3D.Point);
-            return crossProduct.Magnitude / point3D.Magnitude;
+            Vector3 crossProduct = Vector3.CrossProduct(line3D.Direction, (point3D - line3D.Point).PositionVector);
+            return crossProduct.Magnitude / point3D.PositionVector.Magnitude;
         }
     }
 }

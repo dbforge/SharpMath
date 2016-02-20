@@ -66,6 +66,7 @@
     <Compile Include="Geometry\Matrix3x3.cs" />
     <Compile Include="Geometry\Matrix4x4.cs" />
     <Compile Include="Geometry\Matrix.cs" />
+    <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\Point2D.cs" />
     <Compile Include="Geometry\Point3D.cs" />
     <Compile Include="Geometry\Polygon.cs" />

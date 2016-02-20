@@ -29,12 +29,13 @@
 
         public static Line3D FromPoints(Point3D firstPoint, Point3D secondPoint)
         {
-            return new Line3D(firstPoint, Vector3.FromVector(Vector.Subtract(secondPoint, firstPoint)));
+            return new Line3D(firstPoint, Vector3.FromVector(Vector.Subtract(secondPoint.PositionVector, firstPoint.PositionVector)));
         }
 
         public Point3D GetPoint(double lambda)
         {
-            return (Point3D)Vector.Add(Point, Direction*lambda);
+            var resultVector = Vector3.FromVector(Vector.Add(Point.PositionVector, Direction*lambda));
+            return new Point3D(resultVector.X, resultVector.Y, resultVector.Z);
         }
 
         public bool IsPointOnLine(Point3D point)

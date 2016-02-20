@@ -35,7 +35,7 @@ namespace SharpMath.Geometry
 
             var slope = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
             var offset = vectorA.Y / (slope * vectorA.X); // Insert a point
-            return new Line2D(offset, slope);
+            return new Line2D(slope, offset);
         }
 
         /// <summary>

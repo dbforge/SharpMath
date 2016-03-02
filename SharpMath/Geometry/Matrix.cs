@@ -6,6 +6,9 @@ using System.Text;
 
 namespace SharpMath.Geometry
 {
+    /// <summary>
+    ///     Represents a matrix.
+    /// </summary>
     public class Matrix : IEquatable<Matrix>, ICloneable
     {
         private readonly double[,] _fields;

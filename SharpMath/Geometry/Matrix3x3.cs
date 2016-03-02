@@ -3,7 +3,7 @@
 namespace SharpMath.Geometry
 {
     /// <summary>
-    ///     Provides functions to transform 2-dimensional vectors.
+    ///     Represents a 3x3 matrix and provides functions to transform 2-dimensional vectors.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class Matrix3x3 : SquareMatrix

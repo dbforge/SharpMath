@@ -156,7 +156,7 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="x">The translation of the X-component.</param>
         /// <param name="y">The translation of the Y-component.</param>
-        /// <param name="z">The translation of the Y-component.</param>
+        /// <param name="z">The translation of the Z-component.</param>
         /// <returns>A <see cref="Matrix4x4"/> that represents a translation using the specified addends.</returns>
         public static Matrix4x4 Translation(double x, double y, double z)
         {

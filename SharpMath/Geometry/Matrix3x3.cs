@@ -54,6 +54,11 @@ namespace SharpMath.Geometry
         /// </summary>
         public static Matrix3x3 Identity => FromMatrix(GetIdentity(3));
 
+        /// <summary>
+        ///     Creates a <see cref="Matrix3x3"/> that represents a rotation.
+        /// </summary>
+        /// <param name="angle">The angle to rotate around in radians.</param>
+        /// <returns>A <see cref="Matrix3x3"/> that represents a rotation using the specified angle.</returns>
         public static Matrix3x3 Rotation(double angle)
         {
             // This is actually the same as Matrix4x4.RotationZ as we are rotating around the Z-axis that is 0 in 2D-space.
@@ -70,6 +75,12 @@ namespace SharpMath.Geometry
             return matrix;
         }
 
+        /// <summary>
+        ///     Creates a <see cref="Matrix3x3"/> that represents a scalation.
+        /// </summary>
+        /// <param name="scaleX">The scalation factor of the X-component.</param>
+        /// <param name="scaleY">The scalation factor of the Y-component.</param>
+        /// <returns>A <see cref="Matrix3x3"/> that represents a scalation using the specified factors.</returns>
         public static Matrix3x3 Scalation(double scaleX, double scaleY)
         {
             var matrix = Identity;
@@ -79,6 +90,12 @@ namespace SharpMath.Geometry
             return matrix;
         }
 
+        /// <summary>
+        ///     Creates a <see cref="Matrix3x3"/> that represents a translation.
+        /// </summary>
+        /// <param name="x">The translation of the X-component.</param>
+        /// <param name="y">The translation of the Y-component.</param>
+        /// <returns>A <see cref="Matrix3x3"/> that represents a translation using the specified addends.</returns>
         public static Matrix3x3 Translation(double x, double y)
         {
             var matrix = Identity;

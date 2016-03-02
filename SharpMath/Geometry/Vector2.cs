@@ -47,8 +47,8 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Initializes a new instance of the <see cref="Vector2"/> class.
         /// </summary>
-        /// <param name="bottom">The bottom of the <see cref="Vector2"/>.</param>
-        /// <param name="tip">The tip of the <see cref="Vector2"/>.</param>
+        /// <param name="bottom">The tail of the <see cref="Vector2"/>.</param>
+        /// <param name="tip">The head of the <see cref="Vector2"/>.</param>
         public Vector2(Point2D bottom, Point2D tip)
             : base((tip - bottom).PositionVector)
         {

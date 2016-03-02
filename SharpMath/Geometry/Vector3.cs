@@ -37,6 +37,25 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector3"/> class.
+        /// </summary>
+        /// <param name="point">The <see cref="Point3D"/> that a position <see cref="Vector3"/> should be created for.</param>
+        public Vector3(Point3D point)
+            : base(point.PositionVector)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector3"/> class.
+        /// </summary>
+        /// <param name="bottom">The bottom of the <see cref="Vector3"/>.</param>
+        /// <param name="tip">The tip of the <see cref="Vector3"/>.</param>
+        public Vector3(Point3D bottom, Point3D tip)
+            : base((tip - bottom).PositionVector)
+        {
+        }
+
+        /// <summary>
         ///     Generates a <see cref="Vector3"/> from the <see cref="Vector"/> base class, if the dimension is correct.
         /// </summary>
         /// <param name="vector">The <see cref="Vector"/> to generate a <see cref="Vector3"/> from.</param>

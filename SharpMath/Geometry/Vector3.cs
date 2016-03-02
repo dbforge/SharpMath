@@ -48,8 +48,8 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Initializes a new instance of the <see cref="Vector3"/> class.
         /// </summary>
-        /// <param name="bottom">The bottom of the <see cref="Vector3"/>.</param>
-        /// <param name="tip">The tip of the <see cref="Vector3"/>.</param>
+        /// <param name="bottom">The tail of the <see cref="Vector3"/>.</param>
+        /// <param name="tip">The head of the <see cref="Vector3"/>.</param>
         public Vector3(Point3D bottom, Point3D tip)
             : base((tip - bottom).PositionVector)
         {

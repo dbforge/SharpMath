@@ -7,19 +7,50 @@ namespace SharpMath.Geometry
     /// </summary>
     public class Vector2 : Vector
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector2"/> class.
+        /// </summary>
         public Vector2()
             : base(2)
         {
             // We don't need to set anything as value types are initialized by default with the values we want
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector2"/> class.
+        /// </summary>
+        /// <param name="vector">The existing <see cref="Vector2"/> to copy.</param>
         public Vector2(Vector2 vector)
             : base(vector)
         {
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector2"/> class.
+        /// </summary>
+        /// <param name="x">The value of the X-coordinate (X1 in mathematic coordinate systems).</param>
+        /// <param name="y">The value of the Y-coordinate (X2 in mathematic coordinate systems).</param>
         public Vector2(double x, double y)
-            : base(x,y)
+            : base(x, y)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector2"/> class.
+        /// </summary>
+        /// <param name="point">The <see cref="Point2D"/> that a position <see cref="Vector2"/> should be created for.</param>
+        public Vector2(Point2D point)
+            : base(point.PositionVector)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Vector2"/> class.
+        /// </summary>
+        /// <param name="bottom">The bottom of the <see cref="Vector2"/>.</param>
+        /// <param name="tip">The tip of the <see cref="Vector2"/>.</param>
+        public Vector2(Point2D bottom, Point2D tip)
+            : base((tip - bottom).PositionVector)
         {
         }
 
@@ -37,7 +68,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets or sets the value of the X-coordinate (X2 in mathematic coordinate systems).
+        ///     Gets or sets the value of the X-coordinate (X1 in mathematic coordinate systems).
         /// </summary>
         public double X
         {
@@ -52,7 +83,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets or sets the value of the Y-coordinate (X3 in mathematic coordinate systems).
+        ///     Gets or sets the value of the Y-coordinate (X2 in mathematic coordinate systems).
         /// </summary>
         public double Y
         {
@@ -170,7 +201,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator * for calculating the scalar product of two <see cref="Vector2"/> instances.
         /// </summary>
-        /// <param name="vector">The first <see cref="Vector2"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
         /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
         /// <returns>
         ///     The scalar that has been calculated.

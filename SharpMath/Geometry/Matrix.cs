@@ -10,6 +10,11 @@ namespace SharpMath.Geometry
     {
         private readonly double[,] _fields;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Matrix"/> class.
+        /// </summary>
+        /// <param name="rowCount">The row count of the <see cref="Matrix"/>.</param>
+        /// <param name="columnCount">The column count of the <see cref="Matrix"/>.</param>
         public Matrix(uint rowCount, uint columnCount)
         {
             _fields = new double[rowCount, columnCount];
@@ -17,12 +22,24 @@ namespace SharpMath.Geometry
             ColumnCount = columnCount;
         }
 
+        /// <summary>
+        ///     Gets or sets the field value at the specified row and column indices.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <param name="column">The column index.</param>
+        /// <returns>The field value at the specified row and column indices.</returns>
         public double this[uint row, uint column] 
         {
             get { return _fields[row, column]; }
             set { _fields[row, column] = value; }
         }
 
+        /// <summary>
+        ///     Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             var stringBuilder = new StringBuilder("{");
@@ -308,6 +325,7 @@ namespace SharpMath.Geometry
             for (uint x = 0; x < ColumnCount; x++)
                 this[firstRowIndex, x] -= this[secondRowIndex, x] * factor;
         }
+
         /// <summary>
         ///     Multiplies a <see cref="Matrix"/> with a scalar.
         /// </summary>
@@ -358,6 +376,11 @@ namespace SharpMath.Geometry
             return Multiply(matrix, (1 / scalar));
         }
 
+        /// <summary>
+        ///     Determines whether this <see cref="Matrix"/> instance is equal to the specified <see cref="Matrix"/>.
+        /// </summary>
+        /// <param name="other">The other <see cref="Matrix"/>.</param>
+        /// <returns><c>true</c> if the <see cref="Matrix"/> is equal; otherwise <c>false</c>.</returns>
         public bool Equals(Matrix other)
         {
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
@@ -375,6 +398,10 @@ namespace SharpMath.Geometry
             return true;
         }
 
+        /// <summary>
+        ///     Clones this instance.
+        /// </summary>
+        /// <returns>The cloned instance.</returns>
         public object Clone()
         {
             var cloneMatrix = new Matrix(RowCount, ColumnCount);

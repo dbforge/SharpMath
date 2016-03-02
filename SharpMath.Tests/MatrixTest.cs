@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
 
 namespace SharpMath.Tests
@@ -77,7 +78,6 @@ namespace SharpMath.Tests
                 [2, 2] = -9
             };
 
-
             Assert.AreEqual(566.5, fourthMatrix.Determinant);
 
             var fifthMatrix = new SquareMatrix(4)
@@ -100,9 +100,14 @@ namespace SharpMath.Tests
                 [3, 3] = -2
             };
 
-
-
             Assert.AreEqual(-24, fifthMatrix.Determinant);
+        }
+
+        [TestMethod]
+        public void CanGetStringRepresentation()
+        {
+            var matrix = Matrix4x4.View(Vector3.Zero, Vector3.Forward, Vector3.Up);
+            Debug.Print(matrix.ToString());
         }
     }
 }

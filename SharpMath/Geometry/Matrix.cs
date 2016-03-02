@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Text;
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace SharpMath.Geometry
@@ -22,27 +25,24 @@ namespace SharpMath.Geometry
 
         public override string ToString()
         {
-            var s = "{"; //öffnende Klammer
+            var stringBuilder = new StringBuilder("{");
 
             for (uint y = 0; y < RowCount; y++)
             {
-                if (y > 0) //Zeilenumbruch nach jeder Zeile
-                    s += '\n';
+                stringBuilder.AppendLine();
+                stringBuilder.Append("\t");
 
                 for (uint x = 0; x < ColumnCount; x++)
                 {
-                    s += this[y, x].ToString();
+                    stringBuilder.Append(this[y, x].ToString(CultureInfo.InvariantCulture));
 
-                    if (!(y == (RowCount - 1) && x == (ColumnCount - 1)))
-                        s += ", ";
+                    if (x != (ColumnCount - 1))
+                        stringBuilder.Append(", ");
                 }
             }
 
-            s += '}'; //schließende Klammer
-
-            return s;
+            return stringBuilder.Append("\n}").ToString();
         }
-        // TODO: Remove this method or rewrite it
 
         /// <summary>
         ///     Gets the row count of this <see cref="Matrix"/>.

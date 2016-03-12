@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SharpMath.Geometry
 {
-    public class Point
+    public class Point : IEnumerable<double>, ICloneable
     {
-        private double[] _coordinateValues;
+        private readonly double[] _coordinateValues;
 
         public Point(uint dimension)
         {
@@ -57,7 +59,7 @@ namespace SharpMath.Geometry
             if (resultPoint.Dimension == Dimension)
                 Debug.Print(
                     $"Point conversion method (Point{Dimension}.To<T>()) is currently used to convert a point into one of the same dimension. Please check if this has been your intention.");
-            for (uint i = 0; i < resultPoint.Dimension; ++i)
+            for (uint i = 0; i < Dimension; ++i)
                 resultPoint[i] = this[i];
             return resultPoint;
         }
@@ -82,6 +84,24 @@ namespace SharpMath.Geometry
             for (uint i = 0; i < resultPoint.Dimension; ++i)
                 resultPoint[i] = first[i] - second[i];
             return resultPoint;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new PointEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new PointEnumerator(this);
+        }
+
+        public object Clone()
+        {
+            var clonePoint = new Point(Dimension);
+            for (uint i = 0; i < Dimension; ++i)
+                clonePoint[i] = this[i];
+            return clonePoint;
         }
     }
 }

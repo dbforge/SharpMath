@@ -6,7 +6,7 @@ namespace SharpMath.Geometry
     public class VectorEnumerator : IEnumerator<double>
     {
         private readonly Vector _vector;
-        private int _index;
+        private int _index = -1;
 
         internal VectorEnumerator(Vector vector)
         {

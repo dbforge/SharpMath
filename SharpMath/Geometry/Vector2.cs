@@ -98,12 +98,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     A unit <see cref="Vector2"/> with all values set to zero.
+        ///     A <see cref="Vector2"/> with all values set to zero.
         /// </summary>
         public static Vector2 Zero => new Vector2(0, 0);
 
         /// <summary>
-        ///     A unit <see cref="Vector2"/> with all values set to one.
+        ///     A <see cref="Vector2"/> with all values set to one.
         /// </summary>
         public static Vector2 One => new Vector2(1, 1);
 

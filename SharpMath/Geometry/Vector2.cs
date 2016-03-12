@@ -100,32 +100,32 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     A unit <see cref="Vector2"/> with all values set to zero.
         /// </summary>
-        public Vector2 Zero => new Vector2(0, 0);
+        public static Vector2 Zero => new Vector2(0, 0);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/> with all values set to one.
         /// </summary>
-        public Vector2 One => new Vector2(1, 1);
+        public static Vector2 One => new Vector2(1, 1);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/> pointing up.
         /// </summary>
-        public Vector2 Up => new Vector2(0, 1);
+        public static Vector2 Up => new Vector2(0, 1);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/> pointing down.
         /// </summary>
-        public Vector2 Down => new Vector2(0, -1);
+        public static Vector2 Down => new Vector2(0, -1);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/> pointing to the left.
         /// </summary>
-        public Vector2 Left => new Vector2(-1, 0);
+        public static Vector2 Left => new Vector2(-1, 0);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/> pointing to the right.
         /// </summary>
-        public Vector2 Right => new Vector2(1, 0);
+        public static Vector2 Right => new Vector2(1, 0);
 
         /// <summary>
         ///     A unit <see cref="Vector2"/>  with coordinates 1, 0.

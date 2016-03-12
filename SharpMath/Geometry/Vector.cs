@@ -3,6 +3,8 @@ using System.Diagnostics;
 using SharpMath.Geometry.Exceptions;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace SharpMath.Geometry
@@ -238,6 +240,11 @@ namespace SharpMath.Geometry
         {
             if (Dimension != other.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
+
+            // Prevent a DivideByZeroException as at least one of the vectors could be the zero vector.
+            if (this.All(c => c == 0) || other.All(c => c == 0))
+                throw new InvalidOperationException("The angle of two vectors cannot be calculated, if at least one equals the zero vector.");
+            
             return Math.Acos((ScalarProduct(other) / (Magnitude * other.Magnitude)));
         }
 

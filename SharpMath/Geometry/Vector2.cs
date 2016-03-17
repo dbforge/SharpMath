@@ -1,4 +1,5 @@
 ﻿using System;
+using SharpMath.Geometry.Exceptions;
 
 namespace SharpMath.Geometry
 {
@@ -142,9 +143,64 @@ namespace SharpMath.Geometry
         /// </summary>
         public Vector2 CrossProduct => new Vector2(Y, -X);
 
+        /// <summary>
+        ///    Linearly interpolates between two <see cref="Vector2"/> instances.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="fraction">The fraction.</param>
+        /// <returns>The position <see cref="Vector2"/> of the new point.</returns>
+        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
+        public static Vector2 Lerp(Vector2 source, Vector2 target, double fraction)
+        {
+            return FromVector(Vector.Lerp(source, target, fraction));
+        }
+
+        /// <summary>
+        ///    Linearly interpolates between two <see cref="Vector2"/> instances.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="fraction">The fraction.</param>
+        /// <returns>The position <see cref="Vector2"/> of the new point.</returns>
+        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
+        public static Vector2 LerpUnclamped(Vector2 source, Vector2 target, double fraction)
+        {
+            return FromVector(Vector.LerpUnclamped(source, target, fraction));
+        }
+
+        /// <summary>
+        ///    Moves a source point in a straight line towards a target point by adding the given distance delta and returns its new position.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
+        /// <returns>The position <see cref="Vector2"/> of the new point.</returns>
+        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
+        public static Vector2 MoveTowards(Vector2 source, Vector2 target, double maxDistanceDelta)
+        {
+            return FromVector(Vector.MoveTowards(source, target, maxDistanceDelta));
+        }
+
+        /// <summary>
+        ///     Calculates the area of the parallelogram that this and the specified <see cref="Vector2"/> instances span.
+        /// </summary>
+        /// <param name="other">The other <see cref="Vector2"/>.</param>
+        /// <returns>The area of the spanned parallelogram.</returns>
+        public double Area(Vector2 other)
+        {
+            return Vector3.CrossProduct(Convert<Vector3>(), other.Convert<Vector3>()).Magnitude;
+        }
+
+        /// <summary>
+        ///     Calculates the area of the parallelogram that the two specified <see cref="Vector2"/> instances span.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
+        /// <returns>The area of the spanned parallelogram.</returns>
         public static double Area(Vector2 firstVector, Vector2 secondVector)
         {
-            return firstVector.X * secondVector.Y - firstVector.Y * secondVector.X;
+            return firstVector.Area(secondVector);
         }
 
         /// <summary>

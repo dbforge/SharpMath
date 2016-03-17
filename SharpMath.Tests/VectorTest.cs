@@ -41,6 +41,15 @@ namespace SharpMath.Tests
         }
 
         [TestMethod]
+        public void CanCalculateScalarProduct()
+        {
+            Assert.AreEqual(0, Vector2.UnitX.ScalarProduct(Vector2.UnitY));
+            Assert.AreEqual(20, Vector.ScalarProduct(new Vector2(2, 4), new Vector2(4, 3)));
+            Assert.AreEqual(0, Vector.ScalarProduct(Vector3.Forward, Vector3.Up));
+            Assert.AreEqual(8, Vector.ScalarProduct(new Vector3(2, 3, 1), new Vector3(-1, 2, 4)));
+        }
+
+        [TestMethod]
         public void CanCalculateDistance()
         {
             var vector = new Vector3(10, 5, 3);
@@ -72,24 +81,24 @@ namespace SharpMath.Tests
         {
             var firstVector = new Vector3(2, 6, 8);
             var secondVector = new Vector3(6, 10, 10);
-            var lerpResult = Vector.Lerp(firstVector, secondVector, 0.5);
+            var lerpResult = Vector3.Lerp(firstVector, secondVector, 0.5);
 
             // ((6,10,10)-(2,6,8))*0.5+(2,6,8) = (4,4,2)*0.5+(2,6,8) = (2,2,1)+(2,6,8) = (4,8,9)
-            Assert.AreEqual(new Vector3(4, 8, 9).ToString(), Vector3.FromVector(lerpResult).ToString());
+            Assert.AreEqual(new Vector3(4, 8, 9).ToString(), lerpResult.ToString());
 
             var thirdVector = new Vector3(13, 2, 9);
             var fourthVector = new Vector3(3, 10, 5);
-            var secondLerpResult = Vector.Lerp(thirdVector, fourthVector, 0.25);
+            var secondLerpResult = Vector3.Lerp(thirdVector, fourthVector, 0.25);
 
             // ((3,10,5)-(13,2,9))*0.25+(13,2,9) = (-10,8,-4)*0.25+(13,2,9) = (-2.5,2,-1)+(13,2,9) = (10.5,4,8)
-            Assert.AreEqual(new Vector3(10.5, 4, 8).ToString(), Vector3.FromVector(secondLerpResult).ToString());
+            Assert.AreEqual(new Vector3(10.5, 4, 8).ToString(), secondLerpResult.ToString());
         }
 
         [TestMethod]
         public void CanConvertVectors()
         {
             var firstVector = new Vector3(2, 6, 8);
-            var newVector = Vector2.FromVector(firstVector.Convert<Vector2>());
+            var newVector = firstVector.Convert<Vector2>();
             Assert.AreEqual(2, (int)newVector.Dimension);
             Assert.AreEqual(2, newVector.X);
             Assert.AreEqual(6, newVector.Y);
@@ -114,6 +123,22 @@ namespace SharpMath.Tests
             var scalarTripleProduct = Vector3.ScalarTripleProduct(firstVector, secondVector, thirdVector);
             Debug.Print(scalarTripleProduct.ToString());
             Assert.AreEqual(31, scalarTripleProduct);
+        }
+
+        [TestMethod]
+        public void CanCalulcateAngle()
+        {
+            var vector1 = Vector2.UnitX;
+            var vector2 = Vector2.UnitY;
+
+            Assert.AreEqual(Math.PI / 2, vector1.Angle(vector2));
+            Assert.IsTrue(vector1.IsOrthogonalTo(vector2));
+        }
+
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void CanNotCalculateAngleBetweenZeroVectors()
+        {
+            double angle = Vector2.Zero.Angle(Vector2.UnitX);
         }
     }
 }

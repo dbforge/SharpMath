@@ -149,12 +149,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///    Linearly interpolates between two vectors.
+        ///    Linearly interpolates between two <see cref="Vector"/>s.
         /// </summary>
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="fraction">The fraction.</param>
-        /// <returns>The new position of the point as <see cref="Vector"/>.</returns>
+        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector Lerp(Vector source, Vector target, double fraction)
         {
@@ -174,7 +174,7 @@ namespace SharpMath.Geometry
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="fraction">The fraction.</param>
-        /// <returns>The new position of the point as <see cref="Vector"/>.</returns>
+        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector LerpUnclamped(Vector source, Vector target, double fraction)
         {
@@ -190,7 +190,7 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="target">The target point.</param>
         /// <param name="maxDistanceDelta">The distance delta that this source point is moved by in all directions.</param>
-        /// <returns>The new position of the point as <see cref="Vector"/>.</returns>
+        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public Vector MoveTowards(Vector target, double maxDistanceDelta)
         {

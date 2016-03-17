@@ -22,6 +22,7 @@ namespace SharpMath.Geometry
         }
 
         public uint Dimension { get; }
+
         public double this[uint index]
         {
             get

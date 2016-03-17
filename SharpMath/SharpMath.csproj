@@ -75,6 +75,7 @@
     <Compile Include="Geometry\SquareMatrix.cs" />
     <Compile Include="Geometry\Triangle.cs" />
     <Compile Include="Geometry\VectorEnumerator.cs" />
+    <Compile Include="Geometry\VectorExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\Vector.cs" />
     <Compile Include="Geometry\Vector2.cs" />

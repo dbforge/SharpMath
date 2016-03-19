@@ -476,18 +476,18 @@ namespace SharpMath.Geometry
                 return ReferenceEquals(left, right);
 
             if (left.ColumnCount != right.ColumnCount || left.RowCount != right.RowCount)
-                return false;
+                return true;
 
             for (uint y = 0; y < left.RowCount; ++y)
             {
                 for (uint x = 0; x < left.ColumnCount; ++x)
                 {
-                    if (FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
-                        return false;
+                    if (!FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
+                        return true;
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }

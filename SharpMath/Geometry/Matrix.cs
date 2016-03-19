@@ -2,8 +2,6 @@
 using System.Globalization;
 using System.Text;
 
-// ReSharper disable CompareOfFloatsByEqualityOperator
-
 namespace SharpMath.Geometry
 {
     /// <summary>
@@ -104,7 +102,7 @@ namespace SharpMath.Geometry
                 for (uint y = 0; y < RowCount; ++y)
                     for (uint x = 0; x < ColumnCount; ++x)
                     {
-                        if ((y == x && this[y, x] == 0) || (y != x && this[y, x] != 0))
+                        if ((y == x && FloatingNumber.AreApproximatelyEqual(this[y, x], 0)) || (y != x && !FloatingNumber.AreApproximatelyEqual(this[y, x], 0)))
                             return false;
                     }
                 return true;
@@ -121,7 +119,7 @@ namespace SharpMath.Geometry
                 for (uint y = 0; y < RowCount; ++y)
                     for (uint x = 0; x < ColumnCount; ++x)
                     {
-                        if ((y == x && this[y, x] == 0) || (y != x && this[y, x] != 0))
+                        if ((y == x && FloatingNumber.AreApproximatelyEqual(this[y, x], 0)) || (y != x && !FloatingNumber.AreApproximatelyEqual(this[y, x], 0)))
                             return false;
                     }
                 return true;
@@ -299,7 +297,7 @@ namespace SharpMath.Geometry
             {
                 for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
                 {
-                    if (firstMatrix[y, x] != secondMatrix[y, x])
+                    if (!FloatingNumber.AreApproximatelyEqual(firstMatrix[y, x], secondMatrix[y, x]))
                         return false;
                 }
             }
@@ -393,7 +391,7 @@ namespace SharpMath.Geometry
             {
                 for (uint x = 0; x < ColumnCount; ++x)
                 {
-                    if (this[y, x] != other[y, x])
+                    if (!FloatingNumber.AreApproximatelyEqual(this[y, x], other[y, x]))
                         return false;
                 }
             }

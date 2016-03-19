@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-// ReSharper disable CompareOfFloatsByEqualityOperator
-
 namespace SharpMath.Geometry
 {
     /// <summary>
@@ -242,7 +240,7 @@ namespace SharpMath.Geometry
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
             // Prevent a DivideByZeroException as at least one of the vectors could be the zero vector.
-            if (this.All(c => c == 0) || other.All(c => c == 0))
+            if (this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)) || other.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)))
                 throw new InvalidOperationException("The angle of two vectors cannot be calculated, if at least one equals the zero vector.");
             
             return Math.Acos((ScalarProduct(other) / (Magnitude * other.Magnitude)));
@@ -287,7 +285,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether this <see cref="Vector"/> is normalized, or not.
         /// </summary>
-        public bool IsNormalized => Magnitude == 1;
+        public bool IsNormalized => FloatingNumber.AreApproximatelyEqual(Magnitude, 1);
 
         /// <summary>
         ///     Determines whether this <see cref="Vector"/> is orthogonal to another one, or not.
@@ -299,7 +297,7 @@ namespace SharpMath.Geometry
             if (Dimension != other.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
-            return this.Any(c => c != 0) && other.Any(c => c != 0) && ScalarProduct(other) == 0;
+            return this.Any(c => !FloatingNumber.AreApproximatelyEqual(c, 0)) && other.Any(c => !FloatingNumber.AreApproximatelyEqual(c, 0)) && FloatingNumber.AreApproximatelyEqual(ScalarProduct(other), 0);
         }
 
         /// <summary>
@@ -354,7 +352,7 @@ namespace SharpMath.Geometry
                     firstResult = other[i] / this[i];
                 else
                 {
-                    if (other[i] / this[i] != firstResult)
+                    if (!FloatingNumber.AreApproximatelyEqual(other[i] / this[i], firstResult))
                         return false;
                 }
             }
@@ -492,7 +490,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < Dimension; ++i)
             {
-                if (this[i] != other[i])
+                if (FloatingNumber.AreApproximatelyEqual(this[i], other[i]))
                     return false;
             }
 

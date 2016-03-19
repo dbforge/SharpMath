@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace SharpMath.Geometry
 {

@@ -62,7 +62,6 @@
     <Compile Include="Geometry\IGeometricFigure.cs" />
     <Compile Include="Geometry\Line2D.cs" />
     <Compile Include="Geometry\Line3D.cs" />
-    <Compile Include="Geometry\LinePositionalRelationship.cs" />
     <Compile Include="Geometry\Matrix3x3.cs" />
     <Compile Include="Geometry\Matrix4x4.cs" />
     <Compile Include="Geometry\Matrix.cs" />

@@ -375,7 +375,7 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return obj.GetType() == GetType() && Equals((Vector3)obj);
+            return obj.GetType() == GetType() && this == (Vector3)obj;
         }
 
         /// <summary>

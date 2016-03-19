@@ -290,18 +290,18 @@ namespace SharpMath.Geometry
         ///     Determines whether this <see cref="Vector"/> is orthogonal to another one, or not.
         /// </summary>
         /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is orthogonal to another one, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if this <see cref="Vector"/> is orthogonal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthogonalTo(Vector other)
         {
-            return ScalarProduct(other) == 0;
+            return this.Any(c => c != 0) && other.Any(c => c != 0) && ScalarProduct(other) == 0;
         }
 
         /// <summary>
-        ///     Determins whether two <see cref="Vector"/> instances are orthogonal to each other, or not.
+        ///     Determines whether two <see cref="Vector"/> instances are orthogonal to each other, or not.
         /// </summary>
         /// <param name="firstVector">The first <see cref="Vector"/>.</param>
         /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="Vector"/> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthogonal(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsOrthogonalTo(secondVector);
@@ -311,18 +311,18 @@ namespace SharpMath.Geometry
         ///     Determines whether this <see cref="Vector"/> is orthonormal to another one, or not.
         /// </summary>
         /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is orthonormal to another one, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if this <see cref="Vector"/> is orthonormal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthonormalTo(Vector other)
         {
             return IsOrthogonalTo(other) && IsNormalized && other.IsNormalized;
         }
 
         /// <summary>
-        ///     Determins whether two <see cref="Vector"/> instances are orthonormal to each other, or not.
+        ///     Determines whether two <see cref="Vector"/> instances are orthonormal to each other, or not.
         /// </summary>
         /// <param name="firstVector">The first <see cref="Vector"/>.</param>
         /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are orthonormal to each other, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="Vector"/> instances are orthonormal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthonormal(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsOrthonormalTo(secondVector);
@@ -332,7 +332,7 @@ namespace SharpMath.Geometry
         ///     Determines whether this <see cref="Vector"/> is orthonormal to another one, or not.
         /// </summary>
         /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if this <see cref="Vector"/> is parallel to another one, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if this <see cref="Vector"/> is parallel to another one, otherwise <c>false</c>.</returns>
         public bool IsParallelTo(Vector other)
         {
             double firstResult = 0;
@@ -351,23 +351,29 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determins whether two <see cref="Vector"/> instances are parallel to each other, or not.
+        ///     Determines whether two <see cref="Vector"/> instances are parallel to each other, or not.
         /// </summary>
         /// <param name="firstVector">The first <see cref="Vector"/>.</param>
         /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>Returns <c>true</c> if the <see cref="Vector"/> instances are parallel to each other, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="Vector"/> instances are parallel to each other, otherwise <c>false</c>.</returns>
         public bool AreParallel(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsParallelTo(secondVector);
         }
 
+        /// <summary>
+        ///     Determines whether two <see cref="Vector"/> instances are anti parallel to each other, or not.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <returns><c>true</c> if the <see cref="Vector"/> instances are anti parallel to each other, otherwise <c>false</c>.</returns>
         public bool AreAntiParallel(Vector firstVector, Vector secondVector)
         {
             return AreParallel(firstVector.Negate(), secondVector);
         }
 
         /// <summary>
-        ///     Calculates the negated vector of this <see cref="Vector"/>.
+        ///     Calculates the negated <see cref="Vector"/> of this <see cref="Vector"/>.
         /// </summary>
         /// <returns>The negated <see cref="Vector"/> of this <see cref="Vector"/>.</returns>
         public Vector Negate()

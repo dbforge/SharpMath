@@ -10,7 +10,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a vector.
     /// </summary>
-    public class Vector : IEnumerable<double>, IEquatable<Vector>, ICloneable
+    public class Vector : IEnumerable<double>, ICloneable
     {
         // ReSharper disable once InconsistentNaming
         protected readonly double[] _coordinateValues;
@@ -483,26 +483,95 @@ namespace SharpMath.Geometry
             return new VectorEnumerator(this);
         }
 
-        public bool Equals(Vector other)
-        {
-            if (Dimension != other.Dimension)
-                return false;
-
-            for (uint i = 0; i < Dimension; ++i)
-            {
-                if (FloatingNumber.AreApproximatelyEqual(this[i], other[i]))
-                    return false;
-            }
-
-            return true;
-        }
-
+        /// <summary>
+        ///     Clones this instance.
+        /// </summary>
+        /// <returns>The cloned instance.</returns>
         public object Clone()
         {
             var cloneVector = new Vector(Dimension);
             for (uint i = 0; i < Dimension; ++i)
                 cloneVector[i] = this[i];
             return cloneVector;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            return obj.GetType() == GetType() && this == (Vector)obj;
+        }
+
+        /// <summary>
+        ///     Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (uint i = 0; i < Dimension; ++i)
+                    hash = hash * 23 + this[i].GetHashCode();
+                return hash;
+            }
+        }
+
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Vector"/>.</param>
+        /// <param name="right">The right <see cref="Vector"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(Vector left, Vector right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            for (uint i = 0; i < 3; ++i)
+            {
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Vector"/>.</param>
+        /// <param name="right">The right <see cref="Vector"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(Vector left, Vector right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            for (uint i = 0; i < 3; ++i)
+            {
+                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a matrix.
     /// </summary>
-    public class Matrix : IEquatable<Matrix>, ICloneable
+    public class Matrix : ICloneable
     {
         private readonly double[,] _fields;
 
@@ -378,28 +378,6 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determines whether this <see cref="Matrix"/> instance is equal to the specified <see cref="Matrix"/>.
-        /// </summary>
-        /// <param name="other">The other <see cref="Matrix"/>.</param>
-        /// <returns><c>true</c> if the <see cref="Matrix"/> is equal; otherwise <c>false</c>.</returns>
-        public bool Equals(Matrix other)
-        {
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-                return false;
-
-            for (uint y = 0; y < RowCount; ++y)
-            {
-                for (uint x = 0; x < ColumnCount; ++x)
-                {
-                    if (!FloatingNumber.AreApproximatelyEqual(this[y, x], other[y, x]))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         ///     Clones this instance.
         /// </summary>
         /// <returns>The cloned instance.</returns>
@@ -414,6 +392,102 @@ namespace SharpMath.Geometry
                 }
             }
             return cloneMatrix;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            return obj.GetType() == GetType() && this == (Matrix)obj;
+        }
+
+        /// <summary>
+        ///     Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (uint y = 0; y < RowCount; ++y)
+                {
+                    for (uint x = 0; x < ColumnCount; ++x)
+                    {
+                        hash = hash * 23 + this[y, x].GetHashCode();
+                    }
+                }
+                return hash;
+            }
+        }
+
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix"/>.</param>
+        /// <param name="right">The right <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(Matrix left, Matrix right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            if (left.ColumnCount != right.ColumnCount || left.RowCount != right.RowCount)
+                return false;
+
+            for (uint y = 0; y < left.RowCount; ++y)
+            {
+                for (uint x = 0; x < left.ColumnCount; ++x)
+                {
+                    if (!FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix"/>.</param>
+        /// <param name="right">The right <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(Matrix left, Matrix right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            if (left.ColumnCount != right.ColumnCount || left.RowCount != right.RowCount)
+                return false;
+
+            for (uint y = 0; y < left.RowCount; ++y)
+            {
+                for (uint x = 0; x < left.ColumnCount; ++x)
+                {
+                    if (FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -374,17 +374,6 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="Vector"/> instances are anti parallel to each other, or not.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if the <see cref="Vector"/> instances are anti parallel to each other, otherwise <c>false</c>.</returns>
-        public bool AreAntiParallel(Vector firstVector, Vector secondVector)
-        {
-            return AreParallel(firstVector.Negate(), secondVector);
-        }
-
-        /// <summary>
         ///     Calculates the negated <see cref="Vector"/> of this <see cref="Vector"/>.
         /// </summary>
         /// <returns>The negated <see cref="Vector"/> of this <see cref="Vector"/>.</returns>
@@ -485,7 +474,7 @@ namespace SharpMath.Geometry
                 resultVector[i] = vector[i] * (1/scalar);
             return resultVector;
         }
-
+        
         public IEnumerator<double> GetEnumerator()
         {
             return new VectorEnumerator(this);

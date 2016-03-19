@@ -510,7 +510,7 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return obj.GetType() == GetType() && this == (Vector)obj;
+            return this == obj as Vector;
         }
 
         /// <summary>

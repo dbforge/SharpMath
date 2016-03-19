@@ -332,7 +332,12 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return obj.GetType() == GetType() && this == (Vector2)obj;
+            if (obj.GetType() == typeof(Vector2))
+                return this == (Vector2)obj;
+            var vector = obj as Vector;
+            if (Dimension != vector?.Dimension)
+                return false;
+            return this == FromVector(vector);
         }
 
         /// <summary>

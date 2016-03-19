@@ -27,9 +27,13 @@ namespace SharpMath.Geometry
             get
             {
                 double perimeter = 0;
-                for (int i = 0, j = 1; i < Points.Count - 1 && j < Points.Count; ++i, ++j)
+                int j = 1;
+                for (int i = 0;  i < Points.Count; ++i)
                 {
                     perimeter += (Points[j] - Points[i]).PositionVector.Magnitude;
+                    j++;
+                    if (j == Points.Count)
+                        j = 0;
                 }
 
                 return perimeter;
@@ -44,8 +48,14 @@ namespace SharpMath.Geometry
             get
             {
                 double value = 0;
-                for (int i = 0; i < Points.Count - 1; ++i)
-                    value += Vector2.Area(Points[i].PositionVector, Points[i + 1].PositionVector);
+                int j = 1;
+                for (int i = 0; i < Points.Count; ++i)
+                {
+                    value += Vector2.Area(Points[i].PositionVector, Points[j].PositionVector);
+                    j++;
+                    if (j == Points.Count)
+                        j = 0;
+                }
                 return Math.Abs(value * 0.5);
             }
         }
@@ -101,7 +111,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determiunes whether this <see cref="Polygon"/> fully contains the specified <see cref="Polygon"/>.
+        ///     Determines whether this <see cref="Polygon"/> fully contains the specified <see cref="Polygon"/>.
         /// </summary>
         /// <param name="other">The other <see cref="Polygon"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="Polygon"/> is inside this one; otherwise <c>false</c>.</returns>

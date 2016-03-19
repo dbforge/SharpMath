@@ -1,5 +1,4 @@
 ﻿using System;
-using SharpMath.Geometry.Exceptions;
 
 namespace SharpMath.Geometry
 {
@@ -189,7 +188,9 @@ namespace SharpMath.Geometry
         /// <returns>The area of the spanned parallelogram.</returns>
         public double Area(Vector2 other)
         {
-            return Vector3.CrossProduct(Convert<Vector3>(), other.Convert<Vector3>()).Magnitude;
+            if (this == Zero || other == Zero)
+                return 0;
+           return Magnitude * Math.Sin(Angle(other)) * other.Magnitude;
         }
 
         /// <summary>
@@ -313,6 +314,38 @@ namespace SharpMath.Geometry
         public override string ToString()
         {
             return $"X: {this[0]}, Y: {this[1]}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(Vector2 left, Vector2 right)
+        {
+            for (uint i = 0; i < 2; ++i)
+            {
+                if (left[i] != right[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator !=(Vector2 left, Vector2 right)
+        {
+            for (uint i = 0; i < 2; ++i)
+            {
+                if (left[i] == right[i])
+                    return false;
+            }
+
+            return true;
         }
     }
 }

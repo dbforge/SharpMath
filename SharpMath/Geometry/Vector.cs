@@ -267,6 +267,9 @@ namespace SharpMath.Geometry
         /// <returns>The distance between this and the specified point.</returns>
         public double DistanceTo(Vector other)
         {
+            if (Dimension != other.Dimension)
+                throw new DimensionException("The dimensions of the vectors do not equal each other.");
+
             return Subtract(other, this).Magnitude;
         }
 
@@ -293,6 +296,9 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c> if this <see cref="Vector"/> is orthogonal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthogonalTo(Vector other)
         {
+            if (Dimension != other.Dimension)
+                throw new DimensionException("The dimensions of the vectors do not equal each other.");
+
             return this.Any(c => c != 0) && other.Any(c => c != 0) && ScalarProduct(other) == 0;
         }
 
@@ -314,6 +320,9 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c> if this <see cref="Vector"/> is orthonormal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthonormalTo(Vector other)
         {
+            if (Dimension != other.Dimension)
+                throw new DimensionException("The dimensions of the vectors do not equal each other.");
+
             return IsOrthogonalTo(other) && IsNormalized && other.IsNormalized;
         }
 
@@ -335,6 +344,9 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c> if this <see cref="Vector"/> is parallel to another one, otherwise <c>false</c>.</returns>
         public bool IsParallelTo(Vector other)
         {
+            if (Dimension != other.Dimension)
+                throw new DimensionException("The dimensions of the vectors do not equal each other.");
+
             double firstResult = 0;
             for (uint i = 0; i < Dimension; ++i)
             {

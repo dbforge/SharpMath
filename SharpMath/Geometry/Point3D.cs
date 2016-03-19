@@ -90,7 +90,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Implements the operator -.
+        ///     Implements the operator -.
         /// </summary>
         /// <param name="first">The first <see cref="Point3D"/>.</param>
         /// <param name="second">The second <see cref="Point3D"/>.</param>

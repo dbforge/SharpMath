@@ -401,7 +401,7 @@ namespace SharpMath.Geometry
             if (resultVector.Dimension == Dimension)
                 Debug.Print(
                     $"Vector conversion method (Vector{Dimension}.To<T>()) is currently used to convert a vector into one of the same dimension. Please check if this has been your intention.");
-            for (uint i = 0; i < resultVector.Dimension; ++i)
+            for (uint i = 0; i < Math.Min(Dimension, resultVector.Dimension); ++i)
                 resultVector[i] = this[i];
             return resultVector;
         }

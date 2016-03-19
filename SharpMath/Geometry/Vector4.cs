@@ -147,5 +147,37 @@ namespace SharpMath.Geometry
         {
             return matrix * vector;
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(Vector4 left, Vector4 right)
+        {
+            for (uint i = 0; i < 4; ++i)
+            {
+                if (left[i] != right[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator !=(Vector4 left, Vector4 right)
+        {
+            for (uint i = 0; i < 4; ++i)
+            {
+                if (left[i] == right[i])
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

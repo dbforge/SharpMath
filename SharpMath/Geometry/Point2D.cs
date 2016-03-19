@@ -56,7 +56,7 @@ namespace SharpMath.Geometry
         }
         
         /// <summary>
-        /// Implements the operator +.
+        ///     Implements the operator +.
         /// </summary>
         /// <param name="first">The first <see cref="Point2D"/>.</param>
         /// <param name="second">The second <see cref="Point2D"/>.</param>
@@ -69,7 +69,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Implements the operator -.
+        ///     Implements the operator -.
         /// </summary>
         /// <param name="first">The first <see cref="Point2D"/>.</param>
         /// <param name="second">The second <see cref="Point2D"/>.</param>

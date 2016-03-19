@@ -3,6 +3,7 @@ using SharpMath.Geometry;
 using SharpMath.Trigonometry;
 using System;
 using System.Diagnostics;
+// ReSharper disable UnusedVariable
 
 namespace SharpMath.Tests
 {
@@ -84,14 +85,14 @@ namespace SharpMath.Tests
             var lerpResult = Vector3.Lerp(firstVector, secondVector, 0.5);
 
             // ((6,10,10)-(2,6,8))*0.5+(2,6,8) = (4,4,2)*0.5+(2,6,8) = (2,2,1)+(2,6,8) = (4,8,9)
-            Assert.AreEqual(new Vector3(4, 8, 9).ToString(), lerpResult.ToString());
+            Assert.AreEqual(new Vector3(4, 8, 9), lerpResult);
 
             var thirdVector = new Vector3(13, 2, 9);
             var fourthVector = new Vector3(3, 10, 5);
             var secondLerpResult = Vector3.Lerp(thirdVector, fourthVector, 0.25);
 
             // ((3,10,5)-(13,2,9))*0.25+(13,2,9) = (-10,8,-4)*0.25+(13,2,9) = (-2.5,2,-1)+(13,2,9) = (10.5,4,8)
-            Assert.AreEqual(new Vector3(10.5, 4, 8).ToString(), secondLerpResult.ToString());
+            Assert.AreEqual(new Vector3(10.5, 4, 8), secondLerpResult);
         }
 
         [TestMethod]

@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Line2DTest.cs" />
+    <Compile Include="Line3DTest.cs" />
     <Compile Include="MatrixTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="LinearEquationTest.cs" />

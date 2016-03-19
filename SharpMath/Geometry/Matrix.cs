@@ -408,8 +408,8 @@ namespace SharpMath.Geometry
 
             if (ReferenceEquals(this, obj))
                 return true;
-
-            return obj.GetType() == GetType() && this == (Matrix)obj;
+            
+            return this == obj as Matrix;
         }
 
         /// <summary>

@@ -140,7 +140,7 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
                 return ReferenceEquals(left, right);
 
-            for (uint i = 0; i < 3; ++i)
+            for (uint i = 0; i < 2; ++i)
             {
                 if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
@@ -162,7 +162,7 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
                 return ReferenceEquals(left, right);
 
-            for (uint i = 0; i < 3; ++i)
+            for (uint i = 0; i < 2; ++i)
             {
                 if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;

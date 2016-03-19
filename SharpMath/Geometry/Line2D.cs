@@ -81,7 +81,7 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c> if this <see cref="Line2D"/> is parallel to the specified <see cref="Line2D"/>, otherwise <c>false</c>.</returns>
         public bool IsParallelTo(Line2D line)
         {
-            return AreParallel(this, line);
+            return FloatingNumber.AreApproximatelyEqual(Slope, line.Slope);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c> if the <see cref="Line2D"/> instances are parallel to each other, otherwise <c>false</c>.</returns>
         public static bool AreParallel(Line2D firstLine, Line2D secondLine)
         {
-            return FloatingNumber.AreApproximatelyEqual(firstLine.Slope, secondLine.Slope);
+            return firstLine.IsParallelTo(secondLine);
         }
 
         /// <summary>
@@ -123,7 +123,11 @@ namespace SharpMath.Geometry
         /// <returns>The intersection <see cref="Point2D"/>.</returns>
         public Point2D GetIntersectionPoint(Line2D line)
         {
-            return GetIntersectionPoint(this, line);
+            if (IsParallelTo(line))
+                return new Point2D(double.NaN, double.NaN);
+
+            var pointX = (line.Offset - Offset) / (Slope - line.Slope);
+            return new Point2D(pointX, Slope * pointX + Offset);
         }
 
         /// <summary>
@@ -134,11 +138,7 @@ namespace SharpMath.Geometry
         /// <returns>The intersection <see cref="Point2D"/>.</returns>
         public static Point2D GetIntersectionPoint(Line2D firstLine, Line2D secondLine)
         {
-            if (firstLine.IsParallelTo(secondLine))
-                return new Point2D(double.NaN, double.NaN);
-
-            var pointX = (secondLine.Offset - firstLine.Offset) / (firstLine.Slope - secondLine.Slope);
-            return new Point2D(pointX, firstLine.Slope * pointX + firstLine.Offset);
+            return firstLine.GetIntersectionPoint(secondLine);
         }
 
         /// <summary>

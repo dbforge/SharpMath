@@ -127,7 +127,7 @@ namespace SharpMath.Tests
         }
 
         [TestMethod]
-        public void CanCalulcateAngle()
+        public void CanCalculateAngle()
         {
             var vector1 = Vector2.UnitX;
             var vector2 = Vector2.UnitY;
@@ -193,6 +193,109 @@ namespace SharpMath.Tests
             stopWatch.Stop();
             // This is faster because we don't convert the vector
             Debug.Print("Vector2 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+        }
+
+        [TestMethod]
+        public void CanDetermineIfVectorsAreOrthogonal()
+        {
+            Assert.IsTrue(Vector3.Forward.IsOrthogonalTo(Vector3.Up));
+            Assert.IsFalse(Vector3.Forward.IsOrthogonalTo(Vector3.Back));
+            Assert.IsFalse(Vector3.Zero.IsOrthogonalTo(Vector3.UnitX));
+        }
+
+        [TestMethod]
+        public void CanDetermineIfVectorsAreOrthonormal()
+        {
+            Assert.IsTrue(Vector3.Forward.IsOrthonormalTo(Vector3.Up));
+            Assert.IsTrue(Vector3.Back.IsOrthonormalTo(Vector3.Down));
+            Assert.IsFalse(Vector3.Forward.IsOrthonormalTo(Vector3.Back));
+            Assert.IsFalse(Vector3.Forward.IsOrthonormalTo(new Vector3(2, 3, 2)));
+        }
+
+        [TestMethod]
+        public void CanDetermineIfVectorsAreParallel()
+        {
+            Assert.IsTrue(new Vector3(2, 3, 3).IsParallelTo(new Vector3(4, 6, 6)));
+            Assert.IsTrue(new Vector3(1, 2, 3).IsParallelTo(new Vector3(3, 6, 9)));
+            Assert.IsFalse(new Vector3(0, 1, 3).IsParallelTo(new Vector3(0, 3, 2)));
+        }
+
+        [TestMethod]
+        public void CanConvertVectorIntoMatrices()
+        {
+            var firstMatrix = new Matrix(3, 1)
+            {
+                [0, 0] = 1,
+                [1, 0] = 0,
+                [2, 0] = 0
+            };
+            var firstVectorMatrix = Vector3.Right.AsVerticalMatrix();
+            Assert.AreEqual(firstMatrix, firstVectorMatrix);
+
+            var secondMatrix = new Matrix(1, 3)
+            {
+                [0, 0] = 1,
+                [0, 1] = 0,
+                [0, 2] = 0
+            };
+            var secondVectorMatrix = Vector3.Right.AsHorizontalMatrix();
+            Assert.AreEqual(secondMatrix, secondVectorMatrix);
+        }
+
+        [TestMethod]
+        public void CanCompareVectors()
+        {
+            // Let's see, if the dimension check is working
+            var vector = new Vector(2);
+            var secondVector = new Vector(3);
+            Assert.IsFalse(vector.Equals(secondVector));
+            Assert.IsFalse(vector == secondVector);
+            Assert.IsTrue(vector != secondVector);
+
+            // Let's see, if the coordinate comparison is working (in this case simply two zero vectors)
+            var thirdVector = new Vector(4);
+            var fourthVector = new Vector(4);
+            Assert.IsTrue(thirdVector.Equals(fourthVector));
+            Assert.IsTrue(thirdVector == fourthVector);
+            Assert.IsFalse(thirdVector != fourthVector);
+
+            // Let's see, if the coordinate comparison is working when we have the same dimension but different coordinate values
+            var fifthVector = new Vector(3)
+            {
+                [0] = 1,
+                [1] = 2,
+                [2] = 1
+            };
+
+            Assert.AreEqual(fifthVector, new Vector3(1, 2, 1));
+            Assert.AreEqual(new Vector3(1, 2, 1), fifthVector);
+
+            var sixthVector = new Vector(3)
+            {
+                [0] = 2,
+                [1] = 2,
+                [2] = 1
+            };
+
+            Assert.IsFalse(fifthVector.Equals(sixthVector));
+            Assert.IsFalse(fifthVector == sixthVector);
+            Assert.IsTrue(fifthVector != sixthVector);
+        }
+
+        [TestMethod]
+        public void CanGetNegatedVector()
+        {
+            var vector = new Vector3(2, 3, 2);
+            Assert.AreEqual(new Vector3(-2, -3, -2), vector.Negate());
+            Assert.AreEqual(new Vector3(-2, -3, -2), vector.Negate<Vector3>());
+        }
+
+        [TestMethod]
+        public void CanGetNormalizedVector()
+        {
+            var vector = new Vector2(3, 4);
+            Assert.AreEqual(new Vector2(3d / 5d, 4d / 5d), vector.Normalize());
+            Assert.AreEqual(new Vector2(3d / 5d, 4d / 5d), vector.Normalize<Vector2>());
         }
     }
 }

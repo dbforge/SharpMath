@@ -148,32 +148,92 @@ namespace SharpMath.Geometry
             return matrix * vector;
         }
 
+        /// <summary>
+        ///     Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"X: {this[0]}, Y: {this[1]}, Z: {this[2]}, W: {this[3]}";
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (ReferenceEquals(null, obj))
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            return obj.GetType() == GetType() && Equals((Vector3)obj);
         }
 
+        /// <summary>
+        ///     Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                hash = hash * 23 + Z.GetHashCode();
+                hash = hash * 23 + W.GetHashCode();
+                return hash;
+            }
         }
 
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Vector4"/>.</param>
+        /// <param name="right">The right <see cref="Vector4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Vector4 left, Vector4 right)
         {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
             for (uint i = 0; i < 4; ++i)
             {
-                if (left[i] != right[i])
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
             }
 
             return true;
         }
 
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Vector4"/>.</param>
+        /// <param name="right">The right <see cref="Vector4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator !=(Vector4 left, Vector4 right)
         {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
             for (uint i = 0; i < 4; ++i)
             {
-                if (left[i] == right[i])
+                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
             }
 

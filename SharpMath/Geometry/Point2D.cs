@@ -107,7 +107,12 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return obj.GetType() == GetType() && this == (Point2D)obj;
+            if (obj.GetType() == typeof(Point2D))
+                return this == (Point2D)obj;
+            var point = obj as Point;
+            if (Dimension != point?.Dimension)
+                return false;
+            return this == FromPoint(point);
         }
 
         /// <summary>

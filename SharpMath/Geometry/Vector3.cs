@@ -359,5 +359,37 @@ namespace SharpMath.Geometry
         {
             return $"X: {this[0]}, Y: {this[1]}, Z: {this[2]}";
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(Vector3 left, Vector3 right)
+        {
+            for (uint i = 0; i < 3; ++i)
+            {
+                if (left[i] != right[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator !=(Vector3 left, Vector3 right)
+        {
+            for (uint i = 0; i < 3; ++i)
+            {
+                if (left[i] == right[i])
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

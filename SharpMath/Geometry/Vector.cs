@@ -543,7 +543,10 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
                 return ReferenceEquals(left, right);
 
-            for (uint i = 0; i < 3; ++i)
+            if (left.Dimension != right.Dimension)
+                return false;
+
+            for (uint i = 0; i < left.Dimension; ++i)
             {
                 if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
@@ -565,13 +568,16 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
                 return ReferenceEquals(left, right);
 
-            for (uint i = 0; i < 3; ++i)
+            if (left.Dimension != right.Dimension)
+                return true;
+
+            for (uint i = 0; i < left.Dimension; ++i)
             {
-                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
+                    return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

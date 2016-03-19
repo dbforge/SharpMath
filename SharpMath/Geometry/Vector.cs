@@ -240,7 +240,7 @@ namespace SharpMath.Geometry
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
             // Prevent a DivideByZeroException as at least one of the vectors could be the zero vector.
-            if (this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)) || other.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)))
+            if (IsZeroVector || other.IsZeroVector)
                 throw new InvalidOperationException("The angle of two vectors cannot be calculated, if at least one equals the zero vector.");
             
             return Math.Acos((ScalarProduct(other) / (Magnitude * other.Magnitude)));
@@ -297,7 +297,7 @@ namespace SharpMath.Geometry
             if (Dimension != other.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
-            return this.Any(c => !FloatingNumber.AreApproximatelyEqual(c, 0)) && other.Any(c => !FloatingNumber.AreApproximatelyEqual(c, 0)) && FloatingNumber.AreApproximatelyEqual(ScalarProduct(other), 0);
+            return !IsZeroVector && !other.IsZeroVector && FloatingNumber.AreApproximatelyEqual(ScalarProduct(other), 0);
         }
 
         /// <summary>
@@ -345,6 +345,9 @@ namespace SharpMath.Geometry
             if (Dimension != other.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
+            if (IsZeroVector || other.IsZeroVector)
+                return false;
+
             double firstResult = 0;
             for (uint i = 0; i < Dimension; ++i)
             {
@@ -389,9 +392,12 @@ namespace SharpMath.Geometry
         /// <returns>The normalized <see cref="Vector"/>.</returns>
         public Vector Normalize()
         {
+            if (IsZeroVector)
+                throw new InvalidOperationException("A zero vector cannot be normalized.");
+
             var resultVector = new Vector(this);
             for (uint i = 0; i < Dimension; ++i)
-                resultVector[i] /= Magnitude;
+                resultVector[i] = this[i] / Magnitude;
             return resultVector;
         }
 
@@ -578,6 +584,14 @@ namespace SharpMath.Geometry
             }
 
             return false;
+        }
+
+        private bool IsZeroVector
+        {
+            get
+            {
+                return this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
+            }
         }
     }
 }

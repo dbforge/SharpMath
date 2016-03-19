@@ -24,7 +24,6 @@ namespace SharpMath.Geometry
         {
             Slope = slope;
             Offset = offset;
-            Term = $"{Slope}x+{Offset}";
         }
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace SharpMath.Geometry
             var line = FromPoints(a, b);
             Slope = line.Slope;
             Offset = line.Offset;
-            Term = line.Term;
         }
 
         /// <summary>
@@ -51,11 +49,6 @@ namespace SharpMath.Geometry
         public double Offset { get; set; }
 
         /// <summary>
-        ///     Gets or sets the term of the <see cref="Line2D"/>.
-        /// </summary>
-        public string Term { get; set; }
-
-        /// <summary>
         ///     Creates a <see cref="Line2D"/> using the two specified <see cref="Point2D"/> instances.
         /// </summary>
         /// <param name="a">The first <see cref="Point2D"/>.</param>
@@ -67,7 +60,7 @@ namespace SharpMath.Geometry
             var vectorB = b.PositionVector;
 
             var slope = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
-            var offset = vectorA.Y / (slope * vectorA.X); // Insert a point
+            var offset = vectorA.Y -  (slope * vectorA.X); // Insert a point
             return new Line2D(slope, offset);
         }
 

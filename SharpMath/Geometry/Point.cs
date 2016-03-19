@@ -104,5 +104,90 @@ namespace SharpMath.Geometry
                 clonePoint[i] = this[i];
             return clonePoint;
         }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            return this == obj as Point;
+        }
+
+        /// <summary>
+        ///     Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (uint i = 0; i < Dimension; ++i)
+                    hash = hash * 23 + this[i].GetHashCode();
+                return hash;
+            }
+        }
+
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Point"/>.</param>
+        /// <param name="right">The right <see cref="Point"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(Point left, Point right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            if (left.Dimension != right.Dimension)
+                return false;
+
+            for (uint i = 0; i < left.Dimension; ++i)
+            {
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Point"/>.</param>
+        /// <param name="right">The right <see cref="Point"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(Point left, Point right)
+        {
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return ReferenceEquals(left, right);
+
+            if (left.Dimension != right.Dimension)
+                return true;
+
+            for (uint i = 0; i < left.Dimension; ++i)
+            {
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

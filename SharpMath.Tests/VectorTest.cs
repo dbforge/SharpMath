@@ -135,10 +135,63 @@ namespace SharpMath.Tests
             Assert.IsTrue(vector1.IsOrthogonalTo(vector2));
         }
 
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void CanNotCalculateAngleBetweenZeroVectors()
         {
             double angle = Vector2.Zero.Angle(Vector2.UnitX);
+        }
+
+        [TestMethod]
+        public void CanCalculateArea()
+        {
+            var firstVector = new Vector3(3, 4, 4);
+            var secondVector = new Vector3(1, -2, 3);
+            double area = Vector3.Area(firstVector, secondVector);
+            Assert.AreEqual(Math.Sqrt(525), area);
+            
+            var thirdVector = new Vector2(2, 4);
+            var fourthVector = new Vector2(3, 1);
+            double secondArea = Vector2.Area(thirdVector, fourthVector);
+            Assert.IsTrue(FloatingNumber.AreApproximatelyEqual(10, secondArea));
+        }
+
+        [TestMethod]
+        public void CompareAreaCalculations()
+        {
+            var stopWatch = new Stopwatch();
+            
+            // ------------------------- 3D -------------------------------
+
+            var firstVector = new Vector3(3, 4, 4);
+            var secondVector = new Vector3(1, -2, 3);
+
+            stopWatch.Start();
+            double crossProductArea = Vector3.CrossProduct(firstVector, secondVector).Magnitude;
+            stopWatch.Stop();
+            // This is faster, if the vectors are already 3-dimensional, because we have no arccos, sin etc.
+            Debug.Print("Vector3 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+
+            stopWatch.Restart();
+            double defaultFormulaArea = firstVector.Magnitude * Math.Sin(firstVector.Angle(secondVector)) * secondVector.Magnitude;
+            stopWatch.Stop();
+            Debug.Print("Vector3 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+
+            // ------------------------- 2D -------------------------------
+
+            var thirdVector = new Vector2(3, 4);
+            var fourthVector = new Vector2(1, -2);
+
+            stopWatch.Restart();
+            double secondCrossProductArea = Vector3.CrossProduct(thirdVector.Convert<Vector3>(), fourthVector.Convert<Vector3>()).Magnitude;
+            stopWatch.Stop();
+            Debug.Print("Vector2 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+
+            stopWatch.Restart();
+            double secondDefaultFormulaArea = thirdVector.Magnitude * Math.Sin(thirdVector.Angle(fourthVector)) * fourthVector.Magnitude;
+            stopWatch.Stop();
+            // This is faster because we don't convert the vector
+            Debug.Print("Vector2 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
         }
     }
 }

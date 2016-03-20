@@ -60,7 +60,7 @@ namespace SharpMath.Geometry
             if (resultPoint.Dimension == Dimension)
                 Debug.Print(
                     $"Point conversion method (Point{Dimension}.To<T>()) is currently used to convert a point into one of the same dimension. Please check if this has been your intention.");
-            for (uint i = 0; i < Dimension; ++i)
+            for (uint i = 0; i < Math.Min(Dimension, resultPoint.Dimension); ++i)
                 resultPoint[i] = this[i];
             return resultPoint;
         }

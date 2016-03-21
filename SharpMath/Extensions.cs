@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -27,15 +29,14 @@ namespace SharpMath
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
             DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute),
-                false);
+                (DescriptionAttribute[]) fi.GetCustomAttributes(
+                    typeof (DescriptionAttribute),
+                    false);
 
             if (attributes != null &&
                 attributes.Length > 0)
                 return attributes[0].Description;
-            else
-                return value.ToString();
+            return value.ToString();
         }
     }
 }

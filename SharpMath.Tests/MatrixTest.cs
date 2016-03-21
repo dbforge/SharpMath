@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +12,7 @@ namespace SharpMath.Expressions
     public class Parser
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Parser"/> class.
+        ///     Initializes a new instance of the <see cref="Parser" /> class.
         /// </summary>
         /// <param name="expression">The expression/term that should evaluated.</param>
         public Parser(string expression)
@@ -19,7 +21,7 @@ namespace SharpMath.Expressions
                 throw new ArgumentNullException(nameof(expression));
             Expression = expression;
         }
-        
+
         /// <summary>
         ///     Gets or sets the expression/term that should be evaluated.
         /// </summary>
@@ -31,6 +33,9 @@ namespace SharpMath.Expressions
         /// <returns>The result of the evaluation.</returns>
         public double Evaluate()
         {
+            if (string.IsNullOrWhiteSpace(Expression))
+                throw new Exception("The term that should be evaluated is empty.");
+
             var resultStack = new Stack<double>();
             var infixTokens = Token.CalculateInfixTokens(Expression);
             var postfixTokens = Algorithm.ShuntingYard(infixTokens.ToList());

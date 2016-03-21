@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
 
 namespace SharpMath.Tests
@@ -32,6 +34,5 @@ namespace SharpMath.Tests
             Assert.IsTrue(line.IsPointOnLine(new Point3D(6, 5, 5)));
             Assert.IsFalse(line.IsPointOnLine(new Point3D(2, 3.5, 2)));
         }
-
     }
 }

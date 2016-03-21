@@ -1,23 +1,32 @@
-﻿using SharpMath.Geometry;
-using SharpMath.Trigonometry;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using SharpMath.Geometry;
 
 namespace SharpMath._3DTest
 {
     public partial class PerspectiveForm : Form
     {
+        private readonly Vector4[] _vertices =
+        {
+            new Vector4(-0.5, 0.5, 1.5, 1), new Vector4(0.5, 0.5, 1.5, 1), new Vector4(0.5, -0.5, 1.5, 1),
+            new Vector4(-0.5, -0.5, 1.5, 1),
+            new Vector4(-0.5, 0.5, 2.5, 1), new Vector4(0.5, 0.5, 2.5, 1), new Vector4(0.5, -0.5, 2.5, 1),
+            new Vector4(-0.5, -0.5, 2.5, 1)
+        };
+
         private Color _color = Color.White;
-        private Vector4[] _vertices = new Vector4[] { new Vector4(-0.5, 0.5, 1.5, 1), new Vector4(0.5, 0.5, 1.5, 1), new Vector4(0.5, -0.5, 1.5, 1), new Vector4(-0.5, -0.5, 1.5, 1),
-                new Vector4(-0.5, 0.5, 2.5, 1), new Vector4(0.5, 0.5, 2.5, 1), new Vector4(0.5, -0.5, 2.5, 1), new Vector4(-0.5, -0.5, 2.5, 1) };
-        private Matrix4x4 _view;
-        private Matrix4x4 _world;
-        private Matrix4x4 _scalation = Matrix4x4.Scalation(0.5f);
         private Matrix4x4 _rotationX = Matrix4x4.Identity;
         private Matrix4x4 _rotationY = Matrix4x4.Identity;
         private Matrix4x4 _rotationZ = Matrix4x4.Identity;
+        private Matrix4x4 _scalation = Matrix4x4.Scalation(0.5f);
+        private Matrix4x4 _view;
+        private Matrix4x4 _world;
+        private float angle;
+        private float delta = 1f;
         //private Matrix4x4 _projection;
 
         public PerspectiveForm()
@@ -45,25 +54,29 @@ namespace SharpMath._3DTest
 
         private void perspectivePanel_Paint(object sender, PaintEventArgs e)
         {
-            var transformationMatrix = Matrix4x4.Translation(0, 0, 2) * _view * _world * _rotationX * _rotationY * _rotationZ * _scalation * Matrix4x4.Translation(0, 0, -2);
-            var projectionData = new ProjectionData(perspectivePanel.Size, 16f / 9f, (float)Math.PI / 3f, 0.1f, 100f);
+            var transformationMatrix = Matrix4x4.Translation(0, 0, 2)*_view*_world*_rotationX*_rotationY*_rotationZ*
+                                       _scalation*Matrix4x4.Translation(0, 0, -2);
+            var projectionData = new ProjectionData(perspectivePanel.Size, 16f/9f, (float) Math.PI/3f, 0.1f, 100f);
 
-            Func<Vector4, Vector2> projectPerspective = (vector) =>
+            Func<Vector4, Vector2> projectPerspective = vector =>
             {
-                var perspectiveVector = vector * Matrix4x4.PerspectiveFieldOfView(projectionData);
+                var perspectiveVector = vector*Matrix4x4.PerspectiveFieldOfView(projectionData);
                 perspectiveVector.X /= perspectiveVector.W;
                 perspectiveVector.Y /= perspectiveVector.W;
                 perspectiveVector.Z /= perspectiveVector.W;
 
-                var deviceVector = perspectiveVector * Matrix4x4.Scalation(projectionData.CanvasSize.Width / 2.0, projectionData.CanvasSize.Height / 2.0, 1);
-                return new Vector2(deviceVector.X + projectionData.CanvasSize.Width / 2, (projectionData.CanvasSize.Height / 2) - deviceVector.Y);
+                var deviceVector = perspectiveVector*
+                                   Matrix4x4.Scalation(projectionData.CanvasSize.Width/2.0,
+                                       projectionData.CanvasSize.Height/2.0, 1);
+                return new Vector2(deviceVector.X + projectionData.CanvasSize.Width/2,
+                    (projectionData.CanvasSize.Height/2) - deviceVector.Y);
             };
 
             PointF[] displayCoordinates = new PointF[_vertices.Length];
             for (int i = 0; i < _vertices.Length; i++)
             {
-                Vector2 displayVector = projectPerspective(_vertices[i] * transformationMatrix);
-                displayCoordinates[i] = new PointF((float)displayVector.X, (float)displayVector.Y);
+                Vector2 displayVector = projectPerspective(_vertices[i]*transformationMatrix);
+                displayCoordinates[i] = new PointF((float) displayVector.X, (float) displayVector.Y);
             }
 
             Graphics g = e.Graphics;
@@ -82,24 +95,22 @@ namespace SharpMath._3DTest
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            _rotationX = Matrix4x4.RotationX(Converter.DegreesToRadians(trackBar1.Value));
+            _rotationX = Matrix4x4.RotationX(MathHelper.DegreesToRadians(trackBar1.Value));
             UpdateMatrices();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            _rotationY = Matrix4x4.RotationY(Converter.DegreesToRadians(trackBar2.Value));
+            _rotationY = Matrix4x4.RotationY(MathHelper.DegreesToRadians(trackBar2.Value));
             UpdateMatrices();
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
-            _rotationZ = Matrix4x4.RotationZ(Converter.DegreesToRadians(trackBar3.Value));
+            _rotationZ = Matrix4x4.RotationZ(MathHelper.DegreesToRadians(trackBar3.Value));
             UpdateMatrices();
         }
 
-        private float delta = 1f;
-        private float angle = 0f;
         private void rotationTimer_Tick(object sender, EventArgs e)
         {
             if (angle <= 0)
@@ -108,13 +119,13 @@ namespace SharpMath._3DTest
                 delta = -1f;
             angle += delta;
 
-            _rotationX = Matrix4x4.RotationX(Converter.DegreesToRadians(angle));
-            _rotationY = Matrix4x4.RotationY(Converter.DegreesToRadians(angle));
-            _rotationZ = Matrix4x4.RotationZ(Converter.DegreesToRadians(angle));
+            _rotationX = Matrix4x4.RotationX(MathHelper.DegreesToRadians(angle));
+            _rotationY = Matrix4x4.RotationY(MathHelper.DegreesToRadians(angle));
+            _rotationZ = Matrix4x4.RotationZ(MathHelper.DegreesToRadians(angle));
 
-            trackBar1.Value = (int)angle;
-            trackBar2.Value = (int)angle;
-            trackBar3.Value = (int)angle;
+            trackBar1.Value = (int) angle;
+            trackBar2.Value = (int) angle;
+            trackBar3.Value = (int) angle;
 
             // Causes headaches
             //Random randomGen = new Random();
@@ -137,7 +148,7 @@ namespace SharpMath._3DTest
 
         private void scalationTrackBar_Scroll(object sender, EventArgs e)
         {
-            _scalation = Matrix4x4.Scalation(scalationTrackBar.Value / 720f);
+            _scalation = Matrix4x4.Scalation(scalationTrackBar.Value/720f);
             UpdateMatrices();
         }
     }

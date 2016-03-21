@@ -50,8 +50,6 @@
     <Compile Include="Equations\LinearEquationSystem.cs" />
     <Compile Include="Expressions\CharEx.cs" />
     <Compile Include="Expressions\Exceptions\ParserException.cs" />
-    <Compile Include="Expressions\ExpressionNode.cs" />
-    <Compile Include="Expressions\ExpressionTree.cs" />
     <Compile Include="Expressions\Parser.cs" />
     <Compile Include="Expressions\Token.cs" />
     <Compile Include="Expressions\TokenType.cs" />
@@ -72,15 +70,14 @@
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\ProjectionData.cs" />
     <Compile Include="Geometry\SquareMatrix.cs" />
-    <Compile Include="Geometry\Triangle.cs" />
     <Compile Include="Geometry\VectorEnumerator.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />
+    <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\Vector.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="Geometry\Vector4.cs" />
-    <Compile Include="Trigonometry\Converter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SharpMath.cd" />

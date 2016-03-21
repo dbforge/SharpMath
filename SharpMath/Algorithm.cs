@@ -100,17 +100,5 @@ namespace SharpMath
 
             return output;
         }
-
-        //public Polygon QuickHull(Line2D separatorLine, Vector2 linePoint, IEnumerable<Point2D> points)
-        //{
-        //    Point2D highestPoint = null;
-        //    foreach (var point in points)
-        //    {
-        //        var directionVector = new Vector2(separatorLine.Slope, 1);
-        //        var crossProduct = Vector3.CrossProduct(directionVector.Convert<Vector3>(), point.Convert<Point3D>() - linePoint.Convert<Vector3>());
-        //        var distance = crossProduct/linePoint.Magnitude;
-        //        if (highestPoint)
-        //    }
-        //}
     }
 }

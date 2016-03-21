@@ -8,11 +8,21 @@ namespace SharpMath.Geometry
 {
     public class Polygon : IGeometricFigure<Point2D>
     {
+        /// <summary>
+        ///     Gets the <see cref="Point2D"/> instances that this <see cref="Polygon"/> consists of.
+        /// </summary>
         public List<Point2D> Points { get; protected set; } = new List<Point2D>();
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Polygon"/> class.
+        /// </summary>
         public Polygon()
         { }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Polygon"/> class.
+        /// </summary>
+        /// <param name="points">The <see cref="Point2D"/> instances that the <see cref="Polygon"/> consists of.</param>
         public Polygon(params Point2D[] points)
         {
             if (points.Length < 3)
@@ -162,66 +172,6 @@ namespace SharpMath.Geometry
             if (delta > 0)
                 return -1;
             return delta < 0 ? 1 : 0;
-        }
-
-        public Polygon ConvexHull()
-        {
-            return ConvexHull(this);
-        }
-
-        public static Polygon ConvexHull(Polygon sourcePolygon)
-        {
-            var points = sourcePolygon.Points;
-            var minPoint = points.First(point => FloatingNumber.AreApproximatelyEqual(point.X, points.Min(p => p.X)));
-            var maxPoint = points.First(point => FloatingNumber.AreApproximatelyEqual(point.X, points.Max(p => p.X)));
-
-            // Build a line with the two border points
-            var line = new Line2D(minPoint, maxPoint);
-
-            //foreach (var item in collection)
-            //{
-            //var leftSidePoints = new List<Point2D>();
-            //var rightSidePoints = new List<Point2D>();
-
-            //var lineDirectionVector = new Vector2(line.Slope, 1);
-            //foreach (var point in points)
-            //{
-            //    double angle = (point - minPoint).Angle(lineDirectionVector);
-            //    if (angle < Math.PI)
-            //        rightSidePoints.Add(point);
-            //    else
-            //        leftSidePoints.Add(point);
-            //}
-
-            //// TODO: Simplify
-            //Point2D maxDistancePoint;
-            //double distance = 0;
-            //foreach (var point in points)
-            //{
-            //    distance = Math.Max(distance, PointDistanceToLine(point, line));
-            //}
-
-            //maxDistancePoint = points.First(p => PointDistanceToLine(p, line) == distance);
-            //var triangle = new Polygon(minPoint, maxDistancePoint, maxPoint);
-            //points.RemoveAll(triangle.ContainsPoint);
-
-
-            //}
-            //TODO: Fix
-            return null;
-        }
-
-        private static double PointDistanceToLine(Point2D point, Line2D line)
-        {
-            // Parameter point in 3D
-            var point3D = point.Convert<Point3D>();
-
-            // Get any point on the line to define the line 3-dimensional
-            var lineOriginPoint = line.GetPoint(0);
-            var line3D = new Line3D(new Point3D(lineOriginPoint.X, lineOriginPoint.Y, 0), new Vector3(1, line.Slope, 0));
-
-            Vector3 crossProduct = Vector3.CrossProduct(line3D.Direction, (point3D - line3D.Point).PositionVector);
-            return crossProduct.Magnitude / point3D.PositionVector.Magnitude;
         }
     }
 }

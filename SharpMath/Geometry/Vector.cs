@@ -16,7 +16,7 @@ namespace SharpMath.Geometry
         protected readonly double[] _coordinateValues;
 
         /// <summary>
-        ///     Creates a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector"/> class.
         /// </summary>
         /// <param name="dimension">The dimension of the <see cref="Vector"/>.</param>
         public Vector(uint dimension)
@@ -26,7 +26,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector"/> class.
         /// </summary>
         /// <param name="coordinateValues">The coordinate values of the <see cref="Vector"/>.</param>
         public Vector(params double[] coordinateValues)
@@ -36,7 +36,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector"/> class.
         /// </summary>
         /// <param name="vector">The existing <see cref="Vector"/> to copy.</param>
         public Vector(Vector vector)
@@ -478,21 +478,35 @@ namespace SharpMath.Geometry
                 resultVector[i] = vector[i] * (1/scalar);
             return resultVector;
         }
-        
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator<double> GetEnumerator()
         {
             return new VectorEnumerator(this);
         }
 
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new VectorEnumerator(this);
         }
 
         /// <summary>
-        ///     Clones this instance.
+        ///     Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// <returns>The cloned instance.</returns>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         public object Clone()
         {
             var cloneVector = new Vector(Dimension);

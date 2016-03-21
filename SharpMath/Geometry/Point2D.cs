@@ -2,9 +2,30 @@
 
 namespace SharpMath.Geometry
 {
+    /// <summary>
+    ///     Represents a two-dimensional point.
+    /// </summary>
     public class Point2D : Point
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        /// </summary>
+        public Point2D() : base(2)
+        { }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        /// </summary>
+        /// <param name="x">The X-coordinate.</param>
+        /// <param name="y">The Y-coordinate.</param>
         public Point2D(double x, double y) : base(x, y)
+        { }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        /// </summary>
+        /// <param name="point">The exisiting <see cref="Point2D"/> to copy.</param>
+        public Point2D(Point2D point) : base(point)
         { }
 
         /// <summary>

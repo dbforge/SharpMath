@@ -12,7 +12,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a polygon.
     /// </summary>
-    public class Polygon : IGeometricFigure<Point2D>
+    public class Polygon
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Polygon" /> class.

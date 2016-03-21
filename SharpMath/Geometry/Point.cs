@@ -5,24 +5,55 @@ using System.Diagnostics;
 
 namespace SharpMath.Geometry
 {
+    /// <summary>
+    ///     Represents a point.
+    /// </summary>
     public class Point : IEnumerable<double>, ICloneable
     {
         private readonly double[] _coordinateValues;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point"/> class.
+        /// </summary>
+        /// <param name="dimension">The dimension of the <see cref="Point"/>.</param>
         public Point(uint dimension)
         {
             Dimension = dimension;
             _coordinateValues = new double[dimension];
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point"/> class.
+        /// </summary>
+        /// <param name="coordinates">The coordinates of the <see cref="Point"/>.</param>
         public Point(params double[] coordinates)
         {
             Dimension = (uint)coordinates.Length;
             _coordinateValues = coordinates;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point"/> class.
+        /// </summary>
+        /// <param name="point">The exisiting <see cref="Point"/> to copy.</param>
+        public Point(Point point)
+        {
+            Dimension = point.Dimension;
+            _coordinateValues = new double[Dimension];
+            for (uint i = 0; i < point.Dimension; ++i)
+                this[i] = point[i];
+        }
+
+        /// <summary>
+        ///     Gets the dimension of this <see cref="Point"/>.
+        /// </summary>
         public uint Dimension { get; }
 
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index to use.</param>
+        /// <returns>Returns the value of the coordinate.</returns>
         public double this[uint index]
         {
             get
@@ -65,6 +96,12 @@ namespace SharpMath.Geometry
             return resultPoint;
         }
 
+        /// <summary>
+        ///     Adds two <see cref="Point"/> instances.
+        /// </summary>
+        /// <param name="first">The first <see cref="Point"/>.</param>
+        /// <param name="second">The second <see cref="Point"/>.</param>
+        /// <returns>The resulting <see cref="Point"/>.</returns>
         public static Point Add(Point first, Point second)
         {
             if (first.Dimension != second.Dimension)
@@ -76,6 +113,12 @@ namespace SharpMath.Geometry
             return resultPoint;
         }
 
+        /// <summary>
+        ///     Subtracts two <see cref="Point"/> instances.
+        /// </summary>
+        /// <param name="first">The first <see cref="Point"/>.</param>
+        /// <param name="second">The second <see cref="Point"/>.</param>
+        /// <returns>The resulting <see cref="Point"/>.</returns>
         public static Point Subtract(Point first, Point second)
         {
             if (first.Dimension != second.Dimension)
@@ -87,16 +130,34 @@ namespace SharpMath.Geometry
             return resultPoint;
         }
 
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator<double> GetEnumerator()
         {
             return new PointEnumerator(this);
         }
 
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new PointEnumerator(this);
         }
 
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         public object Clone()
         {
             var clonePoint = new Point(Dimension);

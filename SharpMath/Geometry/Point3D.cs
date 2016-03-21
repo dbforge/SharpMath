@@ -4,13 +4,26 @@ namespace SharpMath.Geometry
 {
     public class Point3D : Point
     {
-        public Point3D()
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point3D"/> class.
+        /// </summary>
+        public Point3D() : base(3)
         { }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point3D"/> class.
+        /// </summary>
+        /// <param name="x">The value of the X-coordinate.</param>
+        /// <param name="y">The value of the Y-coordinate.</param>
+        /// <param name="z">The value of the Z-coordinate.</param>
         public Point3D(double x, double y, double z) : base(x, y, z)
         { }
 
-        public Point3D(Vector3 vector) : base(vector.X, vector.Y, vector.Z)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Point3D"/> class.
+        /// </summary>
+        /// <param name="point">The exisiting <see cref="Point3D"/> to copy.</param>
+        public Point3D(Point3D point) : base(point)
         { }
 
         /// <summary>

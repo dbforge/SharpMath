@@ -38,7 +38,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets the inverse of this <see cref="SquareMatrix" />.
         /// </summary>
-        public SquareMatrix Inverse => FromMatrix(Algorithm.GaussJordan(this, GetIdentity(ColumnCount)));
+        public SquareMatrix Inverse => FromMatrix(Algorithms.GaussJordan(this, GetIdentity(ColumnCount)));
 
         /// <summary>
         ///     Gets the determinant of this <see cref="SquareMatrix" />.

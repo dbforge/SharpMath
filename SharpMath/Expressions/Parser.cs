@@ -38,7 +38,7 @@ namespace SharpMath.Expressions
 
             var resultStack = new Stack<double>();
             var infixTokens = Token.CalculateInfixTokens(Expression);
-            var postfixTokens = Algorithm.ShuntingYard(infixTokens.ToList());
+            var postfixTokens = Algorithms.ShuntingYard(infixTokens.ToList());
             foreach (var pToken in postfixTokens)
                 pToken.Evaluate(resultStack);
 

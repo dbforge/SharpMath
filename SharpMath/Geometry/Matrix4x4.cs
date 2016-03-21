@@ -297,8 +297,7 @@ namespace SharpMath.Geometry
         {
             return FromMatrix(Multiply(firstMatrix, secondMatrix));
         }
-
-        // TODO: Check if division is correct
+        
         public static Vector3 operator *(Matrix4x4 matrix, Vector3 vector)
         {
             var resultMatrix = Multiply(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix());

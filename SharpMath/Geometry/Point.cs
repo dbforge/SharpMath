@@ -45,6 +45,18 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="Point"/> class.
+        /// </summary>
+        /// <param name="vector">The position <see cref="Vector"/> of the <see cref="Point"/> to create.</param>
+        public Point(Vector vector)
+        {
+            Dimension = vector.Dimension;
+            _coordinateValues = new double[Dimension];
+            for (uint i = 0; i < vector.Dimension; ++i)
+                this[i] = vector[i];
+        }
+
+        /// <summary>
         ///     Gets the dimension of this <see cref="Point"/>.
         /// </summary>
         public uint Dimension { get; }

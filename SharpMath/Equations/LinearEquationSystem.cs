@@ -75,7 +75,7 @@ namespace SharpMath.Equations
                 rightSide[i, 0] = currentEquation.Result;
             }
 
-            var resultMatrix = Algorithm.GaussJordan(leftSide, rightSide);
+            var resultMatrix = Algorithms.GaussJordan(leftSide, rightSide);
             double[] result = new double[rightSide.RowCount];
             for (uint i = 0; i < resultMatrix.RowCount; ++i)
                 result[i] = resultMatrix[i, 0];

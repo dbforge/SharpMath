@@ -11,7 +11,7 @@ namespace SharpMath
     /// <summary>
     ///     Provides algorithms for common mathematical operations.
     /// </summary>
-    public class Algorithm
+    public static class Algorithms
     {
         /// <summary>
         ///     Implements the Gauss-Jordan-algorithm.

@@ -27,6 +27,13 @@ namespace SharpMath.Geometry
         { }
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="Point3D"/> class.
+        /// </summary>
+        /// <param name="vector">The position <see cref="Vector3"/> of the <see cref="Point3D"/> to create.</param>
+        public Point3D(Vector3 vector) : base(vector)
+        { }
+
+        /// <summary>
         ///     Gets or sets the value of the X-coordinate.
         /// </summary>
         public double X

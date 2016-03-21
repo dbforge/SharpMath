@@ -1,4 +1,6 @@
-﻿namespace SharpMath.Expressions
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+namespace SharpMath.Expressions
 {
     public class CharEx
     {

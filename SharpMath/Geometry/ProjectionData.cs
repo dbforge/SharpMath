@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Drawing;
 
 namespace SharpMath.Geometry
@@ -8,6 +10,23 @@ namespace SharpMath.Geometry
     /// </summary>
     public struct ProjectionData
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ProjectionData" /> struct.
+        /// </summary>
+        /// <param name="canvasSize">The size of the canvas.</param>
+        /// <param name="aspectRatio">The aspect ratio.</param>
+        /// <param name="fieldOfView">The field of view.</param>
+        /// <param name="nearPlane">The near plane.</param>
+        /// <param name="farPlane">The far plane.</param>
+        /// <exception cref="ArgumentException">
+        ///     nearPlane must be a value greater than zero.
+        ///     or
+        ///     farPlane must be a value greater than zero.
+        ///     or
+        ///     nearPlane must be a value smaller than farPlane.
+        ///     or
+        ///     FOV must be greater than zero and must not be bigger than 360 degrees (PI).
+        /// </exception>
         public ProjectionData(Size canvasSize, float aspectRatio, float fieldOfView, float nearPlane, float farPlane)
         {
             if (nearPlane <= 0)
@@ -17,7 +36,8 @@ namespace SharpMath.Geometry
             if (nearPlane >= farPlane)
                 throw new ArgumentException("nearPlane must be a value smaller than farPlane.");
             if (fieldOfView <= 0 || fieldOfView > Math.PI)
-                throw new ArgumentException("FOV must be greater than zero and must not be bigger than 360 degrees (PI).");
+                throw new ArgumentException(
+                    "FOV must be greater than zero and must not be bigger than 360 degrees (PI).");
 
             CanvasSize = canvasSize;
             AspectRatio = aspectRatio;
@@ -59,6 +79,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets the default <see cref="ProjectionData" />.
         /// </summary>
-        public static ProjectionData Default => new ProjectionData(new Size(100, 100), 16f / 9f, (float)Math.PI / 3f, 1f, 100f);
+        public static ProjectionData Default
+            => new ProjectionData(new Size(100, 100), 16f/9f, (float) Math.PI/3f, 1f, 100f);
     }
 }

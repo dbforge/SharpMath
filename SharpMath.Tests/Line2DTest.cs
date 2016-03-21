@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
 
 namespace SharpMath.Tests
@@ -10,12 +12,12 @@ namespace SharpMath.Tests
         public void CanCreateLineFromPoints()
         {
             var line = Line2D.FromPoints(new Point2D(0, 2), new Point2D(3, 1));
-            Assert.AreEqual(-1d / 3d, line.Slope);
+            Assert.AreEqual(-1d/3d, line.Slope);
             Assert.AreEqual(2, line.Offset);
 
             var secondLine = Line2D.FromPoints(new Point2D(4, 5), new Point2D(1, 3));
-            Assert.AreEqual(2d / 3d, secondLine.Slope);
-            Assert.AreEqual(7d / 3d, secondLine.Offset);
+            Assert.AreEqual(2d/3d, secondLine.Slope);
+            Assert.AreEqual(7d/3d, secondLine.Offset);
         }
 
         [TestMethod]

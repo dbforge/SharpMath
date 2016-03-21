@@ -1,8 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpMath.Geometry;
-using SharpMath.Trigonometry;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
 using System;
 using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharpMath.Geometry;
+
 // ReSharper disable UnusedVariable
 
 namespace SharpMath.Tests
@@ -24,7 +26,7 @@ namespace SharpMath.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof (IndexOutOfRangeException))]
         public void CanNotUseIndexerWithInvalidIndex()
         {
             var vector = new Vector3(10, 5, 3);
@@ -100,7 +102,7 @@ namespace SharpMath.Tests
         {
             var firstVector = new Vector3(2, 6, 8);
             var newVector = firstVector.Convert<Vector2>();
-            Assert.AreEqual(2, (int)newVector.Dimension);
+            Assert.AreEqual(2, (int) newVector.Dimension);
             Assert.AreEqual(2, newVector.X);
             Assert.AreEqual(6, newVector.Y);
         }
@@ -109,7 +111,7 @@ namespace SharpMath.Tests
         public void CanRotateTwoDimensionalVector()
         {
             var firstVector = new Vector2(0, 1);
-            var rotatedVector = Matrix3x3.Rotation(Converter.DegreesToRadians(180)) * firstVector;
+            var rotatedVector = Matrix3x3.Rotation(MathHelper.DegreesToRadians(180))*firstVector;
             Assert.IsTrue(FloatingNumber.AreApproximatelyEqual(firstVector.X, 0));
             Assert.AreEqual(-1, rotatedVector.Y);
         }
@@ -132,12 +134,12 @@ namespace SharpMath.Tests
             var vector1 = Vector2.UnitX;
             var vector2 = Vector2.UnitY;
 
-            Assert.AreEqual(Math.PI / 2, vector1.Angle(vector2));
+            Assert.AreEqual(Math.PI/2, vector1.Angle(vector2));
             Assert.IsTrue(vector1.IsOrthogonalTo(vector2));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof (InvalidOperationException))]
         public void CanNotCalculateAngleBetweenZeroVectors()
         {
             double angle = Vector2.Zero.Angle(Vector2.UnitX);
@@ -150,7 +152,7 @@ namespace SharpMath.Tests
             var secondVector = new Vector3(1, -2, 3);
             double area = Vector3.Area(firstVector, secondVector);
             Assert.AreEqual(Math.Sqrt(525), area);
-            
+
             var thirdVector = new Vector2(2, 4);
             var fourthVector = new Vector2(3, 1);
             double secondArea = Vector2.Area(thirdVector, fourthVector);
@@ -161,7 +163,7 @@ namespace SharpMath.Tests
         public void CompareAreaCalculations()
         {
             var stopWatch = new Stopwatch();
-            
+
             // ------------------------- 3D -------------------------------
 
             var firstVector = new Vector3(3, 4, 4);
@@ -171,12 +173,15 @@ namespace SharpMath.Tests
             double crossProductArea = Vector3.CrossProduct(firstVector, secondVector).Magnitude;
             stopWatch.Stop();
             // This is faster, if the vectors are already 3-dimensional, because we have no arccos, sin etc.
-            Debug.Print("Vector3 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+            Debug.Print("Vector3 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds +
+                        " milliseconds.");
 
             stopWatch.Restart();
-            double defaultFormulaArea = firstVector.Magnitude * Math.Sin(firstVector.Angle(secondVector)) * secondVector.Magnitude;
+            double defaultFormulaArea = firstVector.Magnitude*Math.Sin(firstVector.Angle(secondVector))*
+                                        secondVector.Magnitude;
             stopWatch.Stop();
-            Debug.Print("Vector3 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+            Debug.Print("Vector3 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds +
+                        " milliseconds.");
 
             // ------------------------- 2D -------------------------------
 
@@ -184,15 +189,19 @@ namespace SharpMath.Tests
             var fourthVector = new Vector2(1, -2);
 
             stopWatch.Restart();
-            double secondCrossProductArea = Vector3.CrossProduct(thirdVector.Convert<Vector3>(), fourthVector.Convert<Vector3>()).Magnitude;
+            double secondCrossProductArea =
+                Vector3.CrossProduct(thirdVector.Convert<Vector3>(), fourthVector.Convert<Vector3>()).Magnitude;
             stopWatch.Stop();
-            Debug.Print("Vector2 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+            Debug.Print("Vector2 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds +
+                        " milliseconds.");
 
             stopWatch.Restart();
-            double secondDefaultFormulaArea = thirdVector.Magnitude * Math.Sin(thirdVector.Angle(fourthVector)) * fourthVector.Magnitude;
+            double secondDefaultFormulaArea = thirdVector.Magnitude*Math.Sin(thirdVector.Angle(fourthVector))*
+                                              fourthVector.Magnitude;
             stopWatch.Stop();
             // This is faster because we don't convert the vector
-            Debug.Print("Vector2 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds + " milliseconds.");
+            Debug.Print("Vector2 area calculation over the default formula takes " + stopWatch.ElapsedMilliseconds +
+                        " milliseconds.");
         }
 
         [TestMethod]
@@ -294,8 +303,8 @@ namespace SharpMath.Tests
         public void CanGetNormalizedVector()
         {
             var vector = new Vector2(3, 4);
-            Assert.AreEqual(new Vector2(3d / 5d, 4d / 5d), vector.Normalize());
-            Assert.AreEqual(new Vector2(3d / 5d, 4d / 5d), vector.Normalize<Vector2>());
+            Assert.AreEqual(new Vector2(3d/5d, 4d/5d), vector.Normalize());
+            Assert.AreEqual(new Vector2(3d/5d, 4d/5d), vector.Normalize<Vector2>());
         }
     }
 }

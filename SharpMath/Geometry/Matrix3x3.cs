@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 
 namespace SharpMath.Geometry
 {
@@ -8,18 +10,24 @@ namespace SharpMath.Geometry
     // ReSharper disable once InconsistentNaming
     public class Matrix3x3 : SquareMatrix
     {
-        /// <summary>wa
-        ///     Creates a new instance of the <see cref="Matrix3x3"/> class.
+        /// <summary>
+        ///     wa
+        ///     Creates a new instance of the <see cref="Matrix3x3" /> class.
         /// </summary>
         public Matrix3x3() : base(3)
         {
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3"/> from an abstract <see cref="Matrix"/> object.
+        ///     Gets the identity <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix"/> to convert.</param>
-        /// <returns>The <see cref="Matrix3x3"/> that has been created.</returns>
+        public static Matrix3x3 Identity => FromMatrix(GetIdentity(3));
+
+        /// <summary>
+        ///     Creates a <see cref="Matrix3x3" /> from an abstract <see cref="Matrix" /> object.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix3x3" /> that has been created.</returns>
         public new static Matrix3x3 FromMatrix(Matrix matrix)
         {
             if (matrix.ColumnCount != 3 || matrix.RowCount != 3)
@@ -33,10 +41,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3"/> from a <see cref="SquareMatrix"/> object.
+        ///     Creates a <see cref="Matrix3x3" /> from a <see cref="SquareMatrix" /> object.
         /// </summary>
-        /// <param name="matrix">The <see cref="SquareMatrix"/> to convert.</param>
-        /// <returns>The <see cref="Matrix3x3"/> that has been created.</returns>
+        /// <param name="matrix">The <see cref="SquareMatrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix3x3" /> that has been created.</returns>
         public static Matrix3x3 FromMatrix(SquareMatrix matrix)
         {
             if (matrix.Dimension != 3)
@@ -50,15 +58,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets the identity <see cref="Matrix4x4"/>.
-        /// </summary>
-        public static Matrix3x3 Identity => FromMatrix(GetIdentity(3));
-
-        /// <summary>
-        ///     Creates a <see cref="Matrix3x3"/> that represents a rotation.
+        ///     Creates a <see cref="Matrix3x3" /> that represents a rotation.
         /// </summary>
         /// <param name="angle">The angle to rotate around in radians.</param>
-        /// <returns>A <see cref="Matrix3x3"/> that represents a rotation using the specified angle.</returns>
+        /// <returns>A <see cref="Matrix3x3" /> that represents a rotation using the specified angle.</returns>
         public static Matrix3x3 Rotation(double angle)
         {
             // This is actually the same as Matrix4x4.RotationZ as we are rotating around the Z-axis that is 0 in 2D-space.
@@ -76,11 +79,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3"/> that represents a scalation.
+        ///     Creates a <see cref="Matrix3x3" /> that represents a scalation.
         /// </summary>
         /// <param name="scaleX">The scalation factor of the X-component.</param>
         /// <param name="scaleY">The scalation factor of the Y-component.</param>
-        /// <returns>A <see cref="Matrix3x3"/> that represents a scalation using the specified factors.</returns>
+        /// <returns>A <see cref="Matrix3x3" /> that represents a scalation using the specified factors.</returns>
         public static Matrix3x3 Scalation(double scaleX, double scaleY)
         {
             var matrix = Identity;
@@ -91,11 +94,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3"/> that represents a translation.
+        ///     Creates a <see cref="Matrix3x3" /> that represents a translation.
         /// </summary>
         /// <param name="x">The translation of the X-component.</param>
         /// <param name="y">The translation of the Y-component.</param>
-        /// <returns>A <see cref="Matrix3x3"/> that represents a translation using the specified addends.</returns>
+        /// <returns>A <see cref="Matrix3x3" /> that represents a translation using the specified addends.</returns>
         public static Matrix3x3 Translation(double x, double y)
         {
             var matrix = Identity;
@@ -104,7 +107,7 @@ namespace SharpMath.Geometry
 
             return matrix;
         }
-        
+
         public static Matrix3x3 operator +(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
             for (uint y = 0; y < 3; ++y)

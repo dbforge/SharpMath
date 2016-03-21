@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 
 namespace SharpMath.Geometry
 {
@@ -8,46 +10,44 @@ namespace SharpMath.Geometry
     public class Point2D : Point
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
         public Point2D() : base(2)
-        { }
+        {
+        }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
         /// <param name="x">The X-coordinate.</param>
         /// <param name="y">The Y-coordinate.</param>
         public Point2D(double x, double y) : base(x, y)
-        { }
+        {
+        }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
-        /// <param name="point">The exisiting <see cref="Point2D"/> to copy.</param>
+        /// <param name="point">The exisiting <see cref="Point2D" /> to copy.</param>
         public Point2D(Point2D point) : base(point)
-        { }
+        {
+        }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Point2D"/> class.
+        ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
-        /// <param name="vector">The position <see cref="Vector2"/> of the <see cref="Point2D"/> to create.</param>
+        /// <param name="vector">The position <see cref="Vector2" /> of the <see cref="Point2D" /> to create.</param>
         public Point2D(Vector2 vector) : base(vector)
-        { }
+        {
+        }
 
         /// <summary>
         ///     Gets or sets the value of the X-coordinate.
         /// </summary>
         public double X
         {
-            get
-            {
-                return this[0];
-            }
-            set
-            {
-                this[0] = value;
-            }
+            get { return this[0]; }
+            set { this[0] = value; }
         }
 
         /// <summary>
@@ -55,41 +55,35 @@ namespace SharpMath.Geometry
         /// </summary>
         public double Y
         {
-            get
-            {
-                return this[1];
-            }
-            set
-            {
-                this[1] = value;
-            }
+            get { return this[1]; }
+            set { this[1] = value; }
         }
 
         /// <summary>
-        ///     Gets the position <see cref="Vector2"/> of this <see cref="Point2D"/>.
+        ///     Gets the position <see cref="Vector2" /> of this <see cref="Point2D" />.
         /// </summary>
         public new Vector2 PositionVector => new Vector2(X, Y);
 
         /// <summary>
-        ///     Generates a <see cref="Point2D"/> from the <see cref="Point"/> base class, if the dimension is correct.
+        ///     Generates a <see cref="Point2D" /> from the <see cref="Point" /> base class, if the dimension is correct.
         /// </summary>
-        /// <param name="point">The <see cref="Point"/> to generate a <see cref="Point2D"/> from.</param>
-        /// <returns>The generated <see cref="Point2D"/>.</returns>
-        /// <exception cref="ArgumentException">The dimension of the given <see cref="Point"/> is invalid. It must be 2.</exception>
+        /// <param name="point">The <see cref="Point" /> to generate a <see cref="Point2D" /> from.</param>
+        /// <returns>The generated <see cref="Point2D" />.</returns>
+        /// <exception cref="ArgumentException">The dimension of the given <see cref="Point" /> is invalid. It must be 2.</exception>
         public static Point2D FromPoint(Point point)
         {
             if (point.Dimension != 2)
                 throw new ArgumentException("The dimension of the given point is invalid. It must be 2.");
             return new Point2D(point[0], point[1]);
         }
-        
+
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="first">The first <see cref="Point2D"/>.</param>
-        /// <param name="second">The second <see cref="Point2D"/>.</param>
+        /// <param name="first">The first <see cref="Point2D" />.</param>
+        /// <param name="second">The second <see cref="Point2D" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Point2D operator +(Point2D first, Point2D second)
         {
@@ -99,10 +93,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="first">The first <see cref="Point2D"/>.</param>
-        /// <param name="second">The second <see cref="Point2D"/>.</param>
+        /// <param name="first">The first <see cref="Point2D" />.</param>
+        /// <param name="second">The second <see cref="Point2D" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Point2D operator -(Point2D first, Point2D second)
         {
@@ -113,7 +107,7 @@ namespace SharpMath.Geometry
         ///     Returns a <see cref="string" /> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="string" /> that represents this instance.
+        ///     A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
@@ -125,7 +119,7 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
@@ -135,8 +129,8 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(this, obj))
                 return true;
 
-            if (obj.GetType() == typeof(Point2D))
-                return this == (Point2D)obj;
+            if (obj.GetType() == typeof (Point2D))
+                return this == (Point2D) obj;
             var point = obj as Point;
             if (Dimension != point?.Dimension)
                 return false;
@@ -147,15 +141,15 @@ namespace SharpMath.Geometry
         ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + X.GetHashCode();
-                hash = hash * 23 + Y.GetHashCode();
+                hash = hash*23 + X.GetHashCode();
+                hash = hash*23 + Y.GetHashCode();
                 return hash;
             }
         }
@@ -163,10 +157,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
-        /// <param name="left">The left <see cref="Point2D"/>.</param>
-        /// <param name="right">The right <see cref="Point2D"/>.</param>
+        /// <param name="left">The left <see cref="Point2D" />.</param>
+        /// <param name="right">The right <see cref="Point2D" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static bool operator ==(Point2D left, Point2D right)
         {
@@ -185,10 +179,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator !=.
         /// </summary>
-        /// <param name="left">The left <see cref="Point2D"/>.</param>
-        /// <param name="right">The right <see cref="Point2D"/>.</param>
+        /// <param name="left">The left <see cref="Point2D" />.</param>
+        /// <param name="right">The right <see cref="Point2D" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static bool operator !=(Point2D left, Point2D right)
         {

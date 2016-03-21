@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Expressions;
 
 namespace SharpMath.Tests

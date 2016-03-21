@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System.Windows.Forms;
 
 namespace SharpMath._3DTest
 {
@@ -6,7 +8,9 @@ namespace SharpMath._3DTest
     {
         public PerspectivePanel()
         {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor, true);
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw |
+                ControlStyles.SupportsTransparentBackColor, true);
             UpdateStyles();
         }
     }

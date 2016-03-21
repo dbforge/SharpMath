@@ -1,9 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using SharpMath.Geometry.Exceptions;
-using System.Collections.Generic;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using SharpMath.Geometry.Exceptions;
 
 namespace SharpMath.Geometry
 {
@@ -16,9 +18,9 @@ namespace SharpMath.Geometry
         protected readonly double[] _coordinateValues;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector" /> class.
         /// </summary>
-        /// <param name="dimension">The dimension of the <see cref="Vector"/>.</param>
+        /// <param name="dimension">The dimension of the <see cref="Vector" />.</param>
         public Vector(uint dimension)
         {
             Dimension = dimension;
@@ -26,19 +28,19 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector" /> class.
         /// </summary>
-        /// <param name="coordinateValues">The coordinate values of the <see cref="Vector"/>.</param>
+        /// <param name="coordinateValues">The coordinate values of the <see cref="Vector" />.</param>
         public Vector(params double[] coordinateValues)
         {
-            Dimension = (uint)coordinateValues.Length;
+            Dimension = (uint) coordinateValues.Length;
             _coordinateValues = coordinateValues;
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector"/> class.
+        ///     Initializes a new instance of the <see cref="Vector" /> class.
         /// </summary>
-        /// <param name="vector">The existing <see cref="Vector"/> to copy.</param>
+        /// <param name="vector">The existing <see cref="Vector" /> to copy.</param>
         public Vector(Vector vector)
         {
             Dimension = vector.Dimension;
@@ -70,17 +72,17 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets the dimension of this <see cref="Vector"/>.
+        ///     Gets the dimension of this <see cref="Vector" />.
         /// </summary>
         public uint Dimension { get; }
 
         /// <summary>
-        ///     Gets the length of this <see cref="Vector"/>.
+        ///     Gets the length of this <see cref="Vector" />.
         /// </summary>
         public double Magnitude => Math.Sqrt(SquareMagnitude);
 
         /// <summary>
-        ///     Gets the squared length of this <see cref="Vector"/>.
+        ///     Gets the squared length of this <see cref="Vector" />.
         /// </summary>
         public double SquareMagnitude
         {
@@ -94,9 +96,56 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Represents this <see cref="Vector"/> as a horizontal <see cref="Matrix"/> whose column count equals its dimension.
+        ///     Gets a value indicating whether this <see cref="Vector" /> is normalized, or not.
         /// </summary>
-        /// <returns>The <see cref="Vector"/> represented as horizontal <see cref="Matrix"/>.</returns>
+        public bool IsNormalized => FloatingNumber.AreApproximatelyEqual(Magnitude, 1);
+
+        private bool IsZeroVector
+        {
+            get { return this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)); }
+        }
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            var cloneVector = new Vector(Dimension);
+            for (uint i = 0; i < Dimension; ++i)
+                cloneVector[i] = this[i];
+            return cloneVector;
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new VectorEnumerator(this);
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection of coordinates.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new VectorEnumerator(this);
+        }
+
+        /// <summary>
+        ///     Represents this <see cref="Vector" /> as a horizontal <see cref="Matrix" /> whose column count equals its
+        ///     dimension.
+        /// </summary>
+        /// <returns>The <see cref="Vector" /> represented as horizontal <see cref="Matrix" />.</returns>
         public Matrix AsHorizontalMatrix()
         {
             var matrix = new Matrix(1, Dimension);
@@ -106,9 +155,9 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Represents this <see cref="Vector"/> as a vertical <see cref="Matrix"/> whose row count equals its dimension.
+        ///     Represents this <see cref="Vector" /> as a vertical <see cref="Matrix" /> whose row count equals its dimension.
         /// </summary>
-        /// <returns>The <see cref="Vector"/> represented as vertical <see cref="Matrix"/>.</returns>
+        /// <returns>The <see cref="Vector" /> represented as vertical <see cref="Matrix" />.</returns>
         public Matrix AsVerticalMatrix()
         {
             var matrix = new Matrix(Dimension, 1);
@@ -118,10 +167,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the scalar product of this and the specified <see cref="Vector"/>.
+        ///     Calculates the scalar product of this and the specified <see cref="Vector" />.
         /// </summary>
-        /// <param name="other">The other <see cref="Vector"/> that should be included into the calculation.</param>
-        /// <returns>Returns the calculated scalar as a <see cref="double"/>.</returns>
+        /// <param name="other">The other <see cref="Vector" /> that should be included into the calculation.</param>
+        /// <returns>Returns the calculated scalar as a <see cref="double" />.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public double ScalarProduct(Vector other)
         {
@@ -135,11 +184,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the scalar product of the specified <see cref="Vector"/> instances.
+        ///     Calculates the scalar product of the specified <see cref="Vector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/> that should be included into the calculation.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/> that should be included into the calculation.</param>
-        /// <returns>Returns the calculated scalar as a <see cref="double"/>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" /> that should be included into the calculation.</param>
+        /// <param name="secondVector">The second <see cref="Vector" /> that should be included into the calculation.</param>
+        /// <returns>Returns the calculated scalar as a <see cref="double" />.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static double ScalarProduct(Vector firstVector, Vector secondVector)
         {
@@ -147,12 +196,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///    Linearly interpolates between two <see cref="Vector"/>s.
+        ///     Linearly interpolates between two <see cref="Vector" />s.
         /// </summary>
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
+        /// <returns>The position <see cref="Vector" /> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector Lerp(Vector source, Vector target, double fraction)
         {
@@ -167,12 +216,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///    Linearly interpolates between two vectors.
+        ///     Linearly interpolates between two vectors.
         /// </summary>
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
+        /// <returns>The position <see cref="Vector" /> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector LerpUnclamped(Vector source, Vector target, double fraction)
         {
@@ -184,21 +233,22 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///    Moves this source point in a straight line towards a target point by adding the given distance delta and returns its new position.
+        ///     Moves this source point in a straight line towards a target point by adding the given distance delta and returns
+        ///     its new position.
         /// </summary>
         /// <param name="target">The target point.</param>
         /// <param name="maxDistanceDelta">The distance delta that this source point is moved by in all directions.</param>
-        /// <returns>The position <see cref="Vector"/> of the new point.</returns>
+        /// <returns>The position <see cref="Vector" /> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public Vector MoveTowards(Vector target, double maxDistanceDelta)
         {
             if (Dimension != target.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
-            return LerpUnclamped(this, target, (maxDistanceDelta / DistanceTo(target)));
+            return LerpUnclamped(this, target, (maxDistanceDelta/DistanceTo(target)));
         }
 
         /// <summary>
-        ///    Moves this source point in a straight line towards a target point by adding the given distance delta.
+        ///     Moves this source point in a straight line towards a target point by adding the given distance delta.
         /// </summary>
         /// <param name="target">The target point.</param>
         /// <param name="maxDistanceDelta">The distance delta that this source point is moved by in all directions.</param>
@@ -208,31 +258,32 @@ namespace SharpMath.Geometry
             if (Dimension != target.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
-            var newPosition = LerpUnclamped(this, target, (maxDistanceDelta / DistanceTo(target)));
+            var newPosition = LerpUnclamped(this, target, (maxDistanceDelta/DistanceTo(target)));
             for (uint i = 0; i < newPosition.Dimension; ++i)
                 this[i] = newPosition[i];
         }
 
         /// <summary>
-        ///    Moves a source point in a straight line towards a target point by adding the given distance delta and returns its new position.
+        ///     Moves a source point in a straight line towards a target point by adding the given distance delta and returns its
+        ///     new position.
         /// </summary>
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
-        /// <returns>The new position of the point as <see cref="Vector"/>.</returns>
+        /// <returns>The new position of the point as <see cref="Vector" />.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector MoveTowards(Vector source, Vector target, double maxDistanceDelta)
         {
             if (source.Dimension != target.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
-            return LerpUnclamped(source, target, (maxDistanceDelta / source.DistanceTo(target)));
+            return LerpUnclamped(source, target, (maxDistanceDelta/source.DistanceTo(target)));
         }
 
         /// <summary>
-        ///     Calculates the angle between this and the specified <see cref="Vector"/> instance.
+        ///     Calculates the angle between this and the specified <see cref="Vector" /> instance.
         /// </summary>
         /// <param name="other">The other vector.</param>
-        /// <returns>The angle between this and the specified <see cref="Vector"/> instance.</returns>
+        /// <returns>The angle between this and the specified <see cref="Vector" /> instance.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public double Angle(Vector other)
         {
@@ -241,17 +292,18 @@ namespace SharpMath.Geometry
 
             // Prevent a DivideByZeroException as at least one of the vectors could be the zero vector.
             if (IsZeroVector || other.IsZeroVector)
-                throw new InvalidOperationException("The angle of two vectors cannot be calculated, if at least one equals the zero vector.");
-            
-            return Math.Acos((ScalarProduct(other) / (Magnitude * other.Magnitude)));
+                throw new InvalidOperationException(
+                    "The angle of two vectors cannot be calculated, if at least one equals the zero vector.");
+
+            return Math.Acos((ScalarProduct(other)/(Magnitude*other.Magnitude)));
         }
 
         /// <summary>
-        ///     Calculates the angle between two <see cref="Vector"/> instances.
+        ///     Calculates the angle between two <see cref="Vector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>The angle between the <see cref="Vector"/> instances.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns>The angle between the <see cref="Vector" /> instances.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static double Angle(Vector firstVector, Vector secondVector)
         {
@@ -283,15 +335,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets a value indicating whether this <see cref="Vector"/> is normalized, or not.
+        ///     Determines whether this <see cref="Vector" /> is orthogonal to another one, or not.
         /// </summary>
-        public bool IsNormalized => FloatingNumber.AreApproximatelyEqual(Magnitude, 1);
-
-        /// <summary>
-        ///     Determines whether this <see cref="Vector"/> is orthogonal to another one, or not.
-        /// </summary>
-        /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if this <see cref="Vector"/> is orthogonal to another one, otherwise <c>false</c>.</returns>
+        /// <param name="other">The other <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if this <see cref="Vector" /> is orthogonal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthogonalTo(Vector other)
         {
             if (Dimension != other.Dimension)
@@ -301,21 +348,21 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="Vector"/> instances are orthogonal to each other, or not.
+        ///     Determines whether two <see cref="Vector" /> instances are orthogonal to each other, or not.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if the <see cref="Vector"/> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if the <see cref="Vector" /> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthogonal(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsOrthogonalTo(secondVector);
         }
 
         /// <summary>
-        ///     Determines whether this <see cref="Vector"/> is orthonormal to another one, or not.
+        ///     Determines whether this <see cref="Vector" /> is orthonormal to another one, or not.
         /// </summary>
-        /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if this <see cref="Vector"/> is orthonormal to another one, otherwise <c>false</c>.</returns>
+        /// <param name="other">The other <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if this <see cref="Vector" /> is orthonormal to another one, otherwise <c>false</c>.</returns>
         public bool IsOrthonormalTo(Vector other)
         {
             if (Dimension != other.Dimension)
@@ -325,21 +372,21 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="Vector"/> instances are orthonormal to each other, or not.
+        ///     Determines whether two <see cref="Vector" /> instances are orthonormal to each other, or not.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if the <see cref="Vector"/> instances are orthonormal to each other, otherwise <c>false</c>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if the <see cref="Vector" /> instances are orthonormal to each other, otherwise <c>false</c>.</returns>
         public static bool AreOrthonormal(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsOrthonormalTo(secondVector);
         }
 
         /// <summary>
-        ///     Determines whether this <see cref="Vector"/> is orthonormal to another one, or not.
+        ///     Determines whether this <see cref="Vector" /> is orthonormal to another one, or not.
         /// </summary>
-        /// <param name="other">The other <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if this <see cref="Vector"/> is parallel to another one, otherwise <c>false</c>.</returns>
+        /// <param name="other">The other <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if this <see cref="Vector" /> is parallel to another one, otherwise <c>false</c>.</returns>
         public bool IsParallelTo(Vector other)
         {
             if (Dimension != other.Dimension)
@@ -352,10 +399,10 @@ namespace SharpMath.Geometry
             for (uint i = 0; i < Dimension; ++i)
             {
                 if (i == 0)
-                    firstResult = other[i] / this[i];
+                    firstResult = other[i]/this[i];
                 else
                 {
-                    if (!FloatingNumber.AreApproximatelyEqual(other[i] / this[i], firstResult))
+                    if (!FloatingNumber.AreApproximatelyEqual(other[i]/this[i], firstResult))
                         return false;
                 }
             }
@@ -364,20 +411,20 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Determines whether two <see cref="Vector"/> instances are parallel to each other, or not.
+        ///     Determines whether two <see cref="Vector" /> instances are parallel to each other, or not.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if the <see cref="Vector"/> instances are parallel to each other, otherwise <c>false</c>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns><c>true</c> if the <see cref="Vector" /> instances are parallel to each other, otherwise <c>false</c>.</returns>
         public bool AreParallel(Vector firstVector, Vector secondVector)
         {
             return firstVector.IsParallelTo(secondVector);
         }
 
         /// <summary>
-        ///     Calculates the negated <see cref="Vector"/> of this <see cref="Vector"/>.
+        ///     Calculates the negated <see cref="Vector" /> of this <see cref="Vector" />.
         /// </summary>
-        /// <returns>The negated <see cref="Vector"/> of this <see cref="Vector"/>.</returns>
+        /// <returns>The negated <see cref="Vector" /> of this <see cref="Vector" />.</returns>
         public Vector Negate()
         {
             var resultVector = new Vector(this);
@@ -387,9 +434,9 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the normalized <see cref="Vector"/> of this <see cref="Vector"/>.
+        ///     Calculates the normalized <see cref="Vector" /> of this <see cref="Vector" />.
         /// </summary>
-        /// <returns>The normalized <see cref="Vector"/>.</returns>
+        /// <returns>The normalized <see cref="Vector" />.</returns>
         public Vector Normalize()
         {
             if (IsZeroVector)
@@ -397,16 +444,17 @@ namespace SharpMath.Geometry
 
             var resultVector = new Vector(this);
             for (uint i = 0; i < Dimension; ++i)
-                resultVector[i] = this[i] / Magnitude;
+                resultVector[i] = this[i]/Magnitude;
             return resultVector;
         }
 
         /// <summary>
-        ///     Converts this <see cref="Vector"/> into a <see cref="Vector"/> of another dimension.
+        ///     Converts this <see cref="Vector" /> into a <see cref="Vector" /> of another dimension.
         /// </summary>
-        /// <typeparam name="T">The <see cref="Vector"/> type that the current <see cref="Vector"/> should be converted to.</typeparam>
-        /// <returns>This <see cref="Vector"/> converted into the given type.</returns>
-        public T Convert<T>() where T : Vector, new() // Type parameter because we need to create an instance of that specific type
+        /// <typeparam name="T">The <see cref="Vector" /> type that the current <see cref="Vector" /> should be converted to.</typeparam>
+        /// <returns>This <see cref="Vector" /> converted into the given type.</returns>
+        public T Convert<T>() where T : Vector, new()
+            // Type parameter because we need to create an instance of that specific type
         {
             var resultVector = new T();
             if (resultVector.Dimension == Dimension)
@@ -418,11 +466,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Adds two <see cref="Vector"/> instances.
+        ///     Adds two <see cref="Vector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>The resulting <see cref="Vector"/>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns>The resulting <see cref="Vector" />.</returns>
         public static Vector Add(Vector firstVector, Vector secondVector)
         {
             if (firstVector.Dimension != secondVector.Dimension)
@@ -435,11 +483,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Subtracts two <see cref="Vector"/> instances.
+        ///     Subtracts two <see cref="Vector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
-        /// <returns>The resulting <see cref="Vector"/>.</returns>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
+        /// <returns>The resulting <see cref="Vector" />.</returns>
         public static Vector Subtract(Vector firstVector, Vector secondVector)
         {
             if (firstVector.Dimension != secondVector.Dimension)
@@ -452,11 +500,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Multiplies a <see cref="Vector"/> with a specified scalar.
+        ///     Multiplies a <see cref="Vector" /> with a specified scalar.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector"/>.</param>
+        /// <param name="vector">The <see cref="Vector" />.</param>
         /// <param name="scalar">The scalar.</param>
-        /// <returns>The resulting <see cref="Vector"/>.</returns>
+        /// <returns>The resulting <see cref="Vector" />.</returns>
         public static Vector Multiply(Vector vector, double scalar)
         {
             var resultVector = new Vector(vector.Dimension);
@@ -466,53 +514,17 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Divides a <see cref="Vector"/> by multipling it with the reciprocal of the scalar.
+        ///     Divides a <see cref="Vector" /> by multipling it with the reciprocal of the scalar.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector"/>.</param>
+        /// <param name="vector">The <see cref="Vector" />.</param>
         /// <param name="scalar">The scalar whose reciprocal will be calculated.</param>
-        /// <returns>The resulting <see cref="Vector"/>.</returns>
+        /// <returns>The resulting <see cref="Vector" />.</returns>
         public static Vector Divide(Vector vector, double scalar)
         {
             var resultVector = new Vector(vector.Dimension);
             for (uint i = 0; i < resultVector.Dimension; ++i)
-                resultVector[i] = vector[i] * (1/scalar);
+                resultVector[i] = vector[i]*(1/scalar);
             return resultVector;
-        }
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through the collection of coordinates.
-        /// </summary>
-        /// <returns>
-        /// An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<double> GetEnumerator()
-        {
-            return new VectorEnumerator(this);
-        }
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through the collection of coordinates.
-        /// </summary>
-        /// <returns>
-        /// An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new VectorEnumerator(this);
-        }
-
-        /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
-        {
-            var cloneVector = new Vector(Dimension);
-            for (uint i = 0; i < Dimension; ++i)
-                cloneVector[i] = this[i];
-            return cloneVector;
         }
 
         /// <summary>
@@ -520,7 +532,7 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
@@ -537,7 +549,7 @@ namespace SharpMath.Geometry
         ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -545,7 +557,7 @@ namespace SharpMath.Geometry
             {
                 int hash = 17;
                 for (uint i = 0; i < Dimension; ++i)
-                    hash = hash * 23 + this[i].GetHashCode();
+                    hash = hash*23 + this[i].GetHashCode();
                 return hash;
             }
         }
@@ -553,10 +565,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
-        /// <param name="left">The left <see cref="Vector"/>.</param>
-        /// <param name="right">The right <see cref="Vector"/>.</param>
+        /// <param name="left">The left <see cref="Vector" />.</param>
+        /// <param name="right">The right <see cref="Vector" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static bool operator ==(Vector left, Vector right)
         {
@@ -578,10 +590,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator !=.
         /// </summary>
-        /// <param name="left">The left <see cref="Vector"/>.</param>
-        /// <param name="right">The right <see cref="Vector"/>.</param>
+        /// <param name="left">The left <see cref="Vector" />.</param>
+        /// <param name="right">The right <see cref="Vector" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static bool operator !=(Vector left, Vector right)
         {
@@ -598,14 +610,6 @@ namespace SharpMath.Geometry
             }
 
             return false;
-        }
-
-        private bool IsZeroVector
-        {
-            get
-            {
-                return this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
-            }
         }
     }
 }

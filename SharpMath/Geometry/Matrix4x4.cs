@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 
 namespace SharpMath.Geometry
 {
@@ -9,17 +11,22 @@ namespace SharpMath.Geometry
     public class Matrix4x4 : SquareMatrix
     {
         /// <summary>
-        ///     Creates a new instance of the <see cref="Matrix4x4"/> class.
+        ///     Creates a new instance of the <see cref="Matrix4x4" /> class.
         /// </summary>
         public Matrix4x4() : base(4)
         {
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> from an abstract <see cref="Matrix"/> object.
+        ///     Gets the identity <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix"/> to convert.</param>
-        /// <returns>The <see cref="Matrix4x4"/> that has been created.</returns>
+        public static Matrix4x4 Identity => FromMatrix(GetIdentity(4));
+
+        /// <summary>
+        ///     Creates a <see cref="Matrix4x4" /> from an abstract <see cref="Matrix" /> object.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix4x4" /> that has been created.</returns>
         public new static Matrix4x4 FromMatrix(Matrix matrix)
         {
             if (!matrix.IsSquare || matrix.RowCount != 4 || matrix.ColumnCount != 4)
@@ -33,10 +40,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> from a <see cref="SquareMatrix"/> object.
+        ///     Creates a <see cref="Matrix4x4" /> from a <see cref="SquareMatrix" /> object.
         /// </summary>
-        /// <param name="matrix">The <see cref="SquareMatrix"/> to convert.</param>
-        /// <returns>The <see cref="Matrix4x4"/> that has been created.</returns>
+        /// <param name="matrix">The <see cref="SquareMatrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix4x4" /> that has been created.</returns>
         public static Matrix4x4 FromMatrix(SquareMatrix matrix)
         {
             if (matrix.Dimension != 4)
@@ -50,17 +57,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets the identity <see cref="Matrix4x4"/>.
-        /// </summary>
-        public static Matrix4x4 Identity => FromMatrix(GetIdentity(4));
-
-        /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a scalation.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a scalation.
         /// </summary>
         /// <param name="scaleX">The scalation factor of the X-component.</param>
         /// <param name="scaleY">The scalation factor of the Y-component.</param>
         /// <param name="scaleZ">The scalation factor of the Z-component.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a scalation using the specified factors.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a scalation using the specified factors.</returns>
         public static Matrix4x4 Scalation(double scaleX, double scaleY, double scaleZ)
         {
             var matrix = Identity;
@@ -72,17 +74,18 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a scalation.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a scalation.
         /// </summary>
         /// <param name="scale">The scalation factor of all components.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a scalation using the specified factor.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a scalation using the specified factor.</returns>
         public static Matrix4x4 Scalation(double scale)
         {
             return Scalation(scale, scale, scale);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> by multiplying the built <see cref="Matrix4x4"/> instances that represent rotations around the relating angles.
+        ///     Creates a <see cref="Matrix4x4" /> by multiplying the built <see cref="Matrix4x4" /> instances that represent
+        ///     rotations around the relating angles.
         /// </summary>
         /// <param name="angleX">The angle to rotate around the X-axis in radians.</param>
         /// <param name="angleY">The angle to rotate around the Y-axis in radians.</param>
@@ -90,14 +93,14 @@ namespace SharpMath.Geometry
         /// <returns></returns>
         public static Matrix4x4 Rotation(double angleX, double angleY, double angleZ)
         {
-            return RotationX(angleX) * RotationY(angleY) * RotationZ(angleZ);
+            return RotationX(angleX)*RotationY(angleY)*RotationZ(angleZ);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a rotation around the X-axis.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a rotation around the X-axis.
         /// </summary>
         /// <param name="angle">The angle to rotate around in radians.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a rotation around the X-axis using the specified angle.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a rotation around the X-axis using the specified angle.</returns>
         // https://ksgamedev.files.wordpress.com/2010/01/matrix-rotation.png
         public static Matrix4x4 RotationX(double angle)
         {
@@ -114,10 +117,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a rotation around the Y-axis.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a rotation around the Y-axis.
         /// </summary>
         /// <param name="angle">The angle to rotate around in radians.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a rotation around the Y-axis using the specified angle.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a rotation around the Y-axis using the specified angle.</returns>
         public static Matrix4x4 RotationY(double angle)
         {
             double sin = Math.Sin(angle);
@@ -133,10 +136,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a rotation around the Z-axis.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a rotation around the Z-axis.
         /// </summary>
         /// <param name="angle">The angle to rotate around in radians.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a rotation around the Z-axis using the specified angle.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a rotation around the Z-axis using the specified angle.</returns>
         public static Matrix4x4 RotationZ(double angle)
         {
             double sin = Math.Sin(angle);
@@ -152,12 +155,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4"/> that represents a translation.
+        ///     Creates a <see cref="Matrix4x4" /> that represents a translation.
         /// </summary>
         /// <param name="x">The translation of the X-component.</param>
         /// <param name="y">The translation of the Y-component.</param>
         /// <param name="z">The translation of the Z-component.</param>
-        /// <returns>A <see cref="Matrix4x4"/> that represents a translation using the specified addends.</returns>
+        /// <returns>A <see cref="Matrix4x4" /> that represents a translation using the specified addends.</returns>
         public static Matrix4x4 Translation(double x, double y, double z)
         {
             var matrix = Identity;
@@ -169,10 +172,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a perspective projection <see cref="Matrix4x4"/> based on a field of view.
+        ///     Creates a perspective projection <see cref="Matrix4x4" /> based on a field of view.
         /// </summary>
-        /// <param name = "projectionData" >The <see cref= "ProjectionData" /> to use for the calculations.</param>
-        /// <returns>The created perspective projection <see cref="Matrix4x4"/> using the specified <see cref="ProjectionData"/>.</returns>
+        /// <param name="projectionData">The <see cref="ProjectionData" /> to use for the calculations.</param>
+        /// <returns>The created perspective projection <see cref="Matrix4x4" /> using the specified <see cref="ProjectionData" />.</returns>
         public static Matrix4x4 PerspectiveFieldOfView(ProjectionData projectionData)
         {
             // https://msdn.microsoft.com/en-us/library/bb205351%28v=vs.85%29.aspx
@@ -186,27 +189,27 @@ namespace SharpMath.Geometry
                 xScale = yScale / aspect ratio
             */
 
-            var yScale = 1.0f / (float)Math.Tan(projectionData.FieldOfView / 2f);
-            var xScale = yScale / projectionData.AspectRatio;
+            var yScale = 1.0f/(float) Math.Tan(projectionData.FieldOfView/2f);
+            var xScale = yScale/projectionData.AspectRatio;
 
             var invertedDepth = -projectionData.Depth;
             var matrix = Identity;
             matrix[0, 0] = xScale;
             matrix[1, 1] = yScale;
-            matrix[2, 2] = projectionData.FarPlane / invertedDepth;
+            matrix[2, 2] = projectionData.FarPlane/invertedDepth;
             matrix[2, 3] = -1.0f;
-            matrix[3, 2] = projectionData.NearPlane * projectionData.FarPlane / invertedDepth;
+            matrix[3, 2] = projectionData.NearPlane*projectionData.FarPlane/invertedDepth;
 
             return matrix;
         }
 
         /// <summary>
-        ///     Creates a view <see cref="Matrix4x4"/> using the specified parameters.
+        ///     Creates a view <see cref="Matrix4x4" /> using the specified parameters.
         /// </summary>
         /// <param name="cameraPosition">The camera position.</param>
         /// <param name="cameraTarget">The target position of the camera.</param>
         /// <param name="upVector">The up vector.</param>
-        /// <returns>The created view <see cref="Matrix4x4"/>.</returns>
+        /// <returns>The created view <see cref="Matrix4x4" />.</returns>
         public static Matrix4x4 View(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 upVector)
         {
             Vector3 vector = Vector3.FromVector((cameraPosition - cameraTarget).Normalize());
@@ -235,7 +238,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a world <see cref="Matrix4x4"/> by using the specified components.
+        ///     Creates a world <see cref="Matrix4x4" /> by using the specified components.
         /// </summary>
         /// <param name="position"></param>
         /// <param name="forward"></param>

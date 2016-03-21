@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Equations;
 using SharpMath.Equations.Exceptions;
 
@@ -24,11 +26,11 @@ namespace SharpMath.Tests
         public void CanSolveLinearEquationSystem()
         {
             // x - y + 2z = 6
-            var firstEquation = new LinearEquation(new[] { 1.0, -1.0, 2.0 }, 6);
+            var firstEquation = new LinearEquation(new[] {1.0, -1.0, 2.0}, 6);
             // 2x + 3y + 2z = 11
-            var secondEquation = new LinearEquation(new[] { 2.0, 3.0, 2.0 }, 11);
+            var secondEquation = new LinearEquation(new[] {2.0, 3.0, 2.0}, 11);
             // 3x + 2y + z = 8
-            var thirdEquation = new LinearEquation(new[] { 3.0, 2.0, 1.0 }, 8);
+            var thirdEquation = new LinearEquation(new[] {3.0, 2.0, 1.0}, 8);
 
             var linearEquationSystem = new LinearEquationSystem(firstEquation, secondEquation, thirdEquation);
             double[] results = linearEquationSystem.Solve();
@@ -38,11 +40,11 @@ namespace SharpMath.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EquationNotSolvableException))]
+        [ExpectedException(typeof (EquationNotSolvableException))]
         public void CanNotSolveLinearEquationSystemClearly()
         {
             // 0x = 0 - infinite solutions
-            var equation = new LinearEquation(new[] { 0.0 }, 0);
+            var equation = new LinearEquation(new[] {0.0}, 0);
             var results = new LinearEquationSystem(equation).Solve(); // This will throw an exception
             Assert.AreEqual(0, results[0]);
         }

@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SharpMath.Geometry
@@ -13,12 +15,12 @@ namespace SharpMath.Geometry
             _vector = vector;
         }
 
-        public double Current => _vector[(uint)_index];
-
-        object IEnumerator.Current => _vector[(uint)_index];
+        public double Current => _vector[(uint) _index];
+        object IEnumerator.Current => _vector[(uint) _index];
 
         public void Dispose()
-        { }
+        {
+        }
 
         public bool MoveNext()
         {

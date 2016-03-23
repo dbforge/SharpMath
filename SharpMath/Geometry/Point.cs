@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SharpMath.Geometry.Exceptions;
 
 namespace SharpMath.Geometry
 {
@@ -150,7 +151,7 @@ namespace SharpMath.Geometry
         public static Point Add(Point first, Point second)
         {
             if (first.Dimension != second.Dimension)
-                throw new ArgumentException("The dimensions of the points do not equal each other.");
+                throw new DimensionException("The dimensions of the points do not equal each other.");
 
             var resultPoint = new Point(first.Dimension);
             for (uint i = 0; i < resultPoint.Dimension; ++i)
@@ -167,12 +168,38 @@ namespace SharpMath.Geometry
         public static Point Subtract(Point first, Point second)
         {
             if (first.Dimension != second.Dimension)
-                throw new ArgumentException("The dimensions of the points do not equal each other.");
+                throw new DimensionException("The dimensions of the points do not equal each other.");
 
             var resultPoint = new Point(first.Dimension);
             for (uint i = 0; i < resultPoint.Dimension; ++i)
                 resultPoint[i] = first[i] - second[i];
             return resultPoint;
+        }
+
+        /// <summary>
+        ///     Implements the operator +.
+        /// </summary>
+        /// <param name="first">The first <see cref="Point" />.</param>
+        /// <param name="second">The second <see cref="Point" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static Point operator +(Point first, Point second)
+        {
+            return Add(first, second);
+        }
+
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="first">The first <see cref="Point" />.</param>
+        /// <param name="second">The second <see cref="Point" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static Point operator -(Point first, Point second)
+        {
+            return Subtract(first, second);
         }
 
         /// <summary>

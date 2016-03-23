@@ -351,6 +351,42 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Adds two <see cref="Matrix" /> instances, if they are compatible to each other.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix" />.</param>
+        /// <returns>The resulting <see cref="Matrix" />.</returns>
+        public static Matrix Add(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.ColumnCount != secondMatrix.ColumnCount)
+                throw new InvalidOperationException(
+                    "Cannot the add the matrices as their amount of columns or rows are not equal.");
+
+            for (uint y = 0; y < firstMatrix.RowCount; ++y)
+                for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
+                    firstMatrix[y, x] += secondMatrix[y, x];
+            return firstMatrix;
+        }
+
+        /// <summary>
+        ///     Adds two <see cref="Matrix" /> instances, if they are compatible to each other.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix" />.</param>
+        /// <returns>The resulting <see cref="Matrix" />.</returns>
+        public static Matrix Subtract(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            if (firstMatrix.ColumnCount != secondMatrix.ColumnCount)
+                throw new InvalidOperationException(
+                    "Cannot the add the matrices as their amount of columns or rows are not equal.");
+
+            for (uint y = 0; y < firstMatrix.RowCount; ++y)
+                for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
+                    firstMatrix[y, x] -= secondMatrix[y, x];
+            return firstMatrix;
+        }
+
+        /// <summary>
         ///     Multiplies a <see cref="Matrix" /> with a scalar.
         /// </summary>
         /// <param name="matrix">The <see cref="Matrix" /> to include into the product.</param>
@@ -399,6 +435,71 @@ namespace SharpMath.Geometry
         public static Matrix Divide(Matrix matrix, double scalar)
         {
             return Multiply(matrix, (1/scalar));
+        }
+
+        /// <summary>
+        ///     Implements the operator +.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix operator +(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            return Add(firstMatrix, secondMatrix);
+        }
+
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix operator -(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            return Subtract(firstMatrix, secondMatrix);
+        }
+
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix"/> with the specified scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar.</param>
+        /// <param name="matrix">The <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix operator *(double scalar, Matrix matrix)
+        {
+            return Multiply(matrix, scalar);
+        }
+
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix"/> with the specified scalar.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix"/>.</param>
+        /// <param name="scalar">The scalar.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix operator *(Matrix matrix, double scalar)
+        {
+            return Multiply(matrix, scalar);
+        }
+
+        /// <summary>
+        ///     Implements the operator *.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix operator *(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            return Multiply(firstMatrix, secondMatrix);
         }
 
         /// <summary>

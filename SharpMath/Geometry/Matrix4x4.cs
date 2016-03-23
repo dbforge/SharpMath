@@ -272,32 +272,79 @@ namespace SharpMath.Geometry
             return result;
         }
 
+        /// <summary>
+        ///     Implements the operator +.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix4x4 operator +(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
-            for (uint y = 0; y < 4; ++y)
-                for (uint x = 0; x < 4; ++x)
-                    firstMatrix[y, x] += secondMatrix[y, x];
-            return firstMatrix;
+            return FromMatrix(Add(firstMatrix, secondMatrix));
         }
 
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix4x4 operator -(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
-            for (uint y = 0; y < 4; ++y)
-                for (uint x = 0; x < 4; ++x)
-                    firstMatrix[y, x] -= secondMatrix[y, x];
-            return firstMatrix;
+            return FromMatrix(Subtract(firstMatrix, secondMatrix));
         }
 
-        public static Matrix4x4 operator *(int scalar, Matrix4x4 matrix)
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix4x4"/> with the specified scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix4x4 operator *(double scalar, Matrix4x4 matrix)
         {
             return FromMatrix(Multiply(matrix, scalar));
         }
 
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix4x4"/> with the specified scalar.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="scalar">The scalar.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Matrix4x4 operator *(Matrix4x4 matrix, double scalar)
+        {
+            return FromMatrix(Multiply(matrix, scalar));
+        }
+
+        /// <summary>
+        ///     Implements the operator *.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
             return FromMatrix(Multiply(firstMatrix, secondMatrix));
         }
-        
+
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector3 operator *(Matrix4x4 matrix, Vector3 vector)
         {
             var resultMatrix = Multiply(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix());
@@ -308,6 +355,14 @@ namespace SharpMath.Geometry
             return resultVector.Convert<Vector3>();
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix4x4 matrix)
         {
             var resultMatrix = Multiply(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix());
@@ -318,12 +373,28 @@ namespace SharpMath.Geometry
             return resultVector.Convert<Vector3>();
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector4"/> with a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="vector">The <see cref="Vector4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector4 operator *(Matrix4x4 matrix, Vector4 vector)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
             return Vector4.FromVector(resultMatrix.GetRowVector(0));
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector4"/> with a <see cref="Matrix4x4"/>.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector4"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector4 operator *(Vector4 vector, Matrix4x4 matrix)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());

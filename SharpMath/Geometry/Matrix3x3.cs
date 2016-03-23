@@ -108,56 +108,122 @@ namespace SharpMath.Geometry
             return matrix;
         }
 
+        /// <summary>
+        ///     Implements the operator +.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix3x3 operator +(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
-            for (uint y = 0; y < 3; ++y)
-                for (uint x = 0; x < 3; ++x)
-                    firstMatrix[y, x] += secondMatrix[y, x];
-            return firstMatrix;
+            return FromMatrix(Add(firstMatrix, secondMatrix));
         }
 
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix3x3 operator -(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
-            for (uint y = 0; y < 3; ++y)
-                for (uint x = 0; x < 3; ++x)
-                    firstMatrix[y, x] -= secondMatrix[y, x];
-            return firstMatrix;
+            return FromMatrix(Subtract(firstMatrix, secondMatrix));
         }
 
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix3x3"/> with the specified scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix3x3 operator *(double scalar, Matrix3x3 matrix)
         {
             return FromMatrix(Multiply(matrix, scalar));
         }
 
+        /// <summary>
+        ///     Implements the operator * to multiply a <see cref="Matrix3x3"/> with the specified scalar.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="scalar">The scalar.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 matrix, double scalar)
         {
             return FromMatrix(Multiply(matrix, scalar));
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector2"/> with a <see cref="Matrix3x3"/>.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="vector">The <see cref="Vector2"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector2 operator *(Matrix3x3 matrix, Vector2 vector)
         {
             var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
             return resultMatrix.GetRowVector(0).Convert<Vector2>();
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector2"/> with a <see cref="Matrix3x3"/>.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector2 operator *(Vector2 vector, Matrix3x3 matrix)
         {
             var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
             return resultMatrix.GetRowVector(0).Convert<Vector2>();
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix3x3"/>.
+        /// </summary>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector3 operator *(Matrix3x3 matrix, Vector3 vector)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
             return Vector3.FromVector(resultMatrix.GetRowVector(0));
         }
 
+        /// <summary>
+        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix3x3"/>.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix3x3 matrix)
         {
             var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
             return Vector3.FromVector(resultMatrix.GetRowVector(0));
         }
 
+        /// <summary>
+        ///     Implements the operator *.
+        /// </summary>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
             return FromMatrix(Multiply(firstMatrix, secondMatrix));

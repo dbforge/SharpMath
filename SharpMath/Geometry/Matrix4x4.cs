@@ -275,10 +275,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix4x4 operator +(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
@@ -288,10 +288,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix4x4 operator -(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
@@ -299,12 +299,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix4x4"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix4x4" /> with the specified scalar.
         /// </summary>
         /// <param name="scalar">The scalar.</param>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix4x4 operator *(double scalar, Matrix4x4 matrix)
         {
@@ -312,12 +312,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix4x4"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix4x4" /> with the specified scalar.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 matrix, double scalar)
         {
@@ -327,10 +327,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix4x4"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix4x4"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix4x4" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
@@ -338,12 +338,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix4x4"/>.
+        ///     Implements the operator * to transform a <see cref="Vector3" /> with a <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
-        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
+        /// <param name="vector">The <see cref="Vector3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector3 operator *(Matrix4x4 matrix, Vector3 vector)
         {
@@ -356,12 +356,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix4x4"/>.
+        ///     Implements the operator * to transform a <see cref="Vector3" /> with a <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/>.</param>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="vector">The <see cref="Vector3" />.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix4x4 matrix)
         {
@@ -374,12 +374,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector4"/> with a <see cref="Matrix4x4"/>.
+        ///     Implements the operator * to transform a <see cref="Vector4" /> with a <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
-        /// <param name="vector">The <see cref="Vector4"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
+        /// <param name="vector">The <see cref="Vector4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector4 operator *(Matrix4x4 matrix, Vector4 vector)
         {
@@ -388,12 +388,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector4"/> with a <see cref="Matrix4x4"/>.
+        ///     Implements the operator * to transform a <see cref="Vector4" /> with a <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector4"/>.</param>
-        /// <param name="matrix">The <see cref="Matrix4x4"/>.</param>
+        /// <param name="vector">The <see cref="Vector4" />.</param>
+        /// <param name="matrix">The <see cref="Matrix4x4" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector4 operator *(Vector4 vector, Matrix4x4 matrix)
         {

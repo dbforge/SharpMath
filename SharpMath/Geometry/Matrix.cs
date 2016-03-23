@@ -138,6 +138,14 @@ namespace SharpMath.Geometry
         /// </summary>
         public Matrix Zero => new Matrix(RowCount, ColumnCount);
 
+        public bool Equals(Matrix other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
+        }
+
         /// <summary>
         ///     Clones this instance.
         /// </summary>
@@ -440,10 +448,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix operator +(Matrix firstMatrix, Matrix secondMatrix)
         {
@@ -453,10 +461,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix operator -(Matrix firstMatrix, Matrix secondMatrix)
         {
@@ -464,12 +472,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix" /> with the specified scalar.
         /// </summary>
         /// <param name="scalar">The scalar.</param>
-        /// <param name="matrix">The <see cref="Matrix"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix operator *(double scalar, Matrix matrix)
         {
@@ -477,12 +485,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix" /> with the specified scalar.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix" />.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix operator *(Matrix matrix, double scalar)
         {
@@ -492,10 +500,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix operator *(Matrix firstMatrix, Matrix secondMatrix)
         {
@@ -540,14 +548,6 @@ namespace SharpMath.Geometry
                 }
                 return hash;
             }
-        }
-
-        public bool Equals(Matrix other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-
-            return this == other;
         }
 
         /// <summary>

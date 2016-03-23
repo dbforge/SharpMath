@@ -561,7 +561,7 @@ namespace SharpMath.Geometry
             var cloneMatrix = new T();
             for (uint y = 0; y < RowCount; ++y)
             {
-                for (uint x = 0; x < RowCount; ++x)
+                for (uint x = 0; x < ColumnCount; ++x)
                 {
                     cloneMatrix[y, x] = this[y, x];
                 }

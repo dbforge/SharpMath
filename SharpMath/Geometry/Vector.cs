@@ -12,7 +12,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a vector.
     /// </summary>
-    public class Vector : IEnumerable<double>, ICloneable
+    public class Vector : IEnumerable<double>, IEquatable<Vector>
     {
         // ReSharper disable once InconsistentNaming
         protected readonly double[] _coordinateValues;
@@ -103,20 +103,6 @@ namespace SharpMath.Geometry
         private bool IsZeroVector
         {
             get { return this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)); }
-        }
-
-        /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
-        {
-            var cloneVector = new Vector(Dimension);
-            for (uint i = 0; i < Dimension; ++i)
-                cloneVector[i] = this[i];
-            return cloneVector;
         }
 
         /// <summary>
@@ -560,6 +546,28 @@ namespace SharpMath.Geometry
                     hash = hash*23 + this[i].GetHashCode();
                 return hash;
             }
+        }
+        
+        public bool Equals(Vector other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
+        }
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public T Clone<T>() where T : Vector, new()
+        {
+            var cloneVector = new T();
+            for (uint i = 0; i < Dimension; ++i)
+                cloneVector[i] = this[i];
+            return cloneVector;
         }
 
         /// <summary>

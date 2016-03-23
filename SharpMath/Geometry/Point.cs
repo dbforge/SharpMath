@@ -10,7 +10,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a point.
     /// </summary>
-    public class Point : IEnumerable<double>, ICloneable
+    public class Point : IEnumerable<double>, IEquatable<Point>
     {
         private readonly double[] _coordinateValues;
 
@@ -176,6 +176,20 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public T Clone<T>() where T : Point, new()
+        {
+            var clonePoint = new T();
+            for (uint i = 0; i < Dimension; ++i)
+                clonePoint[i] = this[i];
+            return clonePoint;
+        }
+
+        /// <summary>
         ///     Determines whether the specified <see cref="object" />, is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
@@ -208,6 +222,14 @@ namespace SharpMath.Geometry
                     hash = hash*23 + this[i].GetHashCode();
                 return hash;
             }
+        }
+
+        public bool Equals(Point other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
         }
 
         /// <summary>

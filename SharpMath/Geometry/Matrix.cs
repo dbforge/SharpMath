@@ -9,7 +9,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a matrix.
     /// </summary>
-    public class Matrix : ICloneable
+    public class Matrix : IEquatable<Matrix>
     {
         private readonly double[,] _fields;
 
@@ -439,6 +439,33 @@ namespace SharpMath.Geometry
                 }
                 return hash;
             }
+        }
+
+        public bool Equals(Matrix other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
+        }
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public T Clone<T>() where T : Matrix, new()
+        {
+            var cloneMatrix = new T();
+            for (uint y = 0; y < RowCount; ++y)
+            {
+                for (uint x = 0; x < RowCount; ++x)
+                {
+                    cloneMatrix[y, x] = this[y, x];
+                }
+            }
+            return cloneMatrix;
         }
 
         /// <summary>

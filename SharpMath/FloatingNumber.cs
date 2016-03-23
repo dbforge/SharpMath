@@ -7,7 +7,7 @@ namespace SharpMath
     /// <summary>
     ///     Provides functions for comparing floating numbers using approximations.
     /// </summary>
-    public class FloatingNumber
+    public static class FloatingNumber
     {
         /// <summary>
         ///     Gets the default tolerance value for comparing floating numbers.

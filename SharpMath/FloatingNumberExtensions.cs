@@ -1,4 +1,6 @@
-﻿namespace SharpMath
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+namespace SharpMath
 {
     /// <summary>
     ///     Provides extensions for comparing floating numbers using approximations.
@@ -6,7 +8,8 @@
     public static class FloatingNumberExtensions
     {
         /// <summary>
-        ///     Determines whether two floating numbers are approximately equal to each other using the <see cref="FloatingNumber.Epsilon" /> value.
+        ///     Determines whether two floating numbers are approximately equal to each other using the
+        ///     <see cref="FloatingNumber.Epsilon" /> value.
         /// </summary>
         /// <param name="number">The current <see cref="float" />.</param>
         /// <param name="other">The other <see cref="float" />.</param>

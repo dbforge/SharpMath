@@ -90,20 +90,6 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
-        {
-            var clonePoint = new Point(Dimension);
-            for (uint i = 0; i < Dimension; ++i)
-                clonePoint[i] = this[i];
-            return clonePoint;
-        }
-
-        /// <summary>
         ///     Returns an enumerator that iterates through the collection of coordinates.
         /// </summary>
         /// <returns>
@@ -123,6 +109,28 @@ namespace SharpMath.Geometry
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new PointEnumerator(this);
+        }
+
+        public bool Equals(Point other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
+        }
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            var clonePoint = new Point(Dimension);
+            for (uint i = 0; i < Dimension; ++i)
+                clonePoint[i] = this[i];
+            return clonePoint;
         }
 
         /// <summary>
@@ -249,14 +257,6 @@ namespace SharpMath.Geometry
                     hash = hash*23 + this[i].GetHashCode();
                 return hash;
             }
-        }
-
-        public bool Equals(Point other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-
-            return this == other;
         }
 
         /// <summary>

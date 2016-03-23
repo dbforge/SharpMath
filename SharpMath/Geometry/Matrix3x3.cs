@@ -111,10 +111,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix3x3 operator +(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
@@ -124,10 +124,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix3x3 operator -(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
@@ -135,12 +135,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix3x3"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix3x3" /> with the specified scalar.
         /// </summary>
         /// <param name="scalar">The scalar.</param>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix3x3 operator *(double scalar, Matrix3x3 matrix)
         {
@@ -148,12 +148,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to multiply a <see cref="Matrix3x3"/> with the specified scalar.
+        ///     Implements the operator * to multiply a <see cref="Matrix3x3" /> with the specified scalar.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 matrix, double scalar)
         {
@@ -161,12 +161,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector2"/> with a <see cref="Matrix3x3"/>.
+        ///     Implements the operator * to transform a <see cref="Vector2" /> with a <see cref="Matrix3x3" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
-        /// <param name="vector">The <see cref="Vector2"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
+        /// <param name="vector">The <see cref="Vector2" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector2 operator *(Matrix3x3 matrix, Vector2 vector)
         {
@@ -175,12 +175,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector2"/> with a <see cref="Matrix3x3"/>.
+        ///     Implements the operator * to transform a <see cref="Vector2" /> with a <see cref="Matrix3x3" />.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector2"/>.</param>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="vector">The <see cref="Vector2" />.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector2 operator *(Vector2 vector, Matrix3x3 matrix)
         {
@@ -189,12 +189,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix3x3"/>.
+        ///     Implements the operator * to transform a <see cref="Vector3" /> with a <see cref="Matrix3x3" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
-        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
+        /// <param name="vector">The <see cref="Vector3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector3 operator *(Matrix3x3 matrix, Vector3 vector)
         {
@@ -203,12 +203,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * to transform a <see cref="Vector3"/> with a <see cref="Matrix3x3"/>.
+        ///     Implements the operator * to transform a <see cref="Vector3" /> with a <see cref="Matrix3x3" />.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/>.</param>
-        /// <param name="matrix">The <see cref="Matrix3x3"/>.</param>
+        /// <param name="vector">The <see cref="Vector3" />.</param>
+        /// <param name="matrix">The <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix3x3 matrix)
         {
@@ -219,10 +219,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="firstMatrix">The first <see cref="Matrix3x3"/>.</param>
-        /// <param name="secondMatrix">The second <see cref="Matrix3x3"/>.</param>
+        /// <param name="firstMatrix">The first <see cref="Matrix3x3" />.</param>
+        /// <param name="secondMatrix">The second <see cref="Matrix3x3" />.</param>
         /// <returns>
-        /// The result of the operator.
+        ///     The result of the operator.
         /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {

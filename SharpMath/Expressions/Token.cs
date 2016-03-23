@@ -199,7 +199,7 @@ namespace SharpMath.Expressions
                         }
                         else
                             term.Remove(term.IndexOf(current), 1);
-                                // Remove the '+' as it is redundant and disturbs our calculations
+                        // Remove the '+' as it is redundant and disturbs our calculations
                     }
                     infixTokens.Add(ReadStringToken(term, ref i));
                 }

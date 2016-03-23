@@ -127,6 +127,14 @@ namespace SharpMath.Geometry
             return new VectorEnumerator(this);
         }
 
+        public bool Equals(Vector other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return this == other;
+        }
+
         /// <summary>
         ///     Represents this <see cref="Vector" /> as a horizontal <see cref="Matrix" /> whose column count equals its
         ///     dimension.
@@ -516,10 +524,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector"/>.
+        ///     The resulting <see cref="Vector" />.
         /// </returns>
         public static Vector operator +(Vector firstVector, Vector secondVector)
         {
@@ -529,10 +537,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector"/>.
+        ///     The resulting <see cref="Vector" />.
         /// </returns>
         public static Vector operator -(Vector firstVector, Vector secondVector)
         {
@@ -542,9 +550,9 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="current">The <see cref="Vector"/> to negate.</param>
+        /// <param name="current">The <see cref="Vector" /> to negate.</param>
         /// <returns>
-        ///     The negated <see cref="Vector"/>.
+        ///     The negated <see cref="Vector" />.
         /// </returns>
         public static Vector operator -(Vector current)
         {
@@ -554,10 +562,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector"/>.</param>
+        /// <param name="vector">The <see cref="Vector" />.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector"/>.
+        ///     The resulting <see cref="Vector" />.
         /// </returns>
         public static Vector operator *(Vector vector, double scalar)
         {
@@ -565,10 +573,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector"/> instances.
+        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector" />.</param>
         /// <returns>
         ///     The scalar that has been calculated.
         /// </returns>
@@ -610,14 +618,6 @@ namespace SharpMath.Geometry
                     hash = hash*23 + this[i].GetHashCode();
                 return hash;
             }
-        }
-        
-        public bool Equals(Vector other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-
-            return this == other;
         }
 
         /// <summary>

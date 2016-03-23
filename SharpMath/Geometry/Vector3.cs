@@ -213,7 +213,7 @@ namespace SharpMath.Geometry
         /// <param name="source">The source point.</param>
         /// <param name="target">The target point.</param>
         /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
-        /// <returns>The position <see cref="Vector3"/> of the new point.</returns>
+        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
         /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
         public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
         {
@@ -223,7 +223,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Calculates the area of the parallelogram that this and the specified <see cref="Vector3" /> instances span.
         /// </summary>
-        /// <param name="other">The other <see cref="Vector3"/>.</param>
+        /// <param name="other">The other <see cref="Vector3" />.</param>
         /// <returns>The area of the spanned parallelogram.</returns>
         public double Area(Vector3 other)
         {
@@ -233,8 +233,8 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Calculates the area of the parallelogram that the two specified <see cref="Vector3" /> instances span.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
         /// <returns>The area of the spanned parallelogram.</returns>
         public static double Area(Vector3 firstVector, Vector3 secondVector)
         {
@@ -245,9 +245,9 @@ namespace SharpMath.Geometry
         ///     Calculates the volume of the parallelepiped that is being created by the three specified <see cref="Vector3" />
         ///     instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
-        /// <param name="thirdVector">The third <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
+        /// <param name="thirdVector">The third <see cref="Vector3" />.</param>
         /// <returns>Returns the calculated volume.</returns>
         public static double ScalarTripleProduct(Vector3 firstVector, Vector3 secondVector, Vector3 thirdVector)
         {
@@ -260,10 +260,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector3"/>.
+        ///     The resulting <see cref="Vector3" />.
         /// </returns>
         public static Vector3 operator +(Vector3 firstVector, Vector3 secondVector)
         {
@@ -273,10 +273,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector3"/>.
+        ///     The resulting <see cref="Vector3" />.
         /// </returns>
         public static Vector3 operator -(Vector3 firstVector, Vector3 secondVector)
         {
@@ -286,9 +286,9 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="current">The <see cref="Vector3"/> to negate.</param>
+        /// <param name="current">The <see cref="Vector3" /> to negate.</param>
         /// <returns>
-        ///     The negated <see cref="Vector3"/>.
+        ///     The negated <see cref="Vector3" />.
         /// </returns>
         public static Vector3 operator -(Vector3 current)
         {
@@ -298,10 +298,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/>.</param>
+        /// <param name="vector">The <see cref="Vector3" />.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector3"/>.
+        ///     The resulting <see cref="Vector3" />.
         /// </returns>
         public static Vector3 operator *(Vector3 vector, double scalar)
         {
@@ -309,10 +309,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector3"/> instances.
+        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector3" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector3"/>.</param>
+        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
         /// <returns>
         ///     The scalar that has been calculated.
         /// </returns>
@@ -322,11 +322,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Transforms the specified <see cref="Vector3"/> with the specified <see cref="Matrix4x4"/>.
+        ///     Transforms the specified <see cref="Vector3" /> with the specified <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/> that should be transformed.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix4x4"/>.</param>
-        /// <returns>The transformed <see cref="Vector3"/>.</returns>
+        /// <param name="vector">The <see cref="Vector3" /> that should be transformed.</param>
+        /// <param name="matrix">The transformation <see cref="Matrix4x4" />.</param>
+        /// <returns>The transformed <see cref="Vector3" />.</returns>
         public static Vector3 Transform(Vector3 vector, Matrix4x4 matrix)
         {
             var result = matrix*new Vector4(vector.X, vector.Y, vector.Z, 1);

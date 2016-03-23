@@ -514,6 +514,70 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Implements the operator +.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <returns>
+        ///     The resulting <see cref="Vector"/>.
+        /// </returns>
+        public static Vector operator +(Vector firstVector, Vector secondVector)
+        {
+            return Add(firstVector, secondVector);
+        }
+
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <returns>
+        ///     The resulting <see cref="Vector"/>.
+        /// </returns>
+        public static Vector operator -(Vector firstVector, Vector secondVector)
+        {
+            return Subtract(firstVector, secondVector);
+        }
+
+        /// <summary>
+        ///     Implements the operator -.
+        /// </summary>
+        /// <param name="current">The <see cref="Vector"/> to negate.</param>
+        /// <returns>
+        ///     The negated <see cref="Vector"/>.
+        /// </returns>
+        public static Vector operator -(Vector current)
+        {
+            return current.Negate();
+        }
+
+        /// <summary>
+        ///     Implements the operator *.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector"/>.</param>
+        /// <param name="scalar">The scalar.</param>
+        /// <returns>
+        ///     The resulting <see cref="Vector"/>.
+        /// </returns>
+        public static Vector operator *(Vector vector, double scalar)
+        {
+            return Multiply(vector, scalar);
+        }
+
+        /// <summary>
+        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector"/> instances.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector"/>.</param>
+        /// <returns>
+        ///     The scalar that has been calculated.
+        /// </returns>
+        public static double operator *(Vector firstVector, Vector secondVector)
+        {
+            return ScalarProduct(firstVector, secondVector);
+        }
+
+        /// <summary>
         ///     Determines whether the specified <see cref="object" />, is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>

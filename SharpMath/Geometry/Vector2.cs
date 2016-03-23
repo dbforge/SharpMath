@@ -205,10 +205,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
+        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector2" />.
+        ///     The resulting <see cref="Vector2"/>.
         /// </returns>
         public static Vector2 operator +(Vector2 firstVector, Vector2 secondVector)
         {
@@ -218,10 +218,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="firstVector">The first vector.</param>
-        /// <param name="secondVector">The second vector.</param>
+        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector2" />.
+        ///     The resulting <see cref="Vector2"/>.
         /// </returns>
         public static Vector2 operator -(Vector2 firstVector, Vector2 secondVector)
         {
@@ -231,9 +231,9 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator -.
         /// </summary>
-        /// <param name="current">The vector to negate.</param>
+        /// <param name="current">The <see cref="Vector2"/> to negate.</param>
         /// <returns>
-        ///     The negated <see cref="Vector2" />.
+        ///     The negated <see cref="Vector2"/>.
         /// </returns>
         public static Vector2 operator -(Vector2 current)
         {
@@ -243,10 +243,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
-        /// <param name="vector">The vector.</param>
+        /// <param name="vector">The <see cref="Vector2"/>.</param>
         /// <param name="scalar">The scalar.</param>
         /// <returns>
-        ///     The resulting <see cref="Vector2" />.
+        ///     The resulting <see cref="Vector2"/>.
         /// </returns>
         public static Vector2 operator *(Vector2 vector, double scalar)
         {
@@ -254,10 +254,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector2" /> instances.
+        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector2"/> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector2" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector2" />.</param>
+        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
+        /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
         /// <returns>
         ///     The scalar that has been calculated.
         /// </returns>

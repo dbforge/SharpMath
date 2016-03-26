@@ -1,4 +1,5 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+// Improvements: Stefan Baumann 2016
 
 namespace SharpMath
 {

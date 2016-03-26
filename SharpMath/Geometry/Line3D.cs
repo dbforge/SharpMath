@@ -1,4 +1,5 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+// Improvements: Stefan Baumann 2016
 
 using System;
 
@@ -7,7 +8,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a 3D-line.
     /// </summary>
-    public class Line3D
+    public class Line3D : IEquatable<Line3D>
     {
         private Vector3 _direction;
 
@@ -80,6 +81,78 @@ namespace SharpMath.Geometry
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            return obj == null ? this == null : obj is Line3D && ((Line3D)obj).Direction == Direction && ((Line3D)obj).Point == Point;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="Line3D" /> is equal to this instance.
+        /// </summary>
+        /// <param name="other">The <see cref="Line3D" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="Line3D" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public bool Equals(Line3D other)
+        {
+            return other == null ? this == null : other.Direction == Direction && other.Point == Point;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return Direction.GetHashCode() ^ Point.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format("Line3D [Direction={0}; Point={1}]", Direction, Point);
+        }
+
+        /// <summary>
+        /// Determines whether the two specified <see cref="Line3D" /> instances are equal to each other.
+        /// </summary>
+        /// <param name="left">The first <see cref="Line3D" />.</param>
+        /// <param name="right">The <see cref="Line3D" /> to compare with the other <see cref="Line3D" />.</param>
+        /// <returns>
+        ///   <c>true</c> if the two specified <see cref="Line3D" /> are equal to each other; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool operator ==(Line3D left, Line3D right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Determines whether the two specified <see cref="Line3D" /> instances are not equal to each other.
+        /// </summary>
+        /// <param name="left">The first <see cref="Line3D" />.</param>
+        /// <param name="right">The <see cref="Line3D" /> to compare with the other <see cref="Line3D" />.</param>
+        /// <returns>
+        ///   <c>true</c> if the two specified <see cref="Line3D" /> are not equal to each other; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool operator !=(Line3D left, Line3D right)
+        {
+            return !left.Equals(right);
         }
     }
 }

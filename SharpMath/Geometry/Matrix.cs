@@ -77,8 +77,8 @@ namespace SharpMath.Geometry
                 for (uint y = 0; y < RowCount; ++y)
                     for (uint x = 0; x < ColumnCount; ++x)
                     {
-                        if ((y == x && FloatingNumber.CheckApproximatelyEqual(this[y, x], 0)) ||
-                            (y != x && !FloatingNumber.CheckApproximatelyEqual(this[y, x], 0)))
+                        if ((y == x && FloatingNumber.AreApproximatelyEqual(this[y, x], 0)) ||
+                            (y != x && !FloatingNumber.AreApproximatelyEqual(this[y, x], 0)))
                             return false;
                     }
                 return true;
@@ -95,8 +95,8 @@ namespace SharpMath.Geometry
                 for (uint y = 0; y < RowCount; ++y)
                     for (uint x = 0; x < ColumnCount; ++x)
                     {
-                        if ((y == x && FloatingNumber.CheckApproximatelyEqual(this[y, x], 0)) ||
-                            (y != x && !FloatingNumber.CheckApproximatelyEqual(this[y, x], 0)))
+                        if ((y == x && FloatingNumber.AreApproximatelyEqual(this[y, x], 0)) ||
+                            (y != x && !FloatingNumber.AreApproximatelyEqual(this[y, x], 0)))
                             return false;
                     }
                 return true;
@@ -328,7 +328,7 @@ namespace SharpMath.Geometry
             {
                 for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
                 {
-                    if (!FloatingNumber.CheckApproximatelyEqual(firstMatrix[y, x], secondMatrix[y, x]))
+                    if (!FloatingNumber.AreApproximatelyEqual(firstMatrix[y, x], secondMatrix[y, x]))
                         return false;
                 }
             }
@@ -589,7 +589,7 @@ namespace SharpMath.Geometry
             {
                 for (uint x = 0; x < left.ColumnCount; ++x)
                 {
-                    if (!FloatingNumber.CheckApproximatelyEqual(left[y, x], right[y, x]))
+                    if (!FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
                         return false;
                 }
             }
@@ -617,7 +617,7 @@ namespace SharpMath.Geometry
             {
                 for (uint x = 0; x < left.ColumnCount; ++x)
                 {
-                    if (!FloatingNumber.CheckApproximatelyEqual(left[y, x], right[y, x]))
+                    if (!FloatingNumber.AreApproximatelyEqual(left[y, x], right[y, x]))
                         return true;
                 }
             }

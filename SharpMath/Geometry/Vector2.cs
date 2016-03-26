@@ -363,7 +363,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < 2; ++i)
             {
-                if (!FloatingNumber.CheckApproximatelyEqual(left[i], right[i]))
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
             }
 
@@ -385,7 +385,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < 2; ++i)
             {
-                if (FloatingNumber.CheckApproximatelyEqual(left[i], right[i]))
+                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
             }
 

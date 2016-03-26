@@ -175,7 +175,7 @@ namespace SharpMath.Geometry
                 p1 = p2;
                 p2 = currentP1;
             }
-            else if (FloatingNumber.CheckApproximatelyEqual(q.Y, p1.Y) && FloatingNumber.CheckApproximatelyEqual(q.X, p1.X))
+            else if (FloatingNumber.AreApproximatelyEqual(q.Y, p1.Y) && FloatingNumber.AreApproximatelyEqual(q.X, p1.X))
                 return 0;
             else if (q.Y <= p1.Y || q.Y > p2.Y)
                 return 1;

@@ -57,11 +57,9 @@
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\Point2D.cs" />
     <Compile Include="Geometry\Point3D.cs" />
-    <Compile Include="Geometry\PointEnumerator.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\ProjectionData.cs" />
     <Compile Include="Geometry\SquareMatrix.cs" />
-    <Compile Include="Geometry\VectorEnumerator.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

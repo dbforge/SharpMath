@@ -1,4 +1,5 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+// Improvements: Stefan Baumann 2016
 
 using System;
 using System.Collections;
@@ -113,7 +114,11 @@ namespace SharpMath.Geometry
         /// </returns>
         public IEnumerator<double> GetEnumerator()
         {
-            return new VectorEnumerator(this);
+            for (int i = 0; i < this.Dimension; i++)
+            {
+                yield return this[(uint)i];
+            }
+            yield break;
         }
 
         /// <summary>
@@ -124,7 +129,11 @@ namespace SharpMath.Geometry
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new VectorEnumerator(this);
+            for (int i = 0; i < this.Dimension; i++)
+            {
+                yield return this[(uint)i];
+            }
+            yield break;
         }
 
         public bool Equals(Vector other)

@@ -123,8 +123,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
-        public string LaTeXString => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)"
-            ;
+        public string ToLaTeXString() => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)";
 
         /// <summary>
         ///     Generates a <see cref="Vector2" /> from the <see cref="Vector" /> base class, if the dimension is correct.

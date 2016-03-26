@@ -87,7 +87,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public bool IsParallelTo(Line2D line)
         {
-            return FloatingNumber.CheckApproximatelyEqual(Slope, line.Slope);
+            return FloatingNumber.AreApproximatelyEqual(Slope, line.Slope);
         }
 
         /// <summary>

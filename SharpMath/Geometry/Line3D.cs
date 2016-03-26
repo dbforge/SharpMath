@@ -75,7 +75,7 @@ namespace SharpMath.Geometry
             for (uint i = 0; i < 3; ++i)
             {
                 double value = (point[i] - Point[i])/Direction[i];
-                if (i != 0 && !FloatingNumber.CheckApproximatelyEqual(value, lambda))
+                if (i != 0 && !FloatingNumber.AreApproximatelyEqual(value, lambda))
                     return false;
                 lambda = value;
             }

@@ -99,11 +99,11 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether this <see cref="Vector" /> is normalized, or not.
         /// </summary>
-        public bool IsNormalized => FloatingNumber.CheckApproximatelyEqual(Magnitude, 1);
+        public bool IsNormalized => FloatingNumber.AreApproximatelyEqual(Magnitude, 1);
 
         private bool IsZeroVector
         {
-            get { return this.All(c => FloatingNumber.CheckApproximatelyEqual(c, 0)); }
+            get { return this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0)); }
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace SharpMath.Geometry
             if (Dimension != other.Dimension)
                 throw new DimensionException("The dimensions of the vectors do not equal each other.");
 
-            return !IsZeroVector && !other.IsZeroVector && FloatingNumber.CheckApproximatelyEqual(ScalarProduct(other), 0);
+            return !IsZeroVector && !other.IsZeroVector && FloatingNumber.AreApproximatelyEqual(ScalarProduct(other), 0);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace SharpMath.Geometry
                     firstResult = other[i]/this[i];
                 else
                 {
-                    if (!FloatingNumber.CheckApproximatelyEqual(other[i]/this[i], firstResult))
+                    if (!FloatingNumber.AreApproximatelyEqual(other[i]/this[i], firstResult))
                         return false;
                 }
             }
@@ -661,7 +661,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < left.Dimension; ++i)
             {
-                if (!FloatingNumber.CheckApproximatelyEqual(left[i], right[i]))
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return false;
             }
 
@@ -686,7 +686,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < left.Dimension; ++i)
             {
-                if (!FloatingNumber.CheckApproximatelyEqual(left[i], right[i]))
+                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
                     return true;
             }
 

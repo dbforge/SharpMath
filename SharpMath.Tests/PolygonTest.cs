@@ -33,7 +33,7 @@ namespace SharpMath.Tests
         {
             var square =
                 new Polygon(new Point2D(0, 0), new Point2D(2, 0), new Point2D(2, 2), new Point2D(0, 2));
-            Assert.IsTrue(FloatingNumber.CheckApproximatelyEqual(4, square.Area));
+            Assert.IsTrue(FloatingNumber.AreApproximatelyEqual(4, square.Area));
 
             var triangle =
                 new Polygon(new Point2D(0, 0), new Point2D(2, 0), new Point2D(1, 2));

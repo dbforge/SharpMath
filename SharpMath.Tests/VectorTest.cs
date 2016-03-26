@@ -112,7 +112,7 @@ namespace SharpMath.Tests
         {
             var firstVector = new Vector2(0, 1);
             var rotatedVector = Matrix3x3.Rotation(MathHelper.DegreesToRadians(180))*firstVector;
-            Assert.IsTrue(FloatingNumber.AreApproximatelyEqual(firstVector.X, 0));
+            Assert.IsTrue(FloatingNumber.CheckApproximatelyEqual(firstVector.X, 0));
             Assert.AreEqual(-1, rotatedVector.Y);
         }
 
@@ -156,7 +156,7 @@ namespace SharpMath.Tests
             var thirdVector = new Vector2(2, 4);
             var fourthVector = new Vector2(3, 1);
             double secondArea = Vector2.Area(thirdVector, fourthVector);
-            Assert.IsTrue(FloatingNumber.AreApproximatelyEqual(10, secondArea));
+            Assert.IsTrue(FloatingNumber.CheckApproximatelyEqual(10, secondArea));
         }
 
         [TestMethod]

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.Tests", "SharpMat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.3DTest", "SharpMath.3DTest\SharpMath.3DTest.csproj", "{15428131-2AC9-4AF4-8966-664FF1974CE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.PolygonTest", "SharpMath.PolygonTest\SharpMath.PolygonTest.csproj", "{1D3DD70B-E845-4993-A73E-7EBD14B9E005}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{15428131-2AC9-4AF4-8966-664FF1974CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15428131-2AC9-4AF4-8966-664FF1974CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15428131-2AC9-4AF4-8966-664FF1974CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

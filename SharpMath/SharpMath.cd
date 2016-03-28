@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SharpMath.Algorithm">
+  <Class Name="SharpMath.Algorithms">
     <Position X="17.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -17,7 +17,7 @@
   <Class Name="SharpMath.FloatingNumber">
     <Position X="19.25" Y="5.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAA=</HashCode>
       <FileName>FloatingNumber.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -94,21 +94,23 @@
   <Class Name="SharpMath.Geometry.Line2D">
     <Position X="30.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAIIAAAMAgAAAAAAAAAAAAAAAQIAAAAAAAAAAAgEA=</HashCode>
+      <HashCode>AAAAIIAAAMAgAAAEgAAAAAAAAAAQIIAAAAAAAAAAgmA=</HashCode>
       <FileName>Geometry\Line2D.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SharpMath.Geometry.Line3D">
     <Position X="33.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAIAggAAAACAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAIAggAAEgCAAAAAAAAAAAIAAAAAIAAAAAiA=</HashCode>
       <FileName>Geometry\Line3D.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SharpMath.Geometry.Matrix">
     <Position X="8.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAKQAAAACEiCCBCARAYQBACIAAAAAEgAgADjA=</HashCode>
+      <HashCode>AAKAAAAAKQAAAACE6CGDCARAYQBACIAAAAAEgAgADjA=</HashCode>
       <FileName>Geometry\Matrix.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -130,7 +132,7 @@
   <Class Name="SharpMath.Geometry.Point">
     <Position X="13.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAABAAiJACQAAAAAAAQIAEAAAAAAAAAjA=</HashCode>
+      <HashCode>AAIAAAAAAAAAABAAyJECQAAAAAAAQIAEAAAAAAAAAjA=</HashCode>
       <FileName>Geometry\Point.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -149,23 +151,16 @@
       <FileName>Geometry\Point3D.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SharpMath.Geometry.PointEnumerator" BaseTypeListCollapsed="true">
-    <Position X="21.75" Y="2.25" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAABAAAAACgAAAAAAAAAAAAoAAAAAAAAAQ=</HashCode>
-      <FileName>Geometry\PointEnumerator.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="SharpMath.Geometry.Polygon" BaseTypeListCollapsed="true">
-    <Position X="30.5" Y="4.5" Width="2.5" />
+    <Position X="30.5" Y="5.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAgAAAAAAAAAAAACAAAAAAAACAAQAYABA=</HashCode>
+      <HashCode>AAAAAAAAAQAAgBAEgAAAAAAAACAAAIAEAACAAQAYAjA=</HashCode>
       <FileName>Geometry\Polygon.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SharpMath.Geometry.SquareMatrix">
-    <Position X="9.75" Y="8.75" Width="1.75" />
+    <Position X="9.75" Y="9" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AARQAAAgAAAAAAAAICIAAAAAAAAEQDAAAAAAAAAAAAQ=</HashCode>
       <FileName>Geometry\SquareMatrix.cs</FileName>
@@ -174,39 +169,31 @@
   <Class Name="SharpMath.Geometry.Vector">
     <Position X="3" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAIAAIAAAUEAABCAmZADAEAAAABAQIhEgEAEAAEAEnA=</HashCode>
+      <HashCode>AAIAAIAAAUEAABCA+ZEDAEAAAABAQIhEgEAEAAEAEnA=</HashCode>
       <FileName>Geometry\Vector.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SharpMath.Geometry.Vector2">
-    <Position X="3" Y="10" Width="2" />
+    <Position X="3" Y="10.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAIAIAAAAIAAAE4AEAQQQAAQBAAIAAiACAAUEAYqI=</HashCode>
+      <HashCode>AAAAIAIAAAAAAAAE4AEAQQQAAQBAAIAAiACAAUGAYqI=</HashCode>
       <FileName>Geometry\Vector2.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Geometry.Vector3">
-    <Position X="5.25" Y="10" Width="2.25" />
+    <Position X="5.25" Y="10.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AQAAIgIAAAAIAAAE4AEAQQQAAQBAAIAAiBCAAUEAYqM=</HashCode>
+      <HashCode>AQAAIgIAAAAAAAAE4AEAQQQAAQBAAIAAiBCAAUGAYqM=</HashCode>
       <FileName>Geometry\Vector3.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Geometry.Vector4">
-    <Position X="0.75" Y="10" Width="2" />
+    <Position X="0.75" Y="10.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAIgAAAAAIAAAEgAABQQQAAQAAAIAAAAAAAAAIYqE=</HashCode>
+      <HashCode>AAAAIgAAAAAAAAAEgAABQQQAAQAAAIAAAAAAAACIYqE=</HashCode>
       <FileName>Geometry\Vector4.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="SharpMath.Geometry.VectorEnumerator" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="2.25" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AEAAAAAAACAABAAAAACgAAAAAAAAAAAAoAAAAAAAAAA=</HashCode>
-      <FileName>Geometry\VectorEnumerator.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SharpMath.Geometry.VectorExtensions">
     <Position X="17.25" Y="5.5" Width="1.5" />

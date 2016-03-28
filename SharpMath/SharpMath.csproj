@@ -31,18 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Equations\Exceptions\EquationNotSolvableException.cs" />
@@ -66,11 +57,9 @@
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\Point2D.cs" />
     <Compile Include="Geometry\Point3D.cs" />
-    <Compile Include="Geometry\PointEnumerator.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\ProjectionData.cs" />
     <Compile Include="Geometry\SquareMatrix.cs" />
-    <Compile Include="Geometry\VectorEnumerator.cs" />
     <Compile Include="Geometry\VectorExtensions.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,7 +5,7 @@ using System;
 namespace SharpMath.Geometry
 {
     /// <summary>
-    ///     Represents a 3x3 matrix and provides functions to transform 3-dimensional vectors.
+    ///     Represents a 4x4 matrix and provides functions to transform 3-dimensional vectors.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class Matrix4x4 : SquareMatrix

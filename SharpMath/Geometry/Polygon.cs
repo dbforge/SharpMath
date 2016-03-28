@@ -17,13 +17,6 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Initializes a new instance of the <see cref="Polygon" /> class.
         /// </summary>
-        public Polygon()
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Polygon" /> class.
-        /// </summary>
         /// <param name="points">The <see cref="Point2D" /> instances that the <see cref="Polygon" /> consists of.</param>
         public Polygon(params Point2D[] points)
         {
@@ -123,7 +116,7 @@ namespace SharpMath.Geometry
                     y += (Points[i].Y + Points[i + 1].Y)*factor;
                 }
 
-                var areaFactor = (1d/6)*Area;
+                var areaFactor = (1/6d)*Area;
                 return new Point2D(areaFactor*x, areaFactor*y);
             }
         }
@@ -143,42 +136,49 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="point">The <see cref="Point" /> to check.</param>
         /// <returns>
-        ///     <c>true</c> if this <see cref="Polygon" /> contains the specified <see cref="Point" />; otherwise <c>false</c>
-        ///     .
+        ///     <c>true</c> if this <see cref="Polygon" /> contains the specified <see cref="Point" />; otherwise <c>false</c>.
         /// </returns>
         public bool ContainsPoint(Point2D point)
         {
             double t = -1;
-            var points = Points;
-            points[0] = points[points.Count - 1];
+            var points = new List<Point2D>();
+            points.AddRange(Points);
+            points.Add(points[0]);
 
             for (int i = 0; i < points.Count - 1; i++)
-                t = t*ContainsPointInternal(point, points[i], points[i + 1]);
-
+            {
+                t = t * ContainsPointInternal(point, points[i], points[i + 1]);
+            }
             return t >= 0;
         }
 
         // https://de.wikipedia.org/wiki/Punkt-in-Polygon-Test_nach_Jordan
         private int ContainsPointInternal(Point2D q, Point2D p1, Point2D p2)
         {
-            if (q == p1 && p1 == p2)
+            if (FloatingNumber.AreApproximatelyEqual(q.Y, p1.Y) &&
+                FloatingNumber.AreApproximatelyEqual(q.Y, p2.Y))
             {
-                if ((p1.X <= q.X && q.X <= p2.X) || (p2.X <= q.X && q.X <= p1.X))
+                if ((p1.X <= q.X && q.X <= p2.X) ||
+                    (p2.X <= q.X && q.X <= p1.X))
                     return 0;
                 return 1;
             }
+
             if (p1.Y > p2.Y)
             {
                 var currentP1 = p1;
                 p1 = p2;
                 p2 = currentP1;
             }
-            else if (FloatingNumber.AreApproximatelyEqual(q.Y, p1.Y) && FloatingNumber.AreApproximatelyEqual(q.X, p1.X))
+
+            if (FloatingNumber.AreApproximatelyEqual(q.Y, p1.Y) &&
+                FloatingNumber.AreApproximatelyEqual(q.X, p1.X))
                 return 0;
-            else if (q.Y <= p1.Y || q.Y > p2.Y)
+
+            if (q.Y <= p1.Y || q.Y > p2.Y)
                 return 1;
 
-            var delta = (p1.X - q.X)*(p2.Y - q.Y) - (p1.Y - q.Y)*(p2.X - q.X);
+            double delta = (p1.X - q.X) * (p2.Y - q.Y) - (p1.Y - q.Y) * (p2.X - q.X);
             if (delta > 0)
                 return -1;
             return delta < 0 ? 1 : 0;

@@ -106,7 +106,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
-        public string LaTeXString
+        public string ToLaTeXString()
             =>
                 @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \\ " + this[3] +
                 @" \end{array} \right)";

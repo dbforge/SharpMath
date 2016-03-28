@@ -114,8 +114,8 @@ namespace SharpMath.Geometry
         {
             get
             {
-                double x = double.NaN;
-                double y = double.NaN;
+                double x = 0;
+                double y = 0;
                 for (int i = 0; i < Points.Count - 1; ++i)
                 {
                     var factor = (Points[i].X*Points[i + 1].Y - Points[i + 1].X*Points[i].Y);

@@ -14,53 +14,6 @@ namespace SharpMath
     public static class Algorithms
     {
         /// <summary>
-        ///     Implements the Gauss-Jordan-algorithm.
-        /// </summary>
-        /// <param name="leftSide">The left side <see cref="Matrix" />.</param>
-        /// <param name="rightSide">The right side <see cref="Matrix" />.</param>
-        /// <returns>The resulting <see cref="Matrix" />.</returns>
-        /// <exception cref="EquationNotSolvableException">The linear equation system cannot be solved clearly.</exception>
-        public static Matrix GaussJordan(Matrix leftSide, Matrix rightSide)
-        {
-            for (uint x = 0; x < leftSide.ColumnCount; x++)
-            {
-                uint nextX = x;
-                while (Math.Abs(leftSide[x, x]) < FloatingNumber.Epsilon)
-                {
-                    nextX++;
-
-                    if (nextX >= leftSide.ColumnCount)
-                        throw new EquationNotSolvableException("The linear equation system cannot be solved clearly.");
-
-                    if (Math.Abs(leftSide[x, nextX]) < FloatingNumber.Epsilon)
-                        continue;
-
-                    leftSide.InterchangeRows(nextX, x);
-                    rightSide.InterchangeRows(nextX, x);
-                }
-
-                for (uint y = 0; y < leftSide.RowCount; y++)
-                {
-                    if (y != x && Math.Abs(leftSide[y, x]) >= FloatingNumber.Epsilon)
-                    {
-                        double factor = leftSide[y, x]/leftSide[x, x];
-                        leftSide.SubtractRows(y, x, factor);
-                        rightSide.SubtractRows(y, x, factor);
-                    }
-                }
-            }
-
-            for (uint i = 0; i < leftSide.ColumnCount; i++)
-            {
-                double factor = 1/leftSide[i, i];
-                leftSide.MultiplyRow(i, factor);
-                rightSide.MultiplyRow(i, factor);
-            }
-
-            return rightSide;
-        }
-
-        /// <summary>
         ///     Converts infix tokens to postfix tokens.
         /// </summary>
         /// <param name="infixTokens">The infix tokens to convert.</param>

@@ -1,88 +1,97 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
-    public class Point3D : Point
+    public struct Point3D : IEquatable<Point3D>, IEnumerable<double>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Point3D" /> class.
-        /// </summary>
-        public Point3D() : base(3)
-        {
-        }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point3D" /> class.
         /// </summary>
         /// <param name="x">The value of the X-coordinate.</param>
         /// <param name="y">The value of the Y-coordinate.</param>
         /// <param name="z">The value of the Z-coordinate.</param>
-        public Point3D(double x, double y, double z) : base(x, y, z)
+        public Point3D(double x, double y, double z)
         {
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point3D" /> class.
         /// </summary>
         /// <param name="point">The exisiting <see cref="Point3D" /> to copy.</param>
-        public Point3D(Point3D point) : base(point)
+        public Point3D(Point3D point)
         {
+            X = point.X;
+            Y = point.Y;
+            Z = point.Z;
         }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point3D" /> class.
         /// </summary>
         /// <param name="vector">The position <see cref="Vector3" /> of the <see cref="Point3D" /> to create.</param>
-        public Point3D(Vector3 vector) : base(vector)
+        public Point3D(Vector3 vector)
         {
+            X = vector.X;
+            Y = vector.Y;
+            Z = vector.Z;
+        }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    case 2: Z = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
         }
 
         /// <summary>
         ///     Gets or sets the value of the X-coordinate.
         /// </summary>
-        public double X
-        {
-            get { return this[0]; }
-            set { this[0] = value; }
-        }
+        public double X { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Y-coordinate.
         /// </summary>
-        public double Y
-        {
-            get { return this[1]; }
-            set { this[1] = value; }
-        }
+        public double Y { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Z-coordinate.
         /// </summary>
-        public double Z
-        {
-            get { return this[2]; }
-            set { this[2] = value; }
-        }
+        public double Z { get; set; }
 
         /// <summary>
         ///     Gets the position <see cref="Vector3" /> of this <see cref="Point3D" />.
         /// </summary>
-        public new Vector3 PositionVector => new Vector3(X, Y, Z);
-
-        /// <summary>
-        ///     Generates a <see cref="Point3D" /> from the <see cref="Point" /> base class, if the dimension is correct.
-        /// </summary>
-        /// <param name="point">The <see cref="Point" /> to generate a <see cref="Point3D" /> from.</param>
-        /// <returns>The generated <see cref="Point3D" />.</returns>
-        /// <exception cref="ArgumentException">The dimension of the given <see cref="Point" /> is invalid. It must be 3.</exception>
-        public static Point3D FromPoint(Point point)
-        {
-            if (point.Dimension != 3)
-                throw new ArgumentException("The dimension of the given point is invalid. It must be 3.");
-            return new Point3D(point[0], point[1], point[2]);
-        }
+        public Vector3 PositionVector => new Vector3(X, Y, Z);
 
         /// <summary>
         ///     Implements the operator +.
@@ -94,7 +103,10 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Point3D operator +(Point3D first, Point3D second)
         {
-            return FromPoint(Add(first, second));
+            var resultPoint = new Point3D();
+            for (uint i = 0; i < 3; ++i)
+                resultPoint[i] = first[i] + second[i];
+            return resultPoint;
         }
 
         /// <summary>
@@ -107,7 +119,10 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Point3D operator -(Point3D first, Point3D second)
         {
-            return FromPoint(Subtract(first, second));
+            var resultPoint = new Point3D();
+            for (uint i = 0; i < 3; ++i)
+                resultPoint[i] = first[i] - second[i];
+            return resultPoint;
         }
 
         /// <summary>
@@ -118,7 +133,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override string ToString()
         {
-            return $"X: {this[0]}, Y: {this[1]}, Z: {this[2]}";
+            return $"Point3D [X: {this[0]}, Y: {this[1]}, Z: {this[2]}]";
         }
 
         /// <summary>
@@ -130,18 +145,9 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-                return false;
-
-            if (ReferenceEquals(this, obj))
-                return true;
-
             if (obj.GetType() == typeof (Point3D))
                 return this == (Point3D) obj;
-            var point = obj as Point;
-            if (Dimension != point?.Dimension)
-                return false;
-            return this == FromPoint(point);
+            return false;
         }
 
         /// <summary>
@@ -162,6 +168,29 @@ namespace SharpMath.Geometry
             }
         }
 
+        public bool Equals(Point3D other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
@@ -172,16 +201,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator ==(Point3D left, Point3D right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 3; ++i)
-            {
-                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return left.SequenceEqual(right);
         }
 
         /// <summary>
@@ -194,16 +214,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator !=(Point3D left, Point3D right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 3; ++i)
-            {
-                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return !left.SequenceEqual(right);
         }
     }
 }

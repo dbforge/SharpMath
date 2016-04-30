@@ -1,21 +1,17 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a four-dimensional vector with a homogeneous coordinate.
     /// </summary>
-    public class Vector4 : Vector
+    public struct Vector4 : IVector, IEquatable<Vector4>, IEnumerable<double>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector4" /> class.
-        /// </summary>
-        public Vector4() : base(4)
-        {
-        }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Vector4" /> class.
         /// </summary>
@@ -24,8 +20,11 @@ namespace SharpMath.Geometry
         /// <param name="z">The value of the Z-coordinate (X1 in mathematic coordinate systems).</param>
         /// <param name="w">The value of the homogeneous coordinate.</param>
         public Vector4(double x, double y, double z, double w)
-            : base(x, y, z, w)
         {
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
         }
 
         /// <summary>
@@ -33,48 +32,66 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="vector">The existing <see cref="Vector4" /> to copy.</param>
         public Vector4(Vector4 vector)
-            : base(vector)
         {
+            X = vector.X;
+            Y = vector.Y;
+            Z = vector.Z;
+            W = vector.W;
+        }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    case 3: return W;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    case 2: Z = value; break;
+                    case 3: W = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                }
+            }
         }
 
         /// <summary>
         ///     Gets or sets the value of the X-coordinate (X2 in mathematic coordinate systems).
         /// </summary>
-        public double X
-        {
-            get { return this[0]; }
-            set { this[0] = value; }
-        }
+        public double X { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Y-coordinate (X3 in mathematic coordinate systems).
         /// </summary>
-        public double Y
-        {
-            get { return this[1]; }
-            set { this[1] = value; }
-        }
+        public double Y { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Z-coordinate (X1 in mathematic coordinate systems).
         /// </summary>
-        public double Z
-        {
-            get { return this[2]; }
-            set { this[2] = value; }
-        }
+        public double Z { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the homogenous coordinate.
         /// </summary>
-        public double W
-        {
-            get { return this[3]; }
-            set { this[3] = value; }
-        }
+        public double W { get; set; }
 
         /// <summary>
-        ///     A unit <see cref="Vector4" /> with all values set to zero.
+        ///     A <see cref="Vector4" /> with all values set to zero.
         /// </summary>
         public static Vector4 Zero => new Vector4();
 
@@ -104,6 +121,40 @@ namespace SharpMath.Geometry
         public static Vector4 UnitW => new Vector4(0, 0, 1, 0);
 
         /// <summary>
+        ///     Gets the dimension of the <see cref="Vector3" />.
+        /// </summary>
+        public uint Dimension => 4;
+
+        /// <summary>
+        ///     Gets the length of the <see cref="Vector3" />.
+        /// </summary>
+        public double Magnitude => Math.Sqrt(SquareMagnitude);
+
+        /// <summary>
+        ///     Gets the squared length of the <see cref="Vector3" />.
+        /// </summary>
+        public double SquareMagnitude
+        {
+            get
+            {
+                double result = 0;
+                for (uint i = 0; i < 4; ++i)
+                    result += Math.Pow(this[i], 2);
+                return result;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Vector3" /> is normalized, or not.
+        /// </summary>
+        public bool IsNormalized => Magnitude.IsApproximatelyEqualTo(1);
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Vector3" /> has all of its components set to zero, or not.
+        /// </summary>
+        public bool IsZero => this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
+
+        /// <summary>
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
         public string ToLaTeXString()
@@ -111,7 +162,13 @@ namespace SharpMath.Geometry
                 @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \\ " + this[3] +
                 @" \end{array} \right)";
 
-        public static Vector4 FromVector(Vector vector)
+        /// <summary>
+        ///     Generates a <see cref="Vector4" /> from an object implementing the <see cref="IVector" /> interface, if the dimension is correct.
+        /// </summary>
+        /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector4" /> from.</param>
+        /// <returns>The generated <see cref="Vector4" />.</returns>
+        /// <exception cref="ArgumentException">The dimension of the given vector is invalid. It must be 4.</exception>
+        public static Vector4 FromVector(IVector vector)
         {
             if (vector.Dimension != 4)
                 throw new ArgumentException("The dimension of the given vector is invalid. It must be 4.");
@@ -149,15 +206,9 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-                return false;
-
-            if (ReferenceEquals(this, obj))
-                return true;
-
             if (obj.GetType() == typeof (Vector4))
                 return this == (Vector4) obj;
-            var vector = obj as Vector;
+            var vector = obj as IVector;
             if (Dimension != vector?.Dimension)
                 return false;
             return this == FromVector(vector);
@@ -182,6 +233,29 @@ namespace SharpMath.Geometry
             }
         }
 
+        public bool Equals(Vector4 other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 4; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 4; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
@@ -192,16 +266,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator ==(Vector4 left, Vector4 right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 4; ++i)
-            {
-                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return left.SequenceEqual(right);
         }
 
         /// <summary>
@@ -214,16 +279,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator !=(Vector4 left, Vector4 right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 4; ++i)
-            {
-                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return !left.SequenceEqual(right);
         }
     }
 }

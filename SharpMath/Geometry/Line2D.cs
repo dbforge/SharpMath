@@ -8,16 +8,8 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a line in a 2-dimensional room.
     /// </summary>
-    public class Line2D : IEquatable<Line2D>
+    public struct Line2D : IEquatable<Line2D>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Line2D" /> class.
-        /// </summary>
-        public Line2D()
-            : this(0, 0)
-        {
-        }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Line2D" /> class.
         /// </summary>
@@ -36,9 +28,11 @@ namespace SharpMath.Geometry
         /// <param name="b">The second <see cref="Point2D" /> that should be used to create the <see cref="Line2D" />.</param>
         public Line2D(Point2D a, Point2D b)
         {
-            var line = FromPoints(a, b);
-            Slope = line.Slope;
-            Offset = line.Offset;
+            var vectorA = a.PositionVector;
+            var vectorB = b.PositionVector;
+
+            Slope = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
+            Offset = vectorA.Y - (Slope * vectorA.X); // Insert a point
         }
 
         /// <summary>
@@ -59,12 +53,7 @@ namespace SharpMath.Geometry
         /// <returns></returns>
         public static Line2D FromPoints(Point2D a, Point2D b)
         {
-            var vectorA = a.PositionVector;
-            var vectorB = b.PositionVector;
-
-            var slope = (vectorB.Y - vectorA.Y)/(vectorB.X - vectorA.X);
-            var offset = vectorA.Y - (slope*vectorA.X); // Insert a point
-            return new Line2D(slope, offset);
+            return new Line2D(a, b);
         }
 
         /// <summary>
@@ -169,7 +158,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            return obj == null ? this == null : obj is Line2D && ((Line2D)obj).Offset == Offset && ((Line2D)obj).Slope == Slope;
+            return ReferenceEquals(obj, null) ? ReferenceEquals(this, null) : obj is Line2D && ((Line2D)obj).Offset == Offset && ((Line2D)obj).Slope == Slope;
         }
 
         /// <summary>
@@ -181,7 +170,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public bool Equals(Line2D other)
         {
-            return other == null ? this == null : other.Offset == Offset && other.Slope == Slope;
+            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Offset == Offset && other.Slope == Slope;
         }
 
         /// <summary>
@@ -203,7 +192,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override string ToString()
         {
-            return string.Format("Line2D [Offset={0}; Slope={1}]", Offset, Slope);
+            return $"Line2D [Offset={Offset}; Slope={Slope}]";
         }
 
         /// <summary>

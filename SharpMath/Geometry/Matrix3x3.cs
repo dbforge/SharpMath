@@ -1,6 +1,9 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
@@ -8,51 +11,261 @@ namespace SharpMath.Geometry
     ///     Represents a 3x3 matrix and provides functions to transform 2-dimensional vectors.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class Matrix3x3 : SquareMatrix
+    [Serializable]
+    public struct Matrix3x3 : IEnumerable<double>, IEquatable<Matrix3x3>, ISquareMatrix
     {
         /// <summary>
-        ///     wa
-        ///     Creates a new instance of the <see cref="Matrix3x3" /> class.
+        ///     Initializes a <see cref="Matrix3x3"/> struct.
         /// </summary>
-        public Matrix3x3() : base(3)
+        /// <param name="m11">The value at row 1 and column 1.</param>
+        /// <param name="m12">The value at row 1 and column 2.</param>
+        /// <param name="m13">The value at row 1 and column 3.</param>
+        /// <param name="m21">The value at row 2 and column 1.</param>
+        /// <param name="m22">The value at row 2 and column 2</param>
+        /// <param name="m23">The value at row 2 and column 3.</param>
+        /// <param name="m31">The value at row 3 and column 1.</param>
+        /// <param name="m32">The value at row 3 and column 2.</param>
+        /// <param name="m33">The value at row 3 and column 3.</param>
+        public Matrix3x3(double m11, double m12, double m13, double m21, double m22, double m23, double m31, double m32, double m33)
         {
+            M11 = m11;
+            M12 = m12;
+            M13 = m13;
+            M21 = m21;
+            M22 = m22;
+            M23 = m23;
+            M31 = m31;
+            M32 = m32;
+            M33 = m33;
         }
 
         /// <summary>
-        ///     Gets the identity <see cref="Matrix4x4" />.
+        ///     Initializes a <see cref="Matrix3x3" /> struct.
         /// </summary>
-        public static Matrix3x3 Identity => FromMatrix(GetIdentity(3));
+        /// <param name="row1">The first row <see cref="Vector3"/>.</param>
+        /// <param name="row2">The second row <see cref="Vector3"/>.</param>
+        /// <param name="row3">The third row <see cref="Vector3"/>.</param>
+        public Matrix3x3(Vector3 row1, Vector3 row2, Vector3 row3) : this(row1.X, row2.X, row3.X, row1.Y, row2.Y, row3.Y, row1.Z, row2.Z, row3.Z)
+        { }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3" /> from an abstract <see cref="Matrix" /> object.
+        ///     Gets the zero <see cref="Matrix3x3" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix" /> to convert.</param>
-        /// <returns>The <see cref="Matrix3x3" /> that has been created.</returns>
-        public new static Matrix3x3 FromMatrix(Matrix matrix)
-        {
-            if (matrix.ColumnCount != 3 || matrix.RowCount != 3)
-                throw new ArgumentException("The matrix cannot be converted into a Matrix3x3");
+        public static Matrix3x3 Zero => new Matrix3x3();
 
-            var resultMatrix = new Matrix3x3();
-            for (uint y = 0; y < 3; ++y)
-                for (uint x = 0; x < 3; ++x)
-                    resultMatrix[y, x] = matrix[y, x];
-            return resultMatrix;
+        /// <summary>
+        ///     Gets the identity <see cref="Matrix3x3" />.
+        /// </summary>
+        public static Matrix3x3 Identity => MatrixUtils.GetIdentity<Matrix3x3>();
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 1.
+        /// </summary>
+        public double M11 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 2.
+        /// </summary>
+        public double M12 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 3.
+        /// </summary>
+        public double M13 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 1.
+        /// </summary>
+        public double M21 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 2.
+        /// </summary>
+        public double M22 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 3.
+        /// </summary>
+        public double M23 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 1.
+        /// </summary>
+        public double M31 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 2.
+        /// </summary>
+        public double M32 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 3.
+        /// </summary>
+        public double M33 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at the specified index. The values are accessed as: (row*3) + column.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return M11;
+                    case 1: return M12;
+                    case 2: return M13;
+                    case 3: return M21;
+                    case 4: return M22;
+                    case 5: return M23;
+                    case 6: return M31;
+                    case 7: return M32;
+                    case 8: return M33;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 8.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: M11 = value; break;
+                    case 1: M12 = value; break;
+                    case 2: M13 = value; break;
+                    case 3: M21 = value; break;
+                    case 4: M22 = value; break;
+                    case 5: M23 = value; break;
+                    case 6: M31 = value; break;
+                    case 7: M32 = value; break;
+                    case 8: M33 = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 8.");
+                }
+            }
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix3x3" /> from a <see cref="SquareMatrix" /> object.
+        ///     Gets or sets the value at the specified row and column.
         /// </summary>
-        /// <param name="matrix">The <see cref="SquareMatrix" /> to convert.</param>
-        /// <returns>The <see cref="Matrix3x3" /> that has been created.</returns>
-        public static Matrix3x3 FromMatrix(SquareMatrix matrix)
+        /// <param name="row">The row.</param>
+        /// <param name="column">The column.</param>
+        /// <returns>The value at the specified row and column.</returns>
+        public double this[uint row, uint column]
         {
-            if (matrix.Dimension != 3)
-                throw new ArgumentException("The square matrix cannot be converted into a Matrix4x4");
+            get
+            {
+                return this[row * 3 + column];
+            }
+            set
+            {
+                this[row * 3 + column] = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the dimension of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public uint Dimension => 3;
+
+        /// <summary>
+        ///     Gets the row count of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public uint RowCount => 3;
+
+        /// <summary>
+        ///     Gets the column count of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public uint ColumnCount => 3;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is singular, or not. If <c>true</c>, this
+        ///     <see cref="Matrix3x3" /> doesn't have an inverse.
+        /// </summary>
+        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is orthogonal, or not.
+        /// </summary>
+        public bool IsOrthogonal => (this * Transpose) == Identity;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3"/> is the identity <see cref="Matrix3x3"/>, or not.
+        /// </summary>
+        public bool IsIdentity => M11.IsApproximatelyEqualTo(1) && M22.IsApproximatelyEqualTo(1) && M33.IsApproximatelyEqualTo(1);
+
+        /// <summary>
+        ///     Gets the inverse of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public Matrix3x3 Inverse => MatrixUtils.GaussJordan(this, Identity);
+
+        /// <summary>
+        ///     Gets the determinant of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public double Determinant => this.GetDeterminant();
+
+        /// <summary>
+        ///     Gets the trace of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public double Trace => M11 + M22 + M33;
+
+        /// <summary>
+        ///     Gets the cofactor <see cref="Matrix3x3" /> of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public Matrix3x3 CofactorMatrix => this.BuildCofactorMatrix();
+
+        /// <summary>
+        ///     Gets the adjugate of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public Matrix3x3 Adjugate => CofactorMatrix.GetTranspose();
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is symmetric, or not.
+        /// </summary>
+        public bool IsSymmetric => this == Transpose;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is skew symmetric, or not.
+        /// </summary>
+        public bool IsSkewSymmetric => Negate == Transpose;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is antisymmetric, or not.
+        /// </summary>
+        public bool IsAntiSymmetric => this == Transpose.Negate;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is a diagonal matrix, or not.
+        /// </summary>
+        public bool IsDiagonal => this.GetIsDiagonal();
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is a triangle matrix, or not.
+        /// </summary>
+        public bool IsTriangle => this.GetIsTriangle();
+
+        /// <summary>
+        ///     Gets the negated <see cref="Matrix3x3"/> of the <see cref="Matrix3x3"/>.
+        /// </summary>
+        public Matrix3x3 Negate => this.GetNegate();
+
+        /// <summary>
+        ///     Gets the transpose of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public Matrix3x3 Transpose => this.GetTranspose();
+
+        /// <summary>
+        ///     Creates a <see cref="Matrix3x3" /> from a <see cref="IMatrix" /> object.
+        /// </summary>
+        /// <param name="matrix">The <see cref="IMatrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix3x3" /> that has been created.</returns>
+        public static Matrix3x3 FromMatrix(IMatrix matrix)
+        {
+            if (matrix.RowCount != 3 || matrix.ColumnCount != 3)
+                throw new ArgumentException("The square matrix cannot be converted into a Matrix3x3");
 
             var resultMatrix = new Matrix3x3();
-            for (uint y = 0; y < 3; ++y)
-                for (uint x = 0; x < 3; ++x)
+            for (uint y = 0; y < resultMatrix.Dimension; ++y)
+                for (uint x = 0; x < resultMatrix.Dimension; ++x)
                     resultMatrix[y, x] = matrix[y, x];
             return resultMatrix;
         }
@@ -64,7 +277,7 @@ namespace SharpMath.Geometry
         /// <returns>A <see cref="Matrix3x3" /> that represents a rotation using the specified angle.</returns>
         public static Matrix3x3 Rotation(double angle)
         {
-            // This is actually the same as Matrix4x4.RotationZ as we are rotating around the Z-axis that is 0 in 2D-space.
+            // the is actually the same as Matrix4x4.RotationZ as we are rotating around the Z-axis that is 0 in 2D-space.
 
             double sin = Math.Sin(angle);
             double cos = Math.Cos(angle);
@@ -118,7 +331,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator +(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
-            return FromMatrix(Add(firstMatrix, secondMatrix));
+            return MatrixUtils.Add(firstMatrix, secondMatrix);
         }
 
         /// <summary>
@@ -131,7 +344,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator -(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
-            return FromMatrix(Subtract(firstMatrix, secondMatrix));
+            return MatrixUtils.Subtract(firstMatrix, secondMatrix);
         }
 
         /// <summary>
@@ -144,7 +357,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator *(double scalar, Matrix3x3 matrix)
         {
-            return FromMatrix(Multiply(matrix, scalar));
+            return MatrixUtils.Multiply(matrix, scalar);
         }
 
         /// <summary>
@@ -157,7 +370,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 matrix, double scalar)
         {
-            return FromMatrix(Multiply(matrix, scalar));
+            return MatrixUtils.Multiply(matrix, scalar);
         }
 
         /// <summary>
@@ -170,8 +383,8 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator *(Matrix3x3 matrix, Vector2 vector)
         {
-            var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
-            return resultMatrix.GetRowVector(0).Convert<Vector2>();
+            var resultMatrix = MatrixUtils.Multiply<Matrix3x1>(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix<Matrix3x1>());
+            return new Vector2(resultMatrix[0], resultMatrix[1]);
         }
 
         /// <summary>
@@ -184,8 +397,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator *(Vector2 vector, Matrix3x3 matrix)
         {
-            var resultMatrix = Multiply(matrix, new Vector3(vector.X, vector.Y, 1).AsVerticalMatrix());
-            return resultMatrix.GetRowVector(0).Convert<Vector2>();
+            return matrix * vector;
         }
 
         /// <summary>
@@ -198,8 +410,8 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Matrix3x3 matrix, Vector3 vector)
         {
-            var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector3.FromVector(resultMatrix.GetRowVector(0));
+            var resultMatrix = MatrixUtils.Multiply<Matrix3x1>(matrix, vector.AsVerticalMatrix<Matrix3x1>());
+            return new Vector3(resultMatrix[0], resultMatrix[1], resultMatrix[2]);
         }
 
         /// <summary>
@@ -212,8 +424,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix3x3 matrix)
         {
-            var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector3.FromVector(resultMatrix.GetRowVector(0));
+            return matrix * vector;
         }
 
         /// <summary>
@@ -226,7 +437,84 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 firstMatrix, Matrix3x3 secondMatrix)
         {
-            return FromMatrix(Multiply(firstMatrix, secondMatrix));
+            return MatrixUtils.Multiply<Matrix3x3>(firstMatrix, secondMatrix);
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to the instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with the instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="object" /> is equal to the instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Matrix3x3))
+                return false;
+            return this == (Matrix3x3)obj;
+        }
+
+        /// <summary>
+        ///     Returns a hash code for the instance.
+        /// </summary>
+        /// <returns>
+        ///     A hash code for the instance, suitable for use in hashing algorithms and data structures like a hash table.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (uint y = 0; y < RowCount; ++y)
+                {
+                    for (uint x = 0; x < ColumnCount; ++x)
+                    {
+                        hash = hash * 23 + this[y, x].GetHashCode();
+                    }
+                }
+                return hash;
+            }
+        }
+
+        public bool Equals(Matrix3x3 other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix3x3" />.</param>
+        /// <param name="right">The right <see cref="Matrix3x3" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static bool operator ==(Matrix3x3 left, Matrix3x3 right)
+        {
+            return left.SequenceEqual(right);
+        }
+
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix3x3" />.</param>
+        /// <param name="right">The right <see cref="Matrix3x3" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static bool operator !=(Matrix3x3 left, Matrix3x3 right)
+        {
+            return !left.SequenceEqual(right);
         }
     }
 }

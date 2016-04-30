@@ -187,7 +187,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        ///     Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
         /// An enumerator that can be used to iterate through the collection.
@@ -217,7 +217,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            return obj == null ? this == null : obj is Polygon && ((Polygon)obj).Points.SequenceEqual(Points);
+            return ReferenceEquals(obj, null) ? ReferenceEquals(this, null) : obj is Polygon && ((Polygon)obj).Points.SequenceEqual(Points);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public bool Equals(Polygon other)
         {
-            return other == null ? this == null : other.Points.SequenceEqual(Points);
+            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Points.SequenceEqual(Points);
         }
 
         /// <summary>
@@ -244,14 +244,14 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
-            return string.Format("Polygon {{{0}}}", string.Join(", ", Points));
+            return $"Polygon {{{string.Join(", ", Points)}}}";
         }
 
         /// <summary>

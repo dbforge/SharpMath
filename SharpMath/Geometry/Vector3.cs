@@ -1,31 +1,27 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
-using SharpMath.Geometry.Exceptions;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a three-dimensional vector.
     /// </summary>
-    public class Vector3 : Vector
+    [Serializable]
+    public struct Vector3 : IVector, IEquatable<Vector3>, IEnumerable<double>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector3" /> class.
-        /// </summary>
-        public Vector3()
-            : base(3)
-        {
-            // We don't need to set anything as value types are initialized by default with the values we want
-        }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Vector3" /> class.
         /// </summary>
         /// <param name="vector">The existing <see cref="Vector3" /> to copy.</param>
         public Vector3(Vector3 vector)
-            : base(vector)
         {
+            X = vector.X;
+            Y = vector.Y;
+            Z = vector.Z;
         }
 
         /// <summary>
@@ -35,8 +31,10 @@ namespace SharpMath.Geometry
         /// <param name="y">The value of the Y-coordinate (X3 in mathematic coordinate systems).</param>
         /// <param name="z">The value of the Z-coordinate (X1 in mathematic coordinate systems).</param>
         public Vector3(double x, double y, double z)
-            : base(x, y, z)
         {
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         /// <summary>
@@ -44,8 +42,10 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="point">The <see cref="Point3D" /> that a position <see cref="Vector3" /> should be created for.</param>
         public Vector3(Point3D point)
-            : base(point.PositionVector)
         {
+            X = point.X;
+            Y = point.Y;
+            Z = point.Z;
         }
 
         /// <summary>
@@ -54,35 +54,52 @@ namespace SharpMath.Geometry
         /// <param name="bottom">The tail of the <see cref="Vector3" />.</param>
         /// <param name="tip">The head of the <see cref="Vector3" />.</param>
         public Vector3(Point3D bottom, Point3D tip)
-            : base((tip - bottom).PositionVector)
+            : this((tip - bottom).PositionVector)
         {
         }
 
         /// <summary>
         ///     Gets or sets the value of the X-coordinate (X2 in mathematic coordinate systems).
         /// </summary>
-        public double X
-        {
-            get { return this[0]; }
-            set { this[0] = value; }
-        }
+        public double X { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Y-coordinate (X3 in mathematic coordinate systems).
         /// </summary>
-        public double Y
-        {
-            get { return this[1]; }
-            set { this[1] = value; }
-        }
+        public double Y { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Z-coordinate (X1 in mathematic coordinate systems).
         /// </summary>
-        public double Z
+        public double Z { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
         {
-            get { return this[2]; }
-            set { this[2] = value; }
+            get
+            {
+                switch (index)
+                {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    case 2: Z = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
         }
 
         /// <summary>
@@ -141,83 +158,56 @@ namespace SharpMath.Geometry
         public static Vector3 UnitZ => new Vector3(0, 0, 1);
 
         /// <summary>
+        ///     Gets the dimension of the <see cref="Vector3" />.
+        /// </summary>
+        public uint Dimension => 3;
+
+        /// <summary>
+        ///     Gets the length of the <see cref="Vector3" />.
+        /// </summary>
+        public double Magnitude => Math.Sqrt(SquareMagnitude);
+
+        /// <summary>
+        ///     Gets the squared length of the <see cref="Vector3" />.
+        /// </summary>
+        public double SquareMagnitude
+        {
+            get
+            {
+                double result = 0;
+                for (uint i = 0; i < 3; ++i)
+                    result += Math.Pow(this[i], 2);
+                return result;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Vector3" /> is normalized, or not.
+        /// </summary>
+        public bool IsNormalized => Magnitude.IsApproximatelyEqualTo(1);
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Vector3" /> has all of its components set to zero, or not.
+        /// </summary>
+        public bool IsZero => this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
+
+        /// <summary>
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
         public string ToLaTeXString()
             => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \end{array} \right)";
 
         /// <summary>
-        ///     Generates a <see cref="Vector3" /> from the <see cref="Vector" /> base class, if the dimension is correct.
+        ///     Generates a <see cref="Vector3" /> from an object implementing the <see cref="IVector" /> interface, if the dimension is correct.
         /// </summary>
-        /// <param name="vector">The <see cref="Vector" /> to generate a <see cref="Vector3" /> from.</param>
+        /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector3" /> from.</param>
         /// <returns>The generated <see cref="Vector3" />.</returns>
         /// <exception cref="ArgumentException">The dimension of the given vector is invalid. It must be 3.</exception>
-        public static Vector3 FromVector(Vector vector)
+        public static Vector3 FromVector(IVector vector)
         {
             if (vector.Dimension != 3)
                 throw new ArgumentException("The dimension of the given vector is invalid. It must be 3.");
             return new Vector3(vector[0], vector[1], vector[2]);
-        }
-
-        /// <summary>
-        ///     Calculates the <see cref="Vector3" /> that is perpendicular to this and the specified <see cref="Vector3" />.
-        /// </summary>
-        /// <param name="other">The other <see cref="Vector3" /> that should be included into the calculation.</param>
-        /// <returns>Returns the calculated <see cref="Vector3" />.</returns>
-        public Vector3 CrossProduct(Vector3 other)
-        {
-            return new Vector3((Y*other.Z - Z*other.Y), (Z*other.X - X*other.Z), (X*other.Y - Y*other.X));
-        }
-
-        /// <summary>
-        ///     Calculates the <see cref="Vector3" /> that is perpendicular to the specified <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" /> that should be included into the calculation.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" /> that should be included into the calculation.</param>
-        /// <returns>Returns the calculated <see cref="Vector3" />.</returns>
-        public static Vector3 CrossProduct(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.CrossProduct(secondVector);
-        }
-
-        /// <summary>
-        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
-        public static Vector3 Lerp(Vector3 source, Vector3 target, double fraction)
-        {
-            return FromVector(Vector.Lerp(source, target, fraction));
-        }
-
-        /// <summary>
-        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
-        public static Vector3 LerpUnclamped(Vector3 source, Vector3 target, double fraction)
-        {
-            return FromVector(Vector.LerpUnclamped(source, target, fraction));
-        }
-
-        /// <summary>
-        ///     Moves a source point in a straight line towards a target point by adding the given distance delta and returns its
-        ///     new position.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        /// <exception cref="DimensionException">The dimensions of the vectors do not equal each other.</exception>
-        public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
-        {
-            return FromVector(Vector.MoveTowards(source, target, maxDistanceDelta));
         }
 
         /// <summary>
@@ -227,7 +217,7 @@ namespace SharpMath.Geometry
         /// <returns>The area of the spanned parallelogram.</returns>
         public double Area(Vector3 other)
         {
-            return CrossProduct(this, other).Magnitude;
+            return VectorProduct(this, other).Magnitude;
         }
 
         /// <summary>
@@ -239,6 +229,43 @@ namespace SharpMath.Geometry
         public static double Area(Vector3 firstVector, Vector3 secondVector)
         {
             return firstVector.Area(secondVector);
+        }
+
+        /// <summary>
+        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="fraction">The fraction.</param>
+        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
+        public static Vector3 Lerp(Vector3 source, Vector3 target, double fraction)
+        {
+            return VectorUtils.Lerp(source, target, fraction);
+        }
+
+        /// <summary>
+        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="fraction">The fraction.</param>
+        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
+        public static Vector3 LerpUnclamped(Vector3 source, Vector3 target, double fraction)
+        {
+            return VectorUtils.LerpUnclamped(source, target, fraction);
+        }
+
+        /// <summary>
+        ///     Moves a source point in a straight line towards a target point by adding the given distance delta and returns its
+        ///     new position.
+        /// </summary>
+        /// <param name="source">The source point.</param>
+        /// <param name="target">The target point.</param>
+        /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
+        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
+        public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
+        {
+            return VectorUtils.MoveTowards(source, target, maxDistanceDelta);
         }
 
         /// <summary>
@@ -254,7 +281,28 @@ namespace SharpMath.Geometry
             //var matrix = SquareMatrix.FromMatrix(firstVector.AsHorizontalMatrix().AugmentVertically(secondVector.AsHorizontalMatrix()).AugmentVertically(thirdVector.AsHorizontalMatrix()));
             //return Math.Abs(matrix.Determinant);
 
-            return Math.Abs(ScalarProduct(CrossProduct(firstVector, secondVector), thirdVector));
+            return Math.Abs(VectorUtils.DotProduct(VectorProduct(firstVector, secondVector), thirdVector));
+        }
+
+        /// <summary>
+        ///     Calculates the vector product of the current and the specified <see cref="Vector3" />.
+        /// </summary>
+        /// <param name="other">The other <see cref="Vector3" />.</param>
+        /// <returns>The calculated <see cref="Vector3" />.</returns>
+        public Vector3 VectorProduct(Vector3 other)
+        {
+            return new Vector3((Y * other.Z - Z * other.Y), (Z * other.X - X * other.Z), (X * other.Y - Y * other.X));
+        }
+
+        /// <summary>
+        ///     Calculates the <see cref="Vector3" /> that is perpendicular to the specified <see cref="Vector3" /> instances.
+        /// </summary>
+        /// <param name="firstVector">The first <see cref="Vector3" /> that should be included into the calculation.</param>
+        /// <param name="secondVector">The second <see cref="Vector3" /> that should be included into the calculation.</param>
+        /// <returns>Returns the calculated <see cref="Vector3" />.</returns>
+        public static Vector3 VectorProduct(Vector3 firstVector, Vector3 secondVector)
+        {
+            return firstVector.VectorProduct(secondVector);
         }
 
         /// <summary>
@@ -267,7 +315,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator +(Vector3 firstVector, Vector3 secondVector)
         {
-            return FromVector(Add(firstVector, secondVector));
+            return VectorUtils.Add(firstVector, secondVector);
         }
 
         /// <summary>
@@ -280,7 +328,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator -(Vector3 firstVector, Vector3 secondVector)
         {
-            return FromVector(Subtract(firstVector, secondVector));
+            return VectorUtils.Subtract(firstVector, secondVector);
         }
 
         /// <summary>
@@ -292,7 +340,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator -(Vector3 current)
         {
-            return FromVector(current.Negate());
+            return current.Negate();
         }
 
         /// <summary>
@@ -305,7 +353,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, double scalar)
         {
-            return FromVector(Multiply(vector, scalar));
+            return VectorUtils.Multiply(vector, scalar);
         }
 
         /// <summary>
@@ -318,7 +366,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static double operator *(Vector3 firstVector, Vector3 secondVector)
         {
-            return ScalarProduct(firstVector, secondVector);
+            return VectorUtils.DotProduct(firstVector, secondVector);
         }
 
         /// <summary>
@@ -356,15 +404,9 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-                return false;
-
-            if (ReferenceEquals(this, obj))
-                return true;
-
             if (obj.GetType() == typeof (Vector3))
                 return this == (Vector3) obj;
-            var vector = obj as Vector;
+            var vector = obj as IVector;
             if (Dimension != vector?.Dimension)
                 return false;
             return this == FromVector(vector);
@@ -388,6 +430,29 @@ namespace SharpMath.Geometry
             }
         }
 
+        public bool Equals(Vector3 other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
@@ -398,16 +463,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator ==(Vector3 left, Vector3 right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 3; ++i)
-            {
-                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return left.SequenceEqual(right);
         }
 
         /// <summary>
@@ -420,16 +476,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator !=(Vector3 left, Vector3 right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 3; ++i)
-            {
-                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return !left.SequenceEqual(right);
         }
     }
 }

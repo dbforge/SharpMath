@@ -1,81 +1,89 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a two-dimensional point.
     /// </summary>
-    public class Point2D : Point
+    public struct Point2D : IEquatable<Point2D>, IEnumerable<double>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Point2D" /> class.
-        /// </summary>
-        public Point2D() : base(2)
-        {
-        }
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
         /// <param name="x">The X-coordinate.</param>
         /// <param name="y">The Y-coordinate.</param>
-        public Point2D(double x, double y) : base(x, y)
+        public Point2D(double x, double y)
         {
+            X = x;
+            Y = y;
         }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
         /// <param name="point">The exisiting <see cref="Point2D" /> to copy.</param>
-        public Point2D(Point2D point) : base(point)
+        public Point2D(Point2D point)
         {
+            X = point.X;
+            Y = point.Y;
         }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Point2D" /> class.
         /// </summary>
         /// <param name="vector">The position <see cref="Vector2" /> of the <see cref="Point2D" /> to create.</param>
-        public Point2D(Vector2 vector) : base(vector)
+        public Point2D(Vector2 vector)
         {
+            X = vector.X;
+            Y = vector.Y;
+        }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return X;
+                    case 1: return Y;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                }
+            }
         }
 
         /// <summary>
         ///     Gets or sets the value of the X-coordinate.
         /// </summary>
-        public double X
-        {
-            get { return this[0]; }
-            set { this[0] = value; }
-        }
+        public double X { get; set; }
 
         /// <summary>
         ///     Gets or sets the value of the Y-coordinate.
         /// </summary>
-        public double Y
-        {
-            get { return this[1]; }
-            set { this[1] = value; }
-        }
+        public double Y { get; set; }
 
         /// <summary>
         ///     Gets the position <see cref="Vector2" /> of this <see cref="Point2D" />.
         /// </summary>
-        public new Vector2 PositionVector => new Vector2(X, Y);
-
-        /// <summary>
-        ///     Generates a <see cref="Point2D" /> from the <see cref="Point" /> base class, if the dimension is correct.
-        /// </summary>
-        /// <param name="point">The <see cref="Point" /> to generate a <see cref="Point2D" /> from.</param>
-        /// <returns>The generated <see cref="Point2D" />.</returns>
-        /// <exception cref="ArgumentException">The dimension of the given <see cref="Point" /> is invalid. It must be 2.</exception>
-        public static Point2D FromPoint(Point point)
-        {
-            if (point.Dimension != 2)
-                throw new ArgumentException("The dimension of the given point is invalid. It must be 2.");
-            return new Point2D(point[0], point[1]);
-        }
+        public Vector2 PositionVector => new Vector2(X, Y);
 
         /// <summary>
         ///     Implements the operator +.
@@ -87,7 +95,10 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Point2D operator +(Point2D first, Point2D second)
         {
-            return FromPoint(Add(first, second));
+            var resultPoint = new Point2D();
+            for (uint i = 0; i < 2; ++i)
+                resultPoint[i] = first[i] + second[i];
+            return resultPoint;
         }
 
         /// <summary>
@@ -100,7 +111,10 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Point2D operator -(Point2D first, Point2D second)
         {
-            return FromPoint(Subtract(first, second));
+            var resultPoint = new Point2D();
+            for (uint i = 0; i < 2; ++i)
+                resultPoint[i] = first[i] - second[i];
+            return resultPoint;
         }
 
         /// <summary>
@@ -111,7 +125,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override string ToString()
         {
-            return $"X: {this[0]}, Y: {this[1]}";
+            return $"Point2D [X: {this[0]}, Y: {this[1]}]";
         }
 
         /// <summary>
@@ -123,18 +137,9 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-                return false;
-
-            if (ReferenceEquals(this, obj))
-                return true;
-
             if (obj.GetType() == typeof (Point2D))
                 return this == (Point2D) obj;
-            var point = obj as Point;
-            if (Dimension != point?.Dimension)
-                return false;
-            return this == FromPoint(point);
+            return false;
         }
 
         /// <summary>
@@ -154,6 +159,29 @@ namespace SharpMath.Geometry
             }
         }
 
+        public bool Equals(Point2D other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                yield return this[i];
+            }
+            yield break;
+        }
+
         /// <summary>
         ///     Implements the operator ==.
         /// </summary>
@@ -164,16 +192,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator ==(Point2D left, Point2D right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 2; ++i)
-            {
-                if (!FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return left.SequenceEqual(right);
         }
 
         /// <summary>
@@ -186,16 +205,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static bool operator !=(Point2D left, Point2D right)
         {
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return ReferenceEquals(left, right);
-
-            for (uint i = 0; i < 2; ++i)
-            {
-                if (FloatingNumber.AreApproximatelyEqual(left[i], right[i]))
-                    return false;
-            }
-
-            return true;
+            return !left.SequenceEqual(right);
         }
     }
 }

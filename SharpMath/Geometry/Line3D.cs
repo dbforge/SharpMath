@@ -8,10 +8,8 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a 3D-line.
     /// </summary>
-    public class Line3D : IEquatable<Line3D>
+    public struct Line3D : IEquatable<Line3D>
     {
-        private Vector3 _direction;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Line3D" /> class.
         /// </summary>
@@ -20,22 +18,15 @@ namespace SharpMath.Geometry
         public Line3D(Point3D point, Vector3 direction)
         {
             Point = point;
+            if (direction == Vector3.Zero)
+                throw new InvalidOperationException("The direction vector of the line must not be the zero vector.");
             Direction = direction;
         }
 
         /// <summary>
         ///     Gets or sets a <see cref="Vector3" /> that represents the direction of the <see cref="Line3D" />.
         /// </summary>
-        public Vector3 Direction
-        {
-            get { return _direction; }
-            set
-            {
-                if (value == Vector3.Zero)
-                    throw new InvalidOperationException("The direction vector of the line must not be the zero vector.");
-                _direction = value;
-            }
-        }
+        public Vector3 Direction { get; set; }
 
         /// <summary>
         ///     Gets or sets a point on the <see cref="Line3D" /> that the line intersects with.
@@ -92,7 +83,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            return obj == null ? this == null : obj is Line3D && ((Line3D)obj).Direction == Direction && ((Line3D)obj).Point == Point;
+            return ReferenceEquals(obj, null) ? ReferenceEquals(this, null) : obj is Line3D && ((Line3D)obj).Direction == Direction && ((Line3D)obj).Point == Point;
         }
 
         /// <summary>
@@ -104,7 +95,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public bool Equals(Line3D other)
         {
-            return other == null ? this == null : other.Direction == Direction && other.Point == Point;
+            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Direction == Direction && other.Point == Point;
         }
 
         /// <summary>

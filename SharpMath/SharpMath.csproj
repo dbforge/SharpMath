@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Equations\Exceptions\EquationNotSolvableException.cs" />
@@ -45,25 +46,33 @@
     <Compile Include="Expressions\Token.cs" />
     <Compile Include="Expressions\TokenType.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Algorithms.cs" />
     <Compile Include="FloatingNumber.cs" />
     <Compile Include="FloatingNumberExtensions.cs" />
     <Compile Include="Geometry\Exceptions\DimensionException.cs" />
+    <Compile Include="Geometry\IMatrix.cs" />
+    <Compile Include="Geometry\ISquareMatrix.cs" />
+    <Compile Include="Geometry\IVector.cs" />
     <Compile Include="Geometry\Line2D.cs" />
     <Compile Include="Geometry\Line3D.cs" />
+    <Compile Include="Geometry\Matrix1x1.cs" />
+    <Compile Include="Geometry\Matrix1x3.cs" />
+    <Compile Include="Geometry\Matrix1x4.cs" />
+    <Compile Include="Geometry\Matrix2x2.cs" />
+    <Compile Include="Geometry\Matrix3x1.cs" />
     <Compile Include="Geometry\Matrix3x3.cs" />
+    <Compile Include="Geometry\Matrix4x1.cs" />
     <Compile Include="Geometry\Matrix4x4.cs" />
-    <Compile Include="Geometry\Matrix.cs" />
-    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\MatrixEnumerator.cs" />
+    <Compile Include="Geometry\MatrixUtils.cs" />
     <Compile Include="Geometry\Point2D.cs" />
     <Compile Include="Geometry\Point3D.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\ProjectionData.cs" />
-    <Compile Include="Geometry\SquareMatrix.cs" />
-    <Compile Include="Geometry\VectorExtensions.cs" />
+    <Compile Include="Geometry\VariableMatrix.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Geometry\Vector.cs" />
+    <Compile Include="Geometry\VectorUtils.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="Geometry\Vector4.cs" />

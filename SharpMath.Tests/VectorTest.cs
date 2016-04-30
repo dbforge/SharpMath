@@ -46,10 +46,10 @@ namespace SharpMath.Tests
         [TestMethod]
         public void CanCalculateScalarProduct()
         {
-            Assert.AreEqual(0, Vector2.UnitX.ScalarProduct(Vector2.UnitY));
-            Assert.AreEqual(20, Vector.ScalarProduct(new Vector2(2, 4), new Vector2(4, 3)));
-            Assert.AreEqual(0, Vector.ScalarProduct(Vector3.Forward, Vector3.Up));
-            Assert.AreEqual(8, Vector.ScalarProduct(new Vector3(2, 3, 1), new Vector3(-1, 2, 4)));
+            Assert.AreEqual(0, Vector2.UnitX.DotProduct(Vector2.UnitY));
+            Assert.AreEqual(20, VectorUtils.DotProduct(new Vector2(2, 4), new Vector2(4, 3)));
+            Assert.AreEqual(0, VectorUtils.DotProduct(Vector3.Forward, Vector3.Up));
+            Assert.AreEqual(8, VectorUtils.DotProduct(new Vector3(2, 3, 1), new Vector3(-1, 2, 4)));
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace SharpMath.Tests
         {
             var vector = new Vector3(10, 5, 3);
             var secondVector = new Vector3(5, 6, 1); // 5, -1, 2 // Magnitude: sqrt(30)
-            Assert.AreEqual(Math.Sqrt(30), vector.DistanceTo(secondVector));
+            Assert.AreEqual(Math.Sqrt(30), vector.Distance(secondVector));
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace SharpMath.Tests
         {
             var vector = new Vector3(1, -5, 2);
             var secondVector = new Vector3(2, 0, 3);
-            var resultVector = vector.CrossProduct(secondVector);
+            var resultVector = vector.VectorProduct(secondVector);
 
             Assert.AreEqual(-15, resultVector.X);
             Assert.AreEqual(1, resultVector.Y);
@@ -76,7 +76,7 @@ namespace SharpMath.Tests
         public void CanGetCorrectLaTeXString()
         {
             var vector = new Vector3(1, 6, 8);
-            Assert.AreEqual(@"\left( \begin{array}{c} 1 \\ 6 \\ 8 \end{array} \right)", vector.LaTeXString);
+            Assert.AreEqual(@"\left( \begin{array}{c} 1 \\ 6 \\ 8 \end{array} \right)", vector.ToLaTeXString());
         }
 
         [TestMethod]
@@ -135,7 +135,7 @@ namespace SharpMath.Tests
             var vector2 = Vector2.UnitY;
 
             Assert.AreEqual(Math.PI/2, vector1.Angle(vector2));
-            Assert.IsTrue(vector1.IsOrthogonalTo(vector2));
+            Assert.IsTrue(vector1.CheckForOrthogonality(vector2));
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace SharpMath.Tests
             var secondVector = new Vector3(1, -2, 3);
 
             stopWatch.Start();
-            double crossProductArea = Vector3.CrossProduct(firstVector, secondVector).Magnitude;
+            double crossProductArea = Vector3.VectorProduct(firstVector, secondVector).Magnitude;
             stopWatch.Stop();
             // This is faster, if the vectors are already 3-dimensional, because we have no arccos, sin etc.
             Debug.Print("Vector3 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds +
@@ -190,7 +190,7 @@ namespace SharpMath.Tests
 
             stopWatch.Restart();
             double secondCrossProductArea =
-                Vector3.CrossProduct(thirdVector.Convert<Vector3>(), fourthVector.Convert<Vector3>()).Magnitude;
+                Vector3.VectorProduct(thirdVector.Convert<Vector3>(), fourthVector.Convert<Vector3>()).Magnitude;
             stopWatch.Stop();
             Debug.Print("Vector2 area calculation over the cross product takes " + stopWatch.ElapsedMilliseconds +
                         " milliseconds.");
@@ -207,47 +207,47 @@ namespace SharpMath.Tests
         [TestMethod]
         public void CanDetermineIfVectorsAreOrthogonal()
         {
-            Assert.IsTrue(Vector3.Forward.IsOrthogonalTo(Vector3.Up));
-            Assert.IsFalse(Vector3.Forward.IsOrthogonalTo(Vector3.Back));
-            Assert.IsFalse(Vector3.Zero.IsOrthogonalTo(Vector3.UnitX));
+            Assert.IsTrue(Vector3.Forward.CheckForOrthogonality(Vector3.Up));
+            Assert.IsFalse(Vector3.Forward.CheckForOrthogonality(Vector3.Back));
+            Assert.IsFalse(Vector3.Zero.CheckForOrthogonality(Vector3.UnitX));
         }
 
         [TestMethod]
         public void CanDetermineIfVectorsAreOrthonormal()
         {
-            Assert.IsTrue(Vector3.Forward.IsOrthonormalTo(Vector3.Up));
-            Assert.IsTrue(Vector3.Back.IsOrthonormalTo(Vector3.Down));
-            Assert.IsFalse(Vector3.Forward.IsOrthonormalTo(Vector3.Back));
-            Assert.IsFalse(Vector3.Forward.IsOrthonormalTo(new Vector3(2, 3, 2)));
+            Assert.IsTrue(Vector3.Forward.CheckForOrthonormality(Vector3.Up));
+            Assert.IsTrue(Vector3.Back.CheckForOrthonormality(Vector3.Down));
+            Assert.IsFalse(Vector3.Forward.CheckForOrthonormality(Vector3.Back));
+            Assert.IsFalse(Vector3.Forward.CheckForOrthonormality(new Vector3(2, 3, 2)));
         }
 
         [TestMethod]
         public void CanDetermineIfVectorsAreParallel()
         {
-            Assert.IsTrue(new Vector3(2, 3, 3).IsParallelTo(new Vector3(4, 6, 6)));
-            Assert.IsTrue(new Vector3(1, 2, 3).IsParallelTo(new Vector3(3, 6, 9)));
-            Assert.IsFalse(new Vector3(0, 1, 3).IsParallelTo(new Vector3(0, 3, 2)));
+            Assert.IsTrue(new Vector3(2, 3, 3).CheckForParallelism(new Vector3(4, 6, 6)));
+            Assert.IsTrue(new Vector3(1, 2, 3).CheckForParallelism(new Vector3(3, 6, 9)));
+            Assert.IsFalse(new Vector3(0, 1, 3).CheckForParallelism(new Vector3(0, 3, 2)));
         }
 
         [TestMethod]
         public void CanConvertVectorIntoMatrices()
         {
-            var firstMatrix = new Matrix(3, 1)
+            var firstMatrix = new Matrix3x1()
             {
                 [0, 0] = 1,
                 [1, 0] = 0,
                 [2, 0] = 0
             };
-            var firstVectorMatrix = Vector3.Right.AsVerticalMatrix();
+            var firstVectorMatrix = Vector3.Right.AsVerticalMatrix<Matrix3x1>();
             Assert.AreEqual(firstMatrix, firstVectorMatrix);
 
-            var secondMatrix = new Matrix(1, 3)
+            var secondMatrix = new Matrix1x3()
             {
                 [0, 0] = 1,
                 [0, 1] = 0,
                 [0, 2] = 0
             };
-            var secondVectorMatrix = Vector3.Right.AsHorizontalMatrix();
+            var secondVectorMatrix = Vector3.Right.AsHorizontalMatrix<Matrix1x3>();
             Assert.AreEqual(secondMatrix, secondVectorMatrix);
         }
 
@@ -255,31 +255,28 @@ namespace SharpMath.Tests
         public void CanCompareVectors()
         {
             // Let's see, if the dimension check is working
-            var vector = new Vector(2);
-            var secondVector = new Vector(3);
+            var vector = new Vector3();
+            var secondVector = new Vector2();
             Assert.IsFalse(vector.Equals(secondVector));
-            Assert.IsFalse(vector == secondVector);
-            Assert.IsTrue(vector != secondVector);
 
             // Let's see, if the coordinate comparison is working (in this case simply two zero vectors)
-            var thirdVector = new Vector(4);
-            var fourthVector = new Vector(4);
+            var thirdVector = new Vector4();
+            var fourthVector = new Vector4();
             Assert.IsTrue(thirdVector.Equals(fourthVector));
             Assert.IsTrue(thirdVector == fourthVector);
             Assert.IsFalse(thirdVector != fourthVector);
 
             // Let's see, if the coordinate comparison is working when we have the same dimension but different coordinate values
-            var fifthVector = new Vector(3)
+            var fifthVector = new Vector3()
             {
                 [0] = 1,
                 [1] = 2,
                 [2] = 1
             };
-
-            Assert.AreEqual(fifthVector, new Vector3(1, 2, 1));
+            
             Assert.AreEqual(new Vector3(1, 2, 1), fifthVector);
 
-            var sixthVector = new Vector(3)
+            var sixthVector = new Vector3()
             {
                 [0] = 2,
                 [1] = 2,

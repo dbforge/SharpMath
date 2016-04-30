@@ -1,6 +1,9 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpMath.Geometry
 {
@@ -8,50 +11,324 @@ namespace SharpMath.Geometry
     ///     Represents a 4x4 matrix and provides functions to transform 3-dimensional vectors.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class Matrix4x4 : SquareMatrix
+    public struct Matrix4x4 : IEnumerable<double>, IEquatable<Matrix4x4>, ISquareMatrix
     {
         /// <summary>
-        ///     Creates a new instance of the <see cref="Matrix4x4" /> class.
+        ///     Initializes a <see cref="Matrix3x3"/> struct.
         /// </summary>
-        public Matrix4x4() : base(4)
+        /// <param name="m11">The value at row 1 and column 1.</param>
+        /// <param name="m12">The value at row 1 and column 2.</param>
+        /// <param name="m13">The value at row 1 and column 3.</param>
+        /// <param name="m14">The value at row 1 and column 4.</param>
+        /// <param name="m21">The value at row 2 and column 1.</param>
+        /// <param name="m22">The value at row 2 and column 2</param>
+        /// <param name="m23">The value at row 2 and column 3.</param>
+        /// <param name="m24">The value at row 2 and column 4.</param>
+        /// <param name="m31">The value at row 3 and column 1.</param>
+        /// <param name="m32">The value at row 3 and column 2.</param>
+        /// <param name="m33">The value at row 3 and column 3.</param>
+        /// <param name="m34">The value at row 3 and column 4.</param>
+        /// <param name="m41">The value at row 4 and column 1.</param>
+        /// <param name="m42">The value at row 4 and column 2.</param>
+        /// <param name="m43">The value at row 4 and column 3.</param>
+        /// <param name="m44">The value at row 4 and column 4.</param>
+        public Matrix4x4(double m11, double m12, double m13, double m14, double m21, double m22, double m23, double m24, double m31, double m32, double m33, double m34, double m41, double m42, double m43, double m44)
         {
+            M11 = m11;
+            M12 = m12;
+            M13 = m13;
+            M14 = m14;
+            M21 = m21;
+            M22 = m22;
+            M23 = m23;
+            M24 = m24;
+            M31 = m31;
+            M32 = m32;
+            M33 = m33;
+            M34 = m34;
+            M41 = m41;
+            M42 = m42;
+            M43 = m43;
+            M44 = m44;
         }
 
         /// <summary>
-        ///     Gets the identity <see cref="Matrix4x4" />.
+        ///     Initializes a <see cref="Matrix4x4"/> struct.
         /// </summary>
-        public static Matrix4x4 Identity => FromMatrix(GetIdentity(4));
+        /// <param name="row1">The first row <see cref="Vector4"/>.</param>
+        /// <param name="row2">The second row <see cref="Vector4"/>.</param>
+        /// <param name="row3">The third row <see cref="Vector4"/>.</param>
+        /// <param name="row4">The fourth row <see cref="Vector4"/>.</param>
+        public Matrix4x4(Vector4 row1, Vector4 row2, Vector4 row3, Vector4 row4) : this(row1.X, row2.X, row3.X, row4.X, row1.Y, row2.Y, row3.Y, row4.Y, row1.Z, row2.Z, row3.Z, row4.Z, row1.W, row2.W, row3.W, row4.W)
+        { }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4" /> from an abstract <see cref="Matrix" /> object.
+        ///     Gets the zero <see cref="Matrix4x4" />.
         /// </summary>
-        /// <param name="matrix">The <see cref="Matrix" /> to convert.</param>
-        /// <returns>The <see cref="Matrix4x4" /> that has been created.</returns>
-        public new static Matrix4x4 FromMatrix(Matrix matrix)
-        {
-            if (!matrix.IsSquare || matrix.RowCount != 4 || matrix.ColumnCount != 4)
-                throw new ArgumentException("The matrix cannot be converted into a Matrix4x4.");
+        public static Matrix4x4 Zero => new Matrix4x4();
 
-            var resultMatrix = new Matrix4x4();
-            for (uint y = 0; y < 4; ++y)
-                for (uint x = 0; x < 4; ++x)
-                    resultMatrix[y, x] = matrix[y, x];
-            return resultMatrix;
+        /// <summary>
+        ///     Gets or sets the identity <see cref="Matrix4x4" />.
+        /// </summary>
+        public static Matrix4x4 Identity => MatrixUtils.GetIdentity<Matrix4x4>();
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 1.
+        /// </summary>
+        public double M11 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 2.
+        /// </summary>
+        public double M12 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 3.
+        /// </summary>
+        public double M13 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 1 and column 4.
+        /// </summary>
+        public double M14 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 1.
+        /// </summary>
+        public double M21 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 2.
+        /// </summary>
+        public double M22 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 3.
+        /// </summary>
+        public double M23 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 2 and column 4.
+        /// </summary>
+        public double M24 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 1.
+        /// </summary>
+        public double M31 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 2.
+        /// </summary>
+        public double M32 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 3.
+        /// </summary>
+        public double M33 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 3 and column 4.
+        /// </summary>
+        public double M34 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 4 and column 1.
+        /// </summary>
+        public double M41 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 4 and column 2.
+        /// </summary>
+        public double M42 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 4 and column 3.
+        /// </summary>
+        public double M43 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at row 4 and column 4.
+        /// </summary>
+        public double M44 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the value at the specified index. The values are accessed as: (row*4) + column.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return M11;
+                    case 1: return M12;
+                    case 2: return M13;
+                    case 3: return M14;
+                    case 4: return M21;
+                    case 5: return M22;
+                    case 6: return M23;
+                    case 7: return M24;
+                    case 8: return M31;
+                    case 9: return M32;
+                    case 10: return M33;
+                    case 11: return M34;
+                    case 12: return M41;
+                    case 13: return M42;
+                    case 14: return M43;
+                    case 15: return M44;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 15.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0: M11 = value; break;
+                    case 1: M12 = value; break;
+                    case 2: M13 = value; break;
+                    case 3: M14 = value; break;
+                    case 4: M21 = value; break;
+                    case 5: M22 = value; break;
+                    case 6: M23 = value; break;
+                    case 7: M24 = value; break;
+                    case 8: M31 = value; break;
+                    case 9: M32 = value; break;
+                    case 10: M33 = value; break;
+                    case 11: M34 = value; break;
+                    case 12: M41 = value; break;
+                    case 13: M42 = value; break;
+                    case 14: M43 = value; break;
+                    case 15: M44 = value; break;
+                    default: throw new IndexOutOfRangeException("The index must be between 0 and 15.");
+                }
+            }
         }
 
         /// <summary>
-        ///     Creates a <see cref="Matrix4x4" /> from a <see cref="SquareMatrix" /> object.
+        ///     Gets or sets the value at the specified row and column.
         /// </summary>
-        /// <param name="matrix">The <see cref="SquareMatrix" /> to convert.</param>
-        /// <returns>The <see cref="Matrix4x4" /> that has been created.</returns>
-        public static Matrix4x4 FromMatrix(SquareMatrix matrix)
+        /// <param name="row">The row.</param>
+        /// <param name="column">The column.</param>
+        /// <returns>The value at the specified row and column.</returns>
+        public double this[uint row, uint column]
         {
-            if (matrix.Dimension != 4)
-                throw new ArgumentException("The square matrix cannot be converted into a Matrix4x4.");
+            get
+            {
+                return this[row * 4 + column];
+            }
+            set
+            {
+                this[row * 4 + column] = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the dimension of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public uint Dimension => 4;
+
+        /// <summary>
+        ///     Gets the row count of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public uint RowCount => 4;
+
+        /// <summary>
+        ///     Gets the column count of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public uint ColumnCount => 4;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is singular, or not. If <c>true</c>, this
+        ///     <see cref="Matrix4x4" /> doesn't have an inverse.
+        /// </summary>
+        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is orthogonal, or not.
+        /// </summary>
+        public bool IsOrthogonal => (this * Transpose) == Identity;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4"/> is the identity <see cref="Matrix4x4"/>, or not.
+        /// </summary>
+        public bool IsIdentity => M11.IsApproximatelyEqualTo(1) && M22.IsApproximatelyEqualTo(1) && M33.IsApproximatelyEqualTo(1);
+
+        /// <summary>
+        ///     Gets the inverse of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public Matrix4x4 Inverse => MatrixUtils.GaussJordan(this, Identity);
+
+        /// <summary>
+        ///     Gets the determinant of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public double Determinant => this.GetDeterminant();
+
+        /// <summary>
+        ///     Gets the trace of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public double Trace => M11 + M22 + M33 + M44;
+
+        /// <summary>
+        ///     Gets the cofactor <see cref="Matrix4x4" /> of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public Matrix4x4 CofactorMatrix => this.BuildCofactorMatrix();
+
+        /// <summary>
+        ///     Gets the adjugate of the <see cref="Matrix4x4" />.
+        /// </summary>
+        public Matrix4x4 Adjugate => CofactorMatrix.GetTranspose();
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is symmetric, or not.
+        /// </summary>
+        public bool IsSymmetric => this == Transpose;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is skew symmetric, or not.
+        /// </summary>
+        public bool IsSkewSymmetric => Negate == Transpose;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is antisymmetric, or not.
+        /// </summary>
+        public bool IsAntiSymmetric => this == Transpose.Negate;
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is a diagonal matrix, or not.
+        /// </summary>
+        public bool IsDiagonal => this.GetIsDiagonal();
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is a triangle matrix, or not.
+        /// </summary>
+        public bool IsTriangle => this.GetIsTriangle();
+
+        /// <summary>
+        ///     Gets the negated <see cref="Matrix4x4"/> of the <see cref="Matrix4x4"/>.
+        /// </summary>
+        public Matrix4x4 Negate => this.GetNegate();
+
+        /// <summary>
+        ///     Gets the transpose of the <see cref="Matrix3x3" />.
+        /// </summary>
+        public Matrix4x4 Transpose => this.GetTranspose();
+
+        /// <summary>
+        ///     Creates a <see cref="Matrix4x4" /> from an abstract <see cref="IMatrix" /> object.
+        /// </summary>
+        /// <param name="matrix">The <see cref="IMatrix" /> to convert.</param>
+        /// <returns>The <see cref="Matrix4x4" /> that has been created.</returns>
+        public static Matrix4x4 FromMatrix(IMatrix matrix)
+        {
+            if (matrix.RowCount != 4 || matrix.ColumnCount != 4)
+                throw new ArgumentException("The square matrix cannot be converted into a Matrix4x4");
 
             var resultMatrix = new Matrix4x4();
-            for (uint y = 0; y < 4; ++y)
-                for (uint x = 0; x < 4; ++x)
+            for (uint y = 0; y < resultMatrix.Dimension; ++y)
+                for (uint x = 0; x < resultMatrix.Dimension; ++x)
                     resultMatrix[y, x] = matrix[y, x];
             return resultMatrix;
         }
@@ -213,8 +490,8 @@ namespace SharpMath.Geometry
         public static Matrix4x4 View(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 upVector)
         {
             Vector3 vector = Vector3.FromVector((cameraPosition - cameraTarget).Normalize());
-            Vector3 vector2 = Vector3.FromVector(Vector3.CrossProduct(upVector, vector));
-            Vector3 vector3 = Vector3.FromVector(Vector3.CrossProduct(vector, vector2));
+            Vector3 vector2 = Vector3.FromVector(Vector3.VectorProduct(upVector, vector));
+            Vector3 vector3 = Vector3.FromVector(Vector3.VectorProduct(vector, vector2));
 
             var matrix = Identity;
             matrix[0, 0] = vector2.X;
@@ -229,9 +506,9 @@ namespace SharpMath.Geometry
             matrix[2, 1] = vector3.Z;
             matrix[2, 2] = vector.Z;
 
-            matrix[3, 0] = -Vector.ScalarProduct(vector2, cameraPosition);
-            matrix[3, 1] = -Vector.ScalarProduct(vector3, cameraPosition);
-            matrix[3, 2] = -Vector.ScalarProduct(vector, cameraPosition);
+            matrix[3, 0] = -VectorUtils.DotProduct(vector2, cameraPosition);
+            matrix[3, 1] = -VectorUtils.DotProduct(vector3, cameraPosition);
+            matrix[3, 2] = -VectorUtils.DotProduct(vector, cameraPosition);
             matrix[3, 3] = 1f;
 
             return matrix;
@@ -240,14 +517,14 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Creates a world <see cref="Matrix4x4" /> by using the specified components.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="forward"></param>
-        /// <param name="up"></param>
-        /// <returns></returns>
+        /// <param name="position">The position.</param>
+        /// <param name="forward">The target vector.</param>
+        /// <param name="up">The up vector.</param>
+        /// <returns>The created world <see cref="Matrix4x4" />.</returns>
         public static Matrix4x4 World(Vector3 position, Vector3 forward, Vector3 up)
         {
-            var xVector = Vector3.CrossProduct(forward, up);
-            var yVector = Vector3.CrossProduct(xVector, forward);
+            var xVector = Vector3.VectorProduct(forward, up);
+            var yVector = Vector3.VectorProduct(xVector, forward);
             var zVector = Vector3.FromVector(forward.Normalize());
             xVector.Normalize();
             yVector.Normalize();
@@ -282,7 +559,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator +(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
-            return FromMatrix(Add(firstMatrix, secondMatrix));
+            return MatrixUtils.Add(firstMatrix, secondMatrix);
         }
 
         /// <summary>
@@ -295,7 +572,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator -(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
-            return FromMatrix(Subtract(firstMatrix, secondMatrix));
+            return MatrixUtils.Subtract(firstMatrix, secondMatrix);
         }
 
         /// <summary>
@@ -308,7 +585,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator *(double scalar, Matrix4x4 matrix)
         {
-            return FromMatrix(Multiply(matrix, scalar));
+            return MatrixUtils.Multiply(matrix, scalar);
         }
 
         /// <summary>
@@ -321,7 +598,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 matrix, double scalar)
         {
-            return FromMatrix(Multiply(matrix, scalar));
+            return MatrixUtils.Multiply(matrix, scalar);
         }
 
         /// <summary>
@@ -334,7 +611,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 firstMatrix, Matrix4x4 secondMatrix)
         {
-            return FromMatrix(Multiply(firstMatrix, secondMatrix));
+            return MatrixUtils.Multiply<Matrix4x4>(firstMatrix, secondMatrix);
         }
 
         /// <summary>
@@ -347,11 +624,11 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Matrix4x4 matrix, Vector3 vector)
         {
-            var resultMatrix = Multiply(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix());
-            var resultVector = Vector4.FromVector(resultMatrix.GetRowVector(0));
+            var resultMatrix = MatrixUtils.Multiply<Matrix4x1>(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix<Matrix4x1>());
+            var resultVector = new Vector4(resultMatrix[0], resultMatrix[1], resultMatrix[2], resultMatrix[3]);
             resultVector.X /= resultVector.W;
+            resultVector.Y /= resultVector.W;
             resultVector.Z /= resultVector.W;
-            resultVector.X /= resultVector.W;
             return resultVector.Convert<Vector3>();
         }
 
@@ -365,12 +642,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix4x4 matrix)
         {
-            var resultMatrix = Multiply(matrix, new Vector4(vector.X, vector.Y, vector.Z, 1).AsVerticalMatrix());
-            var resultVector = Vector4.FromVector(resultMatrix.GetRowVector(0));
-            resultVector.X /= resultVector.W;
-            resultVector.Z /= resultVector.W;
-            resultVector.X /= resultVector.W;
-            return resultVector.Convert<Vector3>();
+            return matrix * vector;
         }
 
         /// <summary>
@@ -383,8 +655,8 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector4 operator *(Matrix4x4 matrix, Vector4 vector)
         {
-            var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector4.FromVector(resultMatrix.GetRowVector(0));
+            var resultMatrix = MatrixUtils.Multiply<Matrix4x1>(matrix, vector.AsVerticalMatrix<Matrix4x1>());
+            return new Vector4(resultMatrix[0], resultMatrix[1], resultMatrix[2], resultMatrix[3]);
         }
 
         /// <summary>
@@ -397,8 +669,84 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector4 operator *(Vector4 vector, Matrix4x4 matrix)
         {
-            var resultMatrix = Multiply(matrix, vector.AsVerticalMatrix());
-            return Vector4.FromVector(resultMatrix.GetRowVector(0));
+            return matrix * vector;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="object" />, is equal to the instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with the instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="object" /> is equal to the instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Matrix4x4))
+                return false;
+            return this == (Matrix4x4)obj;
+        }
+
+        /// <summary>
+        ///     Returns a hash code for the instance.
+        /// </summary>
+        /// <returns>
+        ///     A hash code for the instance, suitable for use in hashing algorithms and data structures like a hash table.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                for (uint y = 0; y < RowCount; ++y)
+                {
+                    for (uint x = 0; x < ColumnCount; ++x)
+                    {
+                        hash = hash * 23 + this[y, x].GetHashCode();
+                    }
+                }
+                return hash;
+            }
+        }
+
+        public bool Equals(Matrix4x4 other)
+        {
+            return this == other;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        /// <summary>
+        ///     Implements the operator ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix4x4" />.</param>
+        /// <param name="right">The right <see cref="Matrix4x4" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static bool operator ==(Matrix4x4 left, Matrix4x4 right)
+        {
+            return left.SequenceEqual(right);
+        }
+
+        /// <summary>
+        ///     Implements the operator !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="Matrix4x4" />.</param>
+        /// <param name="right">The right <see cref="Matrix4x4" />.</param>
+        /// <returns>
+        ///     The result of the operator.
+        /// </returns>
+        public static bool operator !=(Matrix4x4 left, Matrix4x4 right)
+        {
+            return !left.SequenceEqual(right);
         }
     }
 }

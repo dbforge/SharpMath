@@ -63,19 +63,19 @@ namespace SharpMath.Equations
             if (coefficientsCount == 0 || coefficientsCount != count)
                 throw new EquationNotSolvableException("This linear equation system cannot be solved.");
 
-            var leftSide = new Matrix(count, count);
-            var rightSide = new Matrix(count, 1);
+            var leftSide = new VariableMatrix(count, count);
+            var rightSide = new VariableMatrix(count, 1);
 
             for (uint i = 0; i < count; ++i)
             {
                 var currentEquation = Equations[(int) i];
                 double[] coefficients = currentEquation.Coefficients;
-                for (uint c = 0; c < coefficients.Count(); ++c)
+                for (uint c = 0; c < coefficients.Length; ++c)
                     leftSide[i, c] = coefficients[c];
                 rightSide[i, 0] = currentEquation.Result;
             }
-
-            var resultMatrix = Algorithms.GaussJordan(leftSide, rightSide);
+            
+            var resultMatrix = MatrixUtils.GaussJordan(leftSide, rightSide);
             double[] result = new double[rightSide.RowCount];
             for (uint i = 0; i < resultMatrix.RowCount; ++i)
                 result[i] = resultMatrix[i, 0];

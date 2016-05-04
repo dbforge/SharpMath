@@ -1,16 +1,21 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
+// ReSharper disable InconsistentNaming
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a 1x1 matrix.
     /// </summary>
+    [Serializable]
     public struct Matrix1x1 : IEnumerable<double>, ISquareMatrix, IEquatable<Matrix1x1>
     {
         /// <summary>
-        ///     Initializes a <see cref="Matrix1x1"/> struct.
+        ///     Initializes a <see cref="Matrix1x1" /> struct.
         /// </summary>
         /// <param name="m11">The value at row 1 and column 1.</param>
         public Matrix1x1(double m11)
@@ -34,6 +39,52 @@ namespace SharpMath.Geometry
         public double M11 { get; set; }
 
         /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is singular, or not. If <c>true</c>, this
+        ///     <see cref="Matrix1x1" /> doesn't have an inverse.
+        /// </summary>
+        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
+
+        /// <summary>
+        ///     Gets the inverse of the <see cref="Matrix1x1" />.
+        /// </summary>
+        public Matrix1x1 Inverse => MatrixUtils.GaussJordan(this, Identity);
+
+        /// <summary>
+        ///     Gets the cofactor <see cref="Matrix1x1" /> of the <see cref="Matrix1x1" />.
+        /// </summary>
+        public Matrix1x1 CofactorMatrix => this.BuildCofactorMatrix();
+
+        /// <summary>
+        ///     Gets the adjugate of the <see cref="Matrix1x1" />.
+        /// </summary>
+        public Matrix1x1 Adjugate => CofactorMatrix.Transpose;
+
+        /// <summary>
+        ///     Gets the negated <see cref="Matrix1x1" /> of the <see cref="Matrix1x1" />.
+        /// </summary>
+        public Matrix1x1 Negate => this.GetNegate();
+
+        /// <summary>
+        ///     Gets the transpose of the <see cref="Matrix1x1" />.
+        /// </summary>
+        public Matrix1x1 Transpose => this.GetTranspose();
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        public bool Equals(Matrix1x1 other)
+        {
+            return this == other;
+        }
+
+        /// <summary>
         ///     Gets or sets the value at the specified index. The values are accessed as: row + column.
         /// </summary>
         /// <param name="index">The index.</param>
@@ -44,8 +95,10 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: return M11;
-                    default: throw new IndexOutOfRangeException("The index must be 0.");
+                    case 0:
+                        return M11;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be 0.");
                 }
             }
 
@@ -53,8 +106,11 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: M11 = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be 0.");
+                    case 0:
+                        M11 = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be 0.");
                 }
             }
         }
@@ -67,14 +123,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get
-            {
-                return this[row + column];
-            }
-            set
-            {
-                this[row + column] = value;
-            }
+            get { return this[row + column]; }
+            set { this[row + column] = value; }
         }
 
         /// <summary>
@@ -93,25 +143,14 @@ namespace SharpMath.Geometry
         public uint ColumnCount => 1;
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is singular, or not. If <c>true</c>, this
-        ///     <see cref="Matrix1x1" /> doesn't have an inverse.
-        /// </summary>
-        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
-
-        /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this * Transpose) == Identity;
+        public bool IsOrthogonal => (this*Transpose) == Identity;
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Matrix1x1"/> is the identity <see cref="Matrix1x1"/>, or not.
+        ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is the identity <see cref="Matrix1x1" />, or not.
         /// </summary>
         public bool IsIdentity => M11.IsApproximatelyEqualTo(1);
-
-        /// <summary>
-        ///     Gets the inverse of the <see cref="Matrix1x1" />.
-        /// </summary>
-        public Matrix1x1 Inverse => MatrixUtils.GaussJordan(this, Identity);
 
         /// <summary>
         ///     Gets the determinant of the <see cref="Matrix1x1" />.
@@ -122,16 +161,6 @@ namespace SharpMath.Geometry
         ///     Gets the trace of the <see cref="Matrix1x1" />.
         /// </summary>
         public double Trace => M11;
-
-        /// <summary>
-        ///     Gets the cofactor <see cref="Matrix1x1" /> of the <see cref="Matrix1x1" />.
-        /// </summary>
-        public Matrix1x1 CofactorMatrix => this.BuildCofactorMatrix();
-
-        /// <summary>
-        ///     Gets the adjugate of the <see cref="Matrix1x1" />.
-        /// </summary>
-        public Matrix1x1 Adjugate => CofactorMatrix.Transpose;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is symmetric, or not.
@@ -157,16 +186,6 @@ namespace SharpMath.Geometry
         ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is a triangle matrix, or not.
         /// </summary>
         public bool IsTriangle => false;
-
-        /// <summary>
-        ///     Gets the negated <see cref="Matrix1x1"/> of the <see cref="Matrix1x1"/>.
-        /// </summary>
-        public Matrix1x1 Negate => this.GetNegate();
-
-        /// <summary>
-        ///     Gets the transpose of the <see cref="Matrix1x1" />.
-        /// </summary>
-        public Matrix1x1 Transpose => this.GetTranspose();
 
         /// <summary>
         ///     Implements the operator +.
@@ -219,7 +238,7 @@ namespace SharpMath.Geometry
         {
             return MatrixUtils.Multiply(matrix, scalar);
         }
-        
+
         /// <summary>
         ///     Implements the operator *.
         /// </summary>
@@ -244,7 +263,7 @@ namespace SharpMath.Geometry
         {
             if (!(obj is Matrix1x1))
                 return false;
-            return this == (Matrix1x1)obj;
+            return this == (Matrix1x1) obj;
         }
 
         /// <summary>
@@ -257,23 +276,8 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                return 17 * 23 + this[0, 0].GetHashCode();
+                return 17*23 + this[0, 0].GetHashCode();
             }
-        }
-
-        public bool Equals(Matrix1x1 other)
-        {
-            return this == other;
-        }
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
         }
 
         /// <summary>

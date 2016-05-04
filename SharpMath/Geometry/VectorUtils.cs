@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace SharpMath.Geometry
 {
     /// <summary>
-    ///     Defines static methods and extensions for working with <see cref="IVector"/> instances.
+    ///     Defines static methods and extensions for working with <see cref="IVector" /> instances.
     /// </summary>
     public static class VectorUtils
     {
@@ -27,26 +27,28 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Calculates the angle between two <see cref="IVector" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="IVector" />.</param>
-        /// <param name="secondVector">The second <see cref="IVector" />.</param>
+        /// <param name="first">The first <see cref="IVector" />.</param>
+        /// <param name="second">The second <see cref="IVector" />.</param>
         /// <returns>The angle between the current and the specified <see cref="IVector" /> instance.</returns>
         /// <exception cref="InvalidOperationException">Cannot calculate the angle between two vectors, if one is zero.</exception>
         public static double Angle<T>(this T first, T second) where T : IVector
         {
             if (first.IsZero || second.IsZero)
                 throw new InvalidOperationException("Cannot calculate the angle between two vectors, if one is zero.");
-            return Math.Acos(first.DotProduct(second) / (first.Magnitude * second.Magnitude));
+            return Math.Acos(first.DotProduct(second)/(first.Magnitude*second.Magnitude));
         }
 
         /// <summary>
-        ///     Represents an <see cref="IVector" /> as a horizontal <see cref="IMatrix" /> whose column count is equal to its dimension.
+        ///     Represents an <see cref="IVector" /> as a horizontal <see cref="IMatrix" /> whose column count is equal to its
+        ///     dimension.
         /// </summary>
         /// <returns>The <see cref="IVector" /> represented as horizontal <see cref="IMatrix" />.</returns>
         public static TOut AsHorizontalMatrix<TOut>(this IVector vector) where TOut : IMatrix, new()
         {
             var matrix = new TOut();
             if (matrix.RowCount != 1 && matrix.ColumnCount != vector.Dimension)
-                throw new ArgumentException($"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be 1x{vector.Dimension}.");
+                throw new ArgumentException(
+                    $"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be 1x{vector.Dimension}.");
 
             for (uint i = 0; i < vector.Dimension; ++i)
                 matrix[0, i] = vector[i];
@@ -54,19 +56,20 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Represents an <see cref="IVector" /> as a vertical <see cref="IMatrix" /> whose row count is equal to its dimension.
+        ///     Represents an <see cref="IVector" /> as a vertical <see cref="IMatrix" /> whose row count is equal to its
+        ///     dimension.
         /// </summary>
         /// <returns>The <see cref="IVector" /> represented as vertical <see cref="IMatrix" />.</returns>
         public static TOut AsVerticalMatrix<TOut>(this IVector vector) where TOut : IMatrix, new()
         {
             var matrix = new TOut();
             if (matrix.RowCount != vector.Dimension && matrix.ColumnCount != 1)
-                throw new ArgumentException($"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be {vector.Dimension}x1.");
+                throw new ArgumentException(
+                    $"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be {vector.Dimension}x1.");
 
             for (uint i = 0; i < vector.Dimension; ++i)
                 matrix[i, 0] = vector[i];
             return matrix;
-
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace SharpMath.Geometry
         ///     Determines whether two <see cref="IVector" /> instances are parallel to each other, or not.
         /// </summary>
         /// <param name="first">The first <see cref="IVector" />.</param>
-        /// <param name="other">The second <see cref="IVector" />.</param>
+        /// <param name="second">The second <see cref="IVector" />.</param>
         /// <returns><c>true</c> if the <see cref="IVector" /> instances are parallel to each other, otherwise <c>false</c>.</returns>
         public static bool CheckForParallelism<T>(this T first, T second) where T : IVector
         {
@@ -106,10 +109,10 @@ namespace SharpMath.Geometry
             for (uint i = 0; i < first.Dimension; ++i)
             {
                 if (i == 0)
-                    firstResult = second[i] / first[i];
+                    firstResult = second[i]/first[i];
                 else
                 {
-                    if (!FloatingNumber.AreApproximatelyEqual(second[i] / first[i], firstResult))
+                    if (!FloatingNumber.AreApproximatelyEqual(second[i]/first[i], firstResult))
                         return false;
                 }
             }
@@ -134,7 +137,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Converts an <see cref="IVector" /> into an <see cref="IVector" /> of another dimension.
         /// </summary>
-        /// <typeparam name="T">The <see cref="IVector" /> type that the <see cref="IVector" /> should be converted to.</typeparam>
+        /// <typeparam name="TOut">The <see cref="IVector" /> type that the <see cref="IVector" /> should be converted to.</typeparam>
         /// <returns>The <see cref="IVector" /> converted into the given type.</returns>
         public static TOut Convert<TOut>(this IVector vector) where TOut : IVector, new()
         {
@@ -148,7 +151,8 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the distance between two <see cref="IVector" /> instances that are the position <see cref="IVector" />s of two points.
+        ///     Calculates the distance between two <see cref="IVector" /> instances that are the position <see cref="IVector" />s
+        ///     of two points.
         /// </summary>
         /// <param name="source">The source <see cref="IVector" />.</param>
         /// <param name="target">The target <see cref="IVector" />.</param>
@@ -168,7 +172,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < resultVector.Dimension; ++i)
-                resultVector[i] = vector[i] * (1 / scalar);
+                resultVector[i] = vector[i]*(1/scalar);
             return resultVector;
         }
 
@@ -182,7 +186,7 @@ namespace SharpMath.Geometry
         {
             double result = 0;
             for (uint i = 0; i < first.Dimension; ++i)
-                result += first[i] * second[i];
+                result += first[i]*second[i];
             return result;
         }
 
@@ -191,7 +195,7 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="current">The source point.</param>
         /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
+        /// <param name="interpolant">The fraction.</param>
         /// <returns>The position <see cref="IVector" /> of the new point.</returns>
         public static T Lerp<T>(this T current, T target, double interpolant) where T : IVector, new()
         {
@@ -207,14 +211,14 @@ namespace SharpMath.Geometry
         /// </summary>
         /// <param name="current">The source point.</param>
         /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
+        /// <param name="interpolant">The interpolant factor.</param>
         /// <returns>The position <see cref="IVector" /> of the new point.</returns>
         public static T LerpUnclamped<T>(this T current, T target, double interpolant) where T : IVector, new()
         {
             // source + (target - source) * fraction
             return Add(current, Multiply(Subtract(target, current), interpolant));
         }
-        
+
         /// <summary>
         ///     Moves the source point in a straight line towards a target point by adding the given distance delta and returns
         ///     its new position.
@@ -225,7 +229,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="IVector" /> of the new point.</returns>
         public static T MoveTowards<T>(this T source, T target, double maxDistanceDelta) where T : IVector, new()
         {
-            return source.LerpUnclamped(target, (maxDistanceDelta / source.Distance(target)));
+            return source.LerpUnclamped(target, (maxDistanceDelta/source.Distance(target)));
         }
 
         /// <summary>
@@ -238,7 +242,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < resultVector.Dimension; ++i)
-                resultVector[i] = vector[i] * scalar;
+                resultVector[i] = vector[i]*scalar;
             return resultVector;
         }
 
@@ -262,7 +266,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < vector.Dimension; ++i)
-                resultVector[i] = vector[i] / vector.Magnitude;
+                resultVector[i] = vector[i]/vector.Magnitude;
             return resultVector;
         }
 

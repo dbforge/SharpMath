@@ -1,5 +1,4 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
-// Improvements: Stefan Baumann 2016
 
 using System;
 
@@ -8,6 +7,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Represents a line in a 2-dimensional room.
     /// </summary>
+    [Serializable]
     public struct Line2D : IEquatable<Line2D>
     {
         /// <summary>
@@ -31,19 +31,33 @@ namespace SharpMath.Geometry
             var vectorA = a.PositionVector;
             var vectorB = b.PositionVector;
 
-            Slope = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
-            Offset = vectorA.Y - (Slope * vectorA.X); // Insert a point
+            Slope = (vectorB.Y - vectorA.Y)/(vectorB.X - vectorA.X);
+            Offset = vectorA.Y - (Slope*vectorA.X); // Insert a point
         }
 
         /// <summary>
         ///     Gets or sets the slope of the <see cref="Line2D" />.
         /// </summary>
-        public double Slope { get; set; }
+        public double Slope { get; }
 
         /// <summary>
         ///     Gets or sets the offset of the <see cref="Line2D" />.
         /// </summary>
-        public double Offset { get; set; }
+        public double Offset { get; }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="Line2D" /> is equal to this instance.
+        /// </summary>
+        /// <param name="other">The <see cref="Line2D" /> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="Line2D" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public bool Equals(Line2D other)
+        {
+            return ReferenceEquals(other, null)
+                ? ReferenceEquals(this, null)
+                : other.Offset == Offset && other.Slope == Slope;
+        }
 
         /// <summary>
         ///     Creates a <see cref="Line2D" /> using the two specified <see cref="Point2D" /> instances.
@@ -150,34 +164,24 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        ///     Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            return ReferenceEquals(obj, null) ? ReferenceEquals(this, null) : obj is Line2D && ((Line2D)obj).Offset == Offset && ((Line2D)obj).Slope == Slope;
+            return ReferenceEquals(obj, null)
+                ? ReferenceEquals(this, null)
+                : obj is Line2D && ((Line2D) obj).Offset == Offset && ((Line2D) obj).Slope == Slope;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Line2D" /> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="Line2D" /> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="Line2D" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public bool Equals(Line2D other)
-        {
-            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Offset == Offset && other.Slope == Slope;
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
+        ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -185,10 +189,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        ///     A <see cref="System.String" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
@@ -196,12 +200,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Determines whether the two specified <see cref="Line2D" /> instances are equal to each other.
+        ///     Determines whether the two specified <see cref="Line2D" /> instances are equal to each other.
         /// </summary>
         /// <param name="left">The first <see cref="Line2D" />.</param>
         /// <param name="right">The <see cref="Line2D" /> to compare with the other <see cref="Line2D" />.</param>
         /// <returns>
-        ///   <c>true</c> if the two specified <see cref="Line2D" /> are equal to each other; otherwise, <c>false</c>.
+        ///     <c>true</c> if the two specified <see cref="Line2D" /> are equal to each other; otherwise, <c>false</c>.
         /// </returns>
         public static bool operator ==(Line2D left, Line2D right)
         {
@@ -209,12 +213,12 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Determines whether the two specified <see cref="Line2D" /> instances are not equal to each other.
+        ///     Determines whether the two specified <see cref="Line2D" /> instances are not equal to each other.
         /// </summary>
         /// <param name="left">The first <see cref="Line2D" />.</param>
         /// <param name="right">The <see cref="Line2D" /> to compare with the other <see cref="Line2D" />.</param>
         /// <returns>
-        ///   <c>true</c> if the two specified <see cref="Line2D" /> are not equal to each other; otherwise, <c>false</c>.
+        ///     <c>true</c> if the two specified <see cref="Line2D" /> are not equal to each other; otherwise, <c>false</c>.
         /// </returns>
         public static bool operator !=(Line2D left, Line2D right)
         {

@@ -5,11 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable NonReadonlyMemberInGetHashCode
+
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a four-dimensional vector with a homogeneous coordinate.
     /// </summary>
+    [Serializable]
     public struct Vector4 : IVector, IEquatable<Vector4>, IEnumerable<double>
     {
         /// <summary>
@@ -37,37 +40,6 @@ namespace SharpMath.Geometry
             Y = vector.Y;
             Z = vector.Z;
             W = vector.W;
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return X;
-                    case 1: return Y;
-                    case 2: return Z;
-                    case 3: return W;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    case 2: Z = value; break;
-                    case 3: W = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
-                }
-            }
         }
 
         /// <summary>
@@ -120,6 +92,72 @@ namespace SharpMath.Geometry
         /// </summary>
         public static Vector4 UnitW => new Vector4(0, 0, 1, 0);
 
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 4; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 4; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        public bool Equals(Vector4 other)
+        {
+            return this == other;
+        }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return X;
+                    case 1:
+                        return Y;
+                    case 2:
+                        return Z;
+                    case 3:
+                        return W;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        X = value;
+                        break;
+                    case 1:
+                        Y = value;
+                        break;
+                    case 2:
+                        Z = value;
+                        break;
+                    case 3:
+                        W = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                }
+            }
+        }
+
         /// <summary>
         ///     Gets the dimension of the <see cref="Vector3" />.
         /// </summary>
@@ -163,7 +201,8 @@ namespace SharpMath.Geometry
                 @" \end{array} \right)";
 
         /// <summary>
-        ///     Generates a <see cref="Vector4" /> from an object implementing the <see cref="IVector" /> interface, if the dimension is correct.
+        ///     Generates a <see cref="Vector4" /> from an object implementing the <see cref="IVector" /> interface, if the
+        ///     dimension is correct.
         /// </summary>
         /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector4" /> from.</param>
         /// <returns>The generated <see cref="Vector4" />.</returns>
@@ -206,7 +245,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof (Vector4))
+            if (obj is Vector4)
                 return this == (Vector4) obj;
             var vector = obj as IVector;
             if (Dimension != vector?.Dimension)
@@ -231,29 +270,6 @@ namespace SharpMath.Geometry
                 hash = hash*23 + W.GetHashCode();
                 return hash;
             }
-        }
-
-        public bool Equals(Vector4 other)
-        {
-            return this == other;
-        }
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 4; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 4; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
         }
 
         /// <summary>

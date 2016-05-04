@@ -1,4 +1,6 @@
-﻿namespace SharpMath.Geometry
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+namespace SharpMath.Geometry
 {
     public interface IVector
     {
@@ -24,13 +26,13 @@
         /// </summary>
         double SquareMagnitude { get; }
 
-        // <summary>
-        ///     Gets a value indicating whether the <see cref="IVector"/> is normalized, or not.
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="IVector" /> is normalized, or not.
         /// </summary>
         bool IsNormalized { get; }
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="IVector"/> has all of its components set to zero, or not.
+        ///     Gets a value indicating whether the <see cref="IVector" /> has all of its components set to zero, or not.
         /// </summary>
         bool IsZero { get; }
     }

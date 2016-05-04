@@ -1,5 +1,4 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
-// Improvements: Stefan Baumann 2016
 
 using System;
 using System.Collections;
@@ -30,7 +29,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets the <see cref="Point2D" /> instances that this <see cref="Polygon" /> consists of.
         /// </summary>
-        public List<Point2D> Points { get; protected set; } = new List<Point2D>();
+        public List<Point2D> Points { get; }
 
         /// <summary>
         ///     Gets the bounding box of this <see cref="Polygon" /> as a <see cref="RectangleF" />.
@@ -124,6 +123,40 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<Point2D> GetEnumerator()
+        {
+            return Points.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Points.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Determines whether the specified <see cref="Polygon" /> is equal to this instance.
+        /// </summary>
+        /// <param name="other">The <see cref="Polygon" /> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="Polygon" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public bool Equals(Polygon other)
+        {
+            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Points.SequenceEqual(Points);
+        }
+
+        /// <summary>
         ///     Determines whether this <see cref="Polygon" /> fully contains the specified <see cref="Polygon" />.
         /// </summary>
         /// <param name="other">The other <see cref="Polygon" />.</param>
@@ -149,7 +182,7 @@ namespace SharpMath.Geometry
 
             for (int i = 0; i < points.Count - 1; i++)
             {
-                t = t * ContainsPointInternal(point, points[i], points[i + 1]);
+                t = t*ContainsPointInternal(point, points[i], points[i + 1]);
             }
             return t >= 0;
         }
@@ -180,63 +213,31 @@ namespace SharpMath.Geometry
             if (q.Y <= p1.Y || q.Y > p2.Y)
                 return 1;
 
-            double delta = (p1.X - q.X) * (p2.Y - q.Y) - (p1.Y - q.Y) * (p2.X - q.X);
+            double delta = (p1.X - q.X)*(p2.Y - q.Y) - (p1.Y - q.Y)*(p2.X - q.X);
             if (delta > 0)
                 return -1;
             return delta < 0 ? 1 : 0;
         }
 
         /// <summary>
-        ///     Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<Point2D> GetEnumerator()
-        {
-            return Points.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Points.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        ///     Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            return ReferenceEquals(obj, null) ? ReferenceEquals(this, null) : obj is Polygon && ((Polygon)obj).Points.SequenceEqual(Points);
+            return ReferenceEquals(obj, null)
+                ? ReferenceEquals(this, null)
+                : obj is Polygon && ((Polygon) obj).Points.SequenceEqual(Points);
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Polygon" /> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="Polygon" /> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="Polygon" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public bool Equals(Polygon other)
-        {
-            return ReferenceEquals(other, null) ? ReferenceEquals(this, null) : other.Points.SequenceEqual(Points);
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
+        ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -244,10 +245,10 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
+        ///     Returns a <see cref="string" /> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="string" /> that represents this instance.
+        ///     A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
@@ -255,29 +256,33 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        /// Determines whether the two specified <see cref="Polygon" /> instances are equal to each other.
+        ///     Determines whether the two specified <see cref="Polygon" /> instances are equal to each other.
         /// </summary>
         /// <param name="left">The first <see cref="Polygon" />.</param>
         /// <param name="right">The <see cref="Polygon" /> to compare with the other <see cref="Polygon" />.</param>
         /// <returns>
-        ///   <c>true</c> if the two specified <see cref="Polygon" /> are equal to each other; otherwise, <c>false</c>.
+        ///     <c>true</c> if the two specified <see cref="Polygon" /> are equal to each other; otherwise, <c>false</c>.
         /// </returns>
         public static bool operator ==(Polygon left, Polygon right)
         {
-            return left.Equals(right);
+            if (ReferenceEquals(left, right))
+                return true;
+            return left != null && left.Equals(right);
         }
 
         /// <summary>
-        /// Determines whether the two specified <see cref="Polygon" /> instances are not equal to each other.
+        ///     Determines whether the two specified <see cref="Polygon" /> instances are not equal to each other.
         /// </summary>
         /// <param name="left">The first <see cref="Polygon" />.</param>
         /// <param name="right">The <see cref="Polygon" /> to compare with the other <see cref="Polygon" />.</param>
         /// <returns>
-        ///   <c>true</c> if the two specified <see cref="Polygon" /> are not equal to each other; otherwise, <c>false</c>.
+        ///     <c>true</c> if the two specified <see cref="Polygon" /> are not equal to each other; otherwise, <c>false</c>.
         /// </returns>
         public static bool operator !=(Polygon left, Polygon right)
         {
-            return !left.Equals(right);
+            if (ReferenceEquals(left, right))
+                return false;
+            return left != null && !left.Equals(right);
         }
     }
 }

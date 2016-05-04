@@ -1,4 +1,6 @@
-﻿namespace SharpMath.Geometry
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+namespace SharpMath.Geometry
 {
     public interface IMatrix
     {

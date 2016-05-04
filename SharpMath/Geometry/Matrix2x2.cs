@@ -1,17 +1,22 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+// ReSharper disable InconsistentNaming
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a 2x2 matrix.
     /// </summary>
+    [Serializable]
     public struct Matrix2x2 : IEnumerable<double>, ISquareMatrix
     {
         /// <summary>
-        ///     Initializes a <see cref="Matrix2x2"/> struct.
+        ///     Initializes a <see cref="Matrix2x2" /> struct.
         /// </summary>
         /// <param name="m11">The value at row 1 and column 1.</param>
         /// <param name="m12">The value at row 1 and column 2.</param>
@@ -56,6 +61,47 @@ namespace SharpMath.Geometry
         public double M22 { get; set; }
 
         /// <summary>
+        ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is singular, or not. If <c>true</c>, this
+        ///     <see cref="Matrix2x2" /> doesn't have an inverse.
+        /// </summary>
+        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
+
+        /// <summary>
+        ///     Gets the inverse of the <see cref="Matrix2x2" />.
+        /// </summary>
+        public Matrix2x2 Inverse => MatrixUtils.GaussJordan(this, Identity);
+
+        /// <summary>
+        ///     Gets the cofactor <see cref="Matrix2x2" /> of the <see cref="Matrix2x2" />.
+        /// </summary>
+        public Matrix2x2 CofactorMatrix => this.BuildCofactorMatrix();
+
+        /// <summary>
+        ///     Gets the adjugate of the <see cref="Matrix2x2" />.
+        /// </summary>
+        public Matrix2x2 Adjugate => CofactorMatrix.Transpose;
+
+        /// <summary>
+        ///     Gets the negated <see cref="Matrix2x2" /> of the <see cref="Matrix2x2" />.
+        /// </summary>
+        public Matrix2x2 Negate => this.GetNegate();
+
+        /// <summary>
+        ///     Gets the transpose of the <see cref="Matrix2x2" />.
+        /// </summary>
+        public Matrix2x2 Transpose => this.GetTranspose();
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        /// <summary>
         ///     Gets or sets the value at the specified index. The values are accessed as: (row*2) + column.
         /// </summary>
         /// <param name="index">The index.</param>
@@ -66,11 +112,16 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: return M11;
-                    case 1: return M12;
-                    case 2: return M21;
-                    case 3: return M22;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                    case 0:
+                        return M11;
+                    case 1:
+                        return M12;
+                    case 2:
+                        return M21;
+                    case 3:
+                        return M22;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
                 }
             }
 
@@ -78,11 +129,20 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: M11 = value; break;
-                    case 1: M12 = value; break;
-                    case 2: M21 = value; break;
-                    case 3: M22 = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 3.");
+                    case 0:
+                        M11 = value;
+                        break;
+                    case 1:
+                        M12 = value;
+                        break;
+                    case 2:
+                        M21 = value;
+                        break;
+                    case 3:
+                        M22 = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
                 }
             }
         }
@@ -95,14 +155,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get
-            {
-                return this[row * 2 + column];
-            }
-            set
-            {
-                this[row * 2 + column] = value;
-            }
+            get { return this[row*2 + column]; }
+            set { this[row*2 + column] = value; }
         }
 
         /// <summary>
@@ -121,25 +175,14 @@ namespace SharpMath.Geometry
         public uint ColumnCount => 2;
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is singular, or not. If <c>true</c>, this
-        ///     <see cref="Matrix2x2" /> doesn't have an inverse.
-        /// </summary>
-        public bool IsSingular => Determinant.IsApproximatelyEqualTo(0);
-
-        /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this * Transpose) == Identity;
+        public bool IsOrthogonal => (this*Transpose) == Identity;
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Matrix2x2"/> is the identity <see cref="Matrix2x2"/>, or not.
+        ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is the identity <see cref="Matrix2x2" />, or not.
         /// </summary>
         public bool IsIdentity => M11.IsApproximatelyEqualTo(1) && M22.IsApproximatelyEqualTo(0);
-
-        /// <summary>
-        ///     Gets the inverse of the <see cref="Matrix2x2" />.
-        /// </summary>
-        public Matrix2x2 Inverse => MatrixUtils.GaussJordan(this, Identity);
 
         /// <summary>
         ///     Gets the determinant of the <see cref="Matrix2x2" />.
@@ -150,16 +193,6 @@ namespace SharpMath.Geometry
         ///     Gets the trace of the <see cref="Matrix2x2" />.
         /// </summary>
         public double Trace => M11 + M22;
-
-        /// <summary>
-        ///     Gets the cofactor <see cref="Matrix2x2" /> of the <see cref="Matrix2x2" />.
-        /// </summary>
-        public Matrix2x2 CofactorMatrix => this.BuildCofactorMatrix();
-
-        /// <summary>
-        ///     Gets the adjugate of the <see cref="Matrix2x2" />.
-        /// </summary>
-        public Matrix2x2 Adjugate => CofactorMatrix.Transpose;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is symmetric, or not.
@@ -185,16 +218,6 @@ namespace SharpMath.Geometry
         ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is a triangle matrix, or not.
         /// </summary>
         public bool IsTriangle => this.GetIsTriangle();
-
-        /// <summary>
-        ///     Gets the negated <see cref="Matrix2x2"/> of the <see cref="Matrix2x2"/>.
-        /// </summary>
-        public Matrix2x2 Negate => this.GetNegate();
-
-        /// <summary>
-        ///     Gets the transpose of the <see cref="Matrix2x2" />.
-        /// </summary>
-        public Matrix2x2 Transpose => this.GetTranspose();
 
         /// <summary>
         ///     Implements the operator +.
@@ -272,7 +295,7 @@ namespace SharpMath.Geometry
         {
             if (!(obj is Matrix2x2))
                 return false;
-            return this == (Matrix2x2)obj;
+            return this == (Matrix2x2) obj;
         }
 
         /// <summary>
@@ -290,7 +313,7 @@ namespace SharpMath.Geometry
                 {
                     for (uint x = 0; x < ColumnCount; ++x)
                     {
-                        hash = hash * 23 + this[y, x].GetHashCode();
+                        hash = hash*23 + this[y, x].GetHashCode();
                     }
                 }
                 return hash;
@@ -300,16 +323,6 @@ namespace SharpMath.Geometry
         public bool Equals(Matrix2x2 other)
         {
             return this == other;
-        }
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
         }
 
         /// <summary>

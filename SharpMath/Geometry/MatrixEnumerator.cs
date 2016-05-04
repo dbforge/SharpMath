@@ -1,39 +1,38 @@
-﻿using System.Collections.Generic;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System.Collections;
+using System.Collections.Generic;
 
 namespace SharpMath.Geometry
 {
     internal class MatrixEnumerator : IEnumerator<double>
     {
-        IMatrix matrix;
-        int index;
+        private readonly IMatrix _matrix;
+        private int _index;
 
         internal MatrixEnumerator(IMatrix m)
         {
-            matrix = m;
-            index = -1;
+            _matrix = m;
+            _index = -1;
         }
 
-        public double Current => matrix[(uint)index % matrix.ColumnCount, (uint)index / matrix.RowCount];
+        public double Current => _matrix[(uint) _index%_matrix.ColumnCount, (uint) _index/_matrix.RowCount];
 
-        public void Dispose() { }
-
-        object System.Collections.IEnumerator.Current
+        public void Dispose()
         {
-            get
-            {
-                return Current;
-            }
         }
+
+        object IEnumerator.Current => Current;
 
         public bool MoveNext()
         {
-            index++;
-            return index < matrix.ColumnCount + matrix.RowCount;
+            _index++;
+            return _index < _matrix.ColumnCount + _matrix.RowCount;
         }
 
         public void Reset()
         {
-            index = -1;
+            _index = -1;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
-// Improvements: Stefan Baumann 2016
 
 namespace SharpMath
 {
@@ -29,7 +28,8 @@ namespace SharpMath
             => FloatingNumber.AreApproximatelyEqual(number, other, epsilon);
 
         /// <summary>
-        ///     Determines whether two floating numbers are approximately equal to each other using the <see cref="Epsilon" />
+        ///     Determines whether two floating numbers are approximately equal to each other using the
+        ///     <see cref="FloatingNumber.Epsilon" />
         ///     value.
         /// </summary>
         /// <param name="number">The current <see cref="float" />.</param>

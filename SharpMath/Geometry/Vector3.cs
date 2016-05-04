@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable NonReadonlyMemberInGetHashCode
+
 namespace SharpMath.Geometry
 {
     /// <summary>
@@ -74,35 +76,6 @@ namespace SharpMath.Geometry
         public double Z { get; set; }
 
         /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return X;
-                    case 1: return Y;
-                    case 2: return Z;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    case 2: Z = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-        }
-
-        /// <summary>
         ///     A <see cref="Vector3" /> with all values set to zero.
         /// </summary>
         public static Vector3 Zero => new Vector3(0, 0, 0);
@@ -157,6 +130,67 @@ namespace SharpMath.Geometry
         /// </summary>
         public static Vector3 UnitZ => new Vector3(0, 0, 1);
 
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 3; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        public bool Equals(Vector3 other)
+        {
+            return this == other;
+        }
+
+        /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return X;
+                    case 1:
+                        return Y;
+                    case 2:
+                        return Z;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        X = value;
+                        break;
+                    case 1:
+                        Y = value;
+                        break;
+                    case 2:
+                        Z = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                }
+            }
+        }
+
         /// <summary>
         ///     Gets the dimension of the <see cref="Vector3" />.
         /// </summary>
@@ -198,7 +232,8 @@ namespace SharpMath.Geometry
             => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \end{array} \right)";
 
         /// <summary>
-        ///     Generates a <see cref="Vector3" /> from an object implementing the <see cref="IVector" /> interface, if the dimension is correct.
+        ///     Generates a <see cref="Vector3" /> from an object implementing the <see cref="IVector" /> interface, if the
+        ///     dimension is correct.
         /// </summary>
         /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector3" /> from.</param>
         /// <returns>The generated <see cref="Vector3" />.</returns>
@@ -240,7 +275,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
         public static Vector3 Lerp(Vector3 source, Vector3 target, double fraction)
         {
-            return VectorUtils.Lerp(source, target, fraction);
+            return source.Lerp(target, fraction);
         }
 
         /// <summary>
@@ -252,7 +287,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
         public static Vector3 LerpUnclamped(Vector3 source, Vector3 target, double fraction)
         {
-            return VectorUtils.LerpUnclamped(source, target, fraction);
+            return source.LerpUnclamped(target, fraction);
         }
 
         /// <summary>
@@ -265,7 +300,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
         public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
         {
-            return VectorUtils.MoveTowards(source, target, maxDistanceDelta);
+            return source.MoveTowards(target, maxDistanceDelta);
         }
 
         /// <summary>
@@ -281,7 +316,7 @@ namespace SharpMath.Geometry
             //var matrix = SquareMatrix.FromMatrix(firstVector.AsHorizontalMatrix().AugmentVertically(secondVector.AsHorizontalMatrix()).AugmentVertically(thirdVector.AsHorizontalMatrix()));
             //return Math.Abs(matrix.Determinant);
 
-            return Math.Abs(VectorUtils.DotProduct(VectorProduct(firstVector, secondVector), thirdVector));
+            return Math.Abs(VectorProduct(firstVector, secondVector).DotProduct(thirdVector));
         }
 
         /// <summary>
@@ -291,7 +326,7 @@ namespace SharpMath.Geometry
         /// <returns>The calculated <see cref="Vector3" />.</returns>
         public Vector3 VectorProduct(Vector3 other)
         {
-            return new Vector3((Y * other.Z - Z * other.Y), (Z * other.X - X * other.Z), (X * other.Y - Y * other.X));
+            return new Vector3((Y*other.Z - Z*other.Y), (Z*other.X - X*other.Z), (X*other.Y - Y*other.X));
         }
 
         /// <summary>
@@ -315,7 +350,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator +(Vector3 firstVector, Vector3 secondVector)
         {
-            return VectorUtils.Add(firstVector, secondVector);
+            return firstVector.Add(secondVector);
         }
 
         /// <summary>
@@ -328,7 +363,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator -(Vector3 firstVector, Vector3 secondVector)
         {
-            return VectorUtils.Subtract(firstVector, secondVector);
+            return firstVector.Subtract(secondVector);
         }
 
         /// <summary>
@@ -366,7 +401,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static double operator *(Vector3 firstVector, Vector3 secondVector)
         {
-            return VectorUtils.DotProduct(firstVector, secondVector);
+            return firstVector.DotProduct(secondVector);
         }
 
         /// <summary>
@@ -380,6 +415,7 @@ namespace SharpMath.Geometry
             var result = matrix*new Vector4(vector.X, vector.Y, vector.Z, 1);
             result.X /= result.W;
             result.Y /= result.W;
+            result.Z /= result.W;
             result.Z /= result.W;
             return result.Convert<Vector3>();
         }
@@ -404,7 +440,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof (Vector3))
+            if (obj is Vector3)
                 return this == (Vector3) obj;
             var vector = obj as IVector;
             if (Dimension != vector?.Dimension)
@@ -428,29 +464,6 @@ namespace SharpMath.Geometry
                 hash = hash*23 + Z.GetHashCode();
                 return hash;
             }
-        }
-
-        public bool Equals(Vector3 other)
-        {
-            return this == other;
-        }
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
         }
 
         /// <summary>

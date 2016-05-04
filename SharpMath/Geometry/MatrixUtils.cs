@@ -1,7 +1,9 @@
-﻿using SharpMath.Equations.Exceptions;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SharpMath.Equations.Exceptions;
 
 namespace SharpMath.Geometry
 {
@@ -89,7 +91,7 @@ namespace SharpMath.Geometry
                 {
                     if (y != x && Math.Abs(leftSide[y, x]) >= FloatingNumber.Epsilon)
                     {
-                        double factor = leftSide[y, x] / leftSide[x, x];
+                        double factor = leftSide[y, x]/leftSide[x, x];
                         leftSide.SubtractRows(y, x, factor);
                         rightSide.SubtractRows(y, x, factor);
                     }
@@ -98,7 +100,7 @@ namespace SharpMath.Geometry
 
             for (uint i = 0; i < leftSide.ColumnCount; i++)
             {
-                double factor = 1 / leftSide[i, i];
+                double factor = 1/leftSide[i, i];
                 leftSide.MultiplyRow(i, factor);
                 rightSide.MultiplyRow(i, factor);
             }
@@ -115,7 +117,7 @@ namespace SharpMath.Geometry
         /// <returns>The cofactor of the element in this <see cref="ISquareMatrix" />.</returns>
         public static double GetCofactor(this ISquareMatrix matrix, uint row, uint column)
         {
-            return Math.Pow(-1, row + column) * matrix.GetSubMatrix(row, column).GetDeterminant();
+            return Math.Pow(-1, row + column)*matrix.GetSubMatrix(row, column).GetDeterminant();
         }
 
         /// <summary>
@@ -130,7 +132,7 @@ namespace SharpMath.Geometry
                 case 1:
                     return matrix[0, 0];
                 case 2:
-                    return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0];
+                    return matrix[0, 0]*matrix[1, 1] - matrix[0, 1]*matrix[1, 0];
                 default:
                     return LaplaceExpansion(matrix);
             }
@@ -139,7 +141,10 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Calculates the identity <see cref="ISquareMatrix" /> of the specified <see cref="ISquareMatrix" /> type.
         /// </summary>
-        /// <typeparam name="T">The <see cref="ISquareMatrix" /> type whose identity <see cref="ISquareMatrix" /> should be calculated.</param>
+        /// <typeparam name="T">
+        ///     The <see cref="ISquareMatrix" /> type whose identity <see cref="ISquareMatrix" /> should be
+        ///     calculated.
+        /// </typeparam>
         /// <returns>The identity <see cref="ISquareMatrix" />.</returns>
         public static T GetIdentity<T>() where T : ISquareMatrix, new()
         {
@@ -153,7 +158,10 @@ namespace SharpMath.Geometry
         ///     Determines whether the <see cref="ISquareMatrix" /> is a diagonal <see cref="ISquareMatrix" />, or not.
         /// </summary>
         /// <param name="matrix">The <see cref="ISquareMatrix" />.</param>
-        /// <returns><c>true</c>, if the <see cref="ISquareMatrix" /> is a diagonal <see cref="ISquareMatrix" />, otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///     <c>true</c>, if the <see cref="ISquareMatrix" /> is a diagonal <see cref="ISquareMatrix" />, otherwise
+        ///     <c>false</c>.
+        /// </returns>
         public static bool GetIsDiagonal(this ISquareMatrix matrix)
         {
             if (matrix.Dimension == 1)
@@ -173,18 +181,20 @@ namespace SharpMath.Geometry
         ///     Determines whether the <see cref="ISquareMatrix" /> is a triangle <see cref="ISquareMatrix" />, or not.
         /// </summary>
         /// <param name="matrix">The <see cref="ISquareMatrix" />.</param>
-        /// <returns><c>true</c>, if the <see cref="ISquareMatrix" /> is a triangle <see cref="ISquareMatrix" />, otherwise <c>false</c>.</returns>
+        /// <returns>
+        ///     <c>true</c>, if the <see cref="ISquareMatrix" /> is a triangle <see cref="ISquareMatrix" />, otherwise
+        ///     <c>false</c>.
+        /// </returns>
         public static bool GetIsTriangle(this ISquareMatrix matrix)
         {
             if (matrix.Dimension == 1)
                 return false;
 
-            bool isRightSide;
             var upperTriangle = new List<double>();
             var lowerTriangle = new List<double>();
             for (uint y = 0; y < matrix.RowCount; ++y)
             {
-                isRightSide = false;
+                var isRightSide = false;
                 for (uint x = 0; x < matrix.ColumnCount; ++x)
                 {
                     if (y == x)
@@ -200,13 +210,14 @@ namespace SharpMath.Geometry
                 }
             }
 
-            if (upperTriangle.All(val => val.IsApproximatelyEqualTo(0)) || lowerTriangle.All(val => val.IsApproximatelyEqualTo(0)))
+            if (upperTriangle.All(val => val.IsApproximatelyEqualTo(0)) ||
+                lowerTriangle.All(val => val.IsApproximatelyEqualTo(0)))
                 return true;
             return false;
         }
 
         /// <summary>
-        ///     Calculates the negated <see cref="IMatrix" /> of the <see cref="IMatrix"/>.
+        ///     Calculates the negated <see cref="IMatrix" /> of the <see cref="IMatrix" />.
         /// </summary>
         /// <param name="matrix">The <see cref="IMatrix" /> whose negated <see cref="IMatrix" /> should be calculated.</param>
         /// <returns>The negated <see cref="IMatrix" />.</returns>
@@ -220,14 +231,16 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the sub <see cref="IMatrix" /> of the current <see cref="IMatrix" /> by removing the specified column and row.
+        ///     Calculates the sub <see cref="IMatrix" /> of the current <see cref="IMatrix" /> by removing the specified column
+        ///     and row.
         /// </summary>
+        /// <param name="matrix">The <see cref="ISquareMatrix" />.</param>
         /// <param name="row">The row that should be removed.</param>
         /// <param name="column">The column that should be removed.</param>
-        /// <returns>The calculated sub <see cref="Matrix" />.</returns>
+        /// <returns>The calculated sub <see cref="ISquareMatrix" />.</returns>
         public static ISquareMatrix GetSubMatrix(this ISquareMatrix matrix, uint row, uint column)
         {
-            ISquareMatrix resultMatrix = null;
+            ISquareMatrix resultMatrix;
             switch (matrix.Dimension)
             {
                 case 2:
@@ -240,9 +253,10 @@ namespace SharpMath.Geometry
                     resultMatrix = new Matrix3x3();
                     break;
                 default:
-                    throw new InvalidOperationException("Cannot build sub matrix of " + nameof(matrix) + " as there is no lower dimension defined for it.");
+                    throw new InvalidOperationException("Cannot build sub matrix of " + nameof(matrix) +
+                                                        " as there is no lower dimension defined for it.");
             }
-            
+
             uint y = 0;
             for (uint cy = 0; cy < matrix.RowCount; cy++)
             {
@@ -262,7 +276,7 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Calculates the transpose of the <see cref="IMatrix"/>.
+        ///     Calculates the transpose of the <see cref="IMatrix" />.
         /// </summary>
         /// <param name="matrix">The <see cref="IMatrix" /> whose transpose should be calculated.</param>
         /// <returns>The transpose <see cref="IMatrix" />.</returns>
@@ -279,7 +293,8 @@ namespace SharpMath.Geometry
         {
             double determinant = 0;
             for (uint i = 0; i < matrix.Dimension; ++i)
-                determinant += matrix[i, 0] * matrix.GetCofactor(i, 0); // The sigma sign is equal to a for-loop with recursion.
+                determinant += matrix[i, 0]*matrix.GetCofactor(i, 0);
+                    // The sigma sign is equal to a for-loop with recursion.
             return determinant;
         }
 
@@ -306,18 +321,20 @@ namespace SharpMath.Geometry
         public static TOut Multiply<TOut>(IMatrix firstMatrix, IMatrix secondMatrix) where TOut : IMatrix, new()
         {
             if (firstMatrix.ColumnCount != secondMatrix.RowCount)
-                throw new ArgumentException("The column count of the first matrix does not match the row count of the second matrix.");
+                throw new ArgumentException(
+                    "The column count of the first matrix does not match the row count of the second matrix.");
 
             var matrixProduct = new TOut();
             if (matrixProduct.RowCount != firstMatrix.RowCount || matrixProduct.ColumnCount != secondMatrix.ColumnCount)
-                throw new ArgumentException($"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be {firstMatrix.RowCount}x{secondMatrix.ColumnCount}.");
+                throw new ArgumentException(
+                    $"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be {firstMatrix.RowCount}x{secondMatrix.ColumnCount}.");
 
             for (uint y = 0; y < matrixProduct.RowCount; ++y)
             {
                 for (uint x = 0; x < matrixProduct.ColumnCount; ++x)
                 {
                     for (uint i = 0; i < firstMatrix.ColumnCount; ++i)
-                        matrixProduct[y, x] += firstMatrix[y, i] * secondMatrix[i, x];
+                        matrixProduct[y, x] += firstMatrix[y, i]*secondMatrix[i, x];
                 }
             }
 
@@ -357,7 +374,7 @@ namespace SharpMath.Geometry
         internal static void SubtractRows(this IMatrix matrix, uint firstRowIndex, uint secondRowIndex, double factor)
         {
             for (uint x = 0; x < matrix.ColumnCount; x++)
-                matrix[firstRowIndex, x] -= matrix[secondRowIndex, x] * factor;
+                matrix[firstRowIndex, x] -= matrix[secondRowIndex, x]*factor;
         }
     }
 }

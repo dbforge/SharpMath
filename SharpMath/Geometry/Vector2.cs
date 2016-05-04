@@ -1,17 +1,16 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
-using SharpMath.Geometry.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using SharpMath.Geometry.Exceptions;
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a two-dimensional vector.
     /// </summary>
-    /// 
     [Serializable]
     public struct Vector2 : IVector, IEquatable<Vector2>, IEnumerable<double>
     {
@@ -66,33 +65,6 @@ namespace SharpMath.Geometry
         public double Y { get; set; }
 
         /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return X;
-                    case 1: return Y;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
-                }
-            }
-        }
-
-        /// <summary>
         ///     A <see cref="Vector2" /> with all values set to zero.
         /// </summary>
         public static Vector2 Zero => new Vector2(0, 0);
@@ -138,6 +110,41 @@ namespace SharpMath.Geometry
         public Vector2 Perpendicular => new Vector2(-Y, X);
 
         /// <summary>
+        ///     Gets or sets the value of the coordinate at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The value of the coordinate at the specified index.</returns>
+        public double this[uint index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return X;
+                    case 1:
+                        return Y;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        X = value;
+                        break;
+                    case 1:
+                        Y = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                }
+            }
+        }
+
+        /// <summary>
         ///     Gets the dimension of the <see cref="Vector2" />.
         /// </summary>
         public uint Dimension => 2;
@@ -162,22 +169,24 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector2"/> is normalized, or not.
+        ///     Gets a value indicating whether the <see cref="Vector2" /> is normalized, or not.
         /// </summary>
         public bool IsNormalized => Magnitude.IsApproximatelyEqualTo(1);
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector2"/> has all of its components set to zero, or not.
+        ///     Gets a value indicating whether the <see cref="Vector2" /> has all of its components set to zero, or not.
         /// </summary>
         public bool IsZero => this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
 
         /// <summary>
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
-        public string ToLaTeXString() => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)";
+        public string ToLaTeXString()
+            => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)";
 
         /// <summary>
-        ///     Generates a <see cref="Vector2" /> from an object that implements the <see cref="IVector" /> interface, if the dimension is correct.
+        ///     Generates a <see cref="Vector2" /> from an object that implements the <see cref="IVector" /> interface, if the
+        ///     dimension is correct.
         /// </summary>
         /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector2" /> from.</param>
         /// <returns>The generated <see cref="Vector2" />.</returns>
@@ -186,7 +195,7 @@ namespace SharpMath.Geometry
         {
             if (vector.Dimension != 2)
                 throw new DimensionException("The dimension of the given vector is invalid. It must be 2.");
-            return new Vector2(vector[0], vector[1] );
+            return new Vector2(vector[0], vector[1]);
         }
 
         /// <summary>
@@ -273,7 +282,7 @@ namespace SharpMath.Geometry
         /// <returns>The resulting <see cref="Vector2" />.</returns>
         public static Vector2 Divide(Vector2 vector, double scalar)
         {
-            return vector * (1/scalar);
+            return vector*(1/scalar);
         }
 
         /// <summary>
@@ -296,7 +305,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector2" /> of the new point.</returns>
         public static Vector2 Lerp(Vector2 source, Vector2 target, double fraction)
         {
-            return VectorUtils.Lerp(source, target, fraction);
+            return source.Lerp(target, fraction);
         }
 
         /// <summary>
@@ -308,7 +317,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector2" /> of the new point.</returns>
         public static Vector2 LerpUnclamped(Vector2 source, Vector2 target, double fraction)
         {
-            return VectorUtils.LerpUnclamped(source, target, fraction);
+            return source.LerpUnclamped(target, fraction);
         }
 
         /// <summary>
@@ -321,25 +330,25 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="Vector2" /> of the new point.</returns>
         public static Vector2 MoveTowards(Vector2 source, Vector2 target, double maxDistanceDelta)
         {
-            return VectorUtils.MoveTowards(source, target, maxDistanceDelta);
+            return source.MoveTowards(target, maxDistanceDelta);
         }
 
         /// <summary>
-        ///     Calculates the vector product of the current and the specified <see cref="Vector2"/> instance.
+        ///     Calculates the vector product of the current and the specified <see cref="Vector2" /> instance.
         /// </summary>
-        /// <param name="other">The other <see cref="Vector2"/>.</param>
-        /// <returns>The vector product of the current and the specified <see cref="Vector2"/>.</returns>
+        /// <param name="other">The other <see cref="Vector2" />.</param>
+        /// <returns>The vector product of the current and the specified <see cref="Vector2" />.</returns>
         public double VectorProduct(Vector2 other)
         {
-            return (X * other.Y) - (Y * other.X);
+            return (X*other.Y) - (Y*other.X);
         }
 
         /// <summary>
-        ///     Calculates the vector product of the specified <see cref="Vector2"/> instances.
+        ///     Calculates the vector product of the specified <see cref="Vector2" /> instances.
         /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector2"/>.</param>
-        /// <param name="secondVector">The second <see cref="Vector2"/>.</param>
-        /// <returns>The vector product of the specified <see cref="Vector2"/> instances.</returns>
+        /// <param name="firstVector">The first <see cref="Vector2" />.</param>
+        /// <param name="secondVector">The second <see cref="Vector2" />.</param>
+        /// <returns>The vector product of the specified <see cref="Vector2" /> instances.</returns>
         public static double VectorProduct(Vector2 firstVector, Vector2 secondVector)
         {
             return firstVector.VectorProduct(secondVector);
@@ -355,7 +364,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator +(Vector2 firstVector, Vector2 secondVector)
         {
-            return VectorUtils.Add(firstVector, secondVector);
+            return firstVector.Add(secondVector);
         }
 
         /// <summary>
@@ -368,7 +377,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator -(Vector2 firstVector, Vector2 secondVector)
         {
-            return VectorUtils.Subtract(firstVector, secondVector);
+            return firstVector.Subtract(secondVector);
         }
 
         /// <summary>
@@ -380,7 +389,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator -(Vector2 current)
         {
-            return current.Negate<Vector2>();
+            return current.Negate();
         }
 
         /// <summary>
@@ -406,7 +415,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static double operator *(Vector2 firstVector, Vector2 secondVector)
         {
-            return VectorUtils.DotProduct(firstVector, secondVector);
+            return firstVector.DotProduct(secondVector);
         }
 
         /// <summary>
@@ -461,7 +470,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof (Vector2))
+            if (obj is Vector2)
                 return this == (Vector2) obj;
             var vector = obj as IVector;
             if (Dimension != vector?.Dimension)
@@ -480,6 +489,7 @@ namespace SharpMath.Geometry
             unchecked
             {
                 int hash = 17;
+                // ReSharper disable NonReadonlyMemberInGetHashCode
                 hash = hash*23 + X.GetHashCode();
                 hash = hash*23 + Y.GetHashCode();
                 return hash;
@@ -497,7 +507,6 @@ namespace SharpMath.Geometry
             {
                 yield return this[i];
             }
-            yield break;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -506,7 +515,6 @@ namespace SharpMath.Geometry
             {
                 yield return this[i];
             }
-            yield break;
         }
 
         /// <summary>

@@ -1,10 +1,12 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.ComponentModel;
 
 namespace SharpMath.Geometry
 {
     /// <summary>
-    ///     Represents a matrix that can vary in its column and row count. 
+    ///     Represents a matrix that can vary in its column and row count.
     /// </summary>
     internal sealed class VariableMatrix : IMatrix
     {
@@ -38,15 +40,10 @@ namespace SharpMath.Geometry
         [Obsolete("Simple indexer is not supported in this class.", true)]
         public double this[uint index]
         {
-            get
-            {
-                return double.NaN;
-            }
+            get { return double.NaN; }
 
-            set
-            {
-                return;
-            }
+            // ReSharper disable once ValueParameterNotUsed
+            set { }
         }
 
         /// <summary>

@@ -1,19 +1,22 @@
-﻿using SharpMath.Geometry;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SharpMath.Geometry;
 
 namespace SharpMath.PolygonTest
 {
     public partial class ContainsTestForm : Form
     {
-        private bool _containsPoint;
-        private readonly Polygon _polygon;
         private readonly PointF[] _points =
         {
             new PointF(0, 0), new PointF(200, 80), new PointF(400, 200),
             new PointF(100, 60)
         };
+
+        private readonly Polygon _polygon;
+        private bool _containsPoint;
 
         public ContainsTestForm()
         {

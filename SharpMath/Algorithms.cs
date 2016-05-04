@@ -1,10 +1,7 @@
 ﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
 
-using System;
 using System.Collections.Generic;
-using SharpMath.Equations.Exceptions;
 using SharpMath.Expressions;
-using SharpMath.Geometry;
 
 namespace SharpMath
 {

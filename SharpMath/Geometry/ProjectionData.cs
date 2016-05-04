@@ -8,6 +8,7 @@ namespace SharpMath.Geometry
     /// <summary>
     ///     Provides configuration data for performing projections in a view frustum.
     /// </summary>
+    [Serializable]
     public struct ProjectionData
     {
         /// <summary>

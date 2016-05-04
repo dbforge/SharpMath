@@ -1,13 +1,18 @@
-﻿using System;
+﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
+// ReSharper disable InconsistentNaming
 
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a 3x1 matrix for representing three-dimensional vectors vertically.
     /// </summary>
-    public struct Matrix3x1 : IEnumerable<double>,IMatrix
+    [Serializable]
+    public struct Matrix3x1 : IEnumerable<double>, IMatrix
     {
         /// <summary>
         ///     Gets the value at row 1 and column 1.
@@ -24,6 +29,16 @@ namespace SharpMath.Geometry
         /// </summary>
         public double M31 { get; set; }
 
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new MatrixEnumerator(this);
+        }
+
         /// <summary>
         ///     Gets or sets the value at the specified index. The values are accessed as: row (+ column).
         /// </summary>
@@ -35,20 +50,31 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: return M11;
-                    case 1: return M21;
-                    case 2: return M31;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                    case 0:
+                        return M11;
+                    case 1:
+                        return M21;
+                    case 2:
+                        return M31;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
                 }
             }
             set
             {
                 switch (index)
                 {
-                    case 0: M11 = value; break;
-                    case 1: M21 = value; break;
-                    case 2: M31 = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 2.");
+                    case 0:
+                        M11 = value;
+                        break;
+                    case 1:
+                        M21 = value;
+                        break;
+                    case 2:
+                        M31 = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
                 }
             }
         }
@@ -61,15 +87,9 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get
-            {
-                return this[row + column];
-            }
+            get { return this[row + column]; }
 
-            set
-            {
-                this[row + column] = value;
-            }
+            set { this[row + column] = value; }
         }
 
         /// <summary>
@@ -81,15 +101,5 @@ namespace SharpMath.Geometry
         ///     Gets the row count of the <see cref="Matrix4x1" />.
         /// </summary>
         public uint RowCount => 3;
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new MatrixEnumerator(this);
-        }
     }
 }

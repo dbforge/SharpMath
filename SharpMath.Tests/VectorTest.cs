@@ -47,9 +47,9 @@ namespace SharpMath.Tests
         public void CanCalculateScalarProduct()
         {
             Assert.AreEqual(0, Vector2.UnitX.DotProduct(Vector2.UnitY));
-            Assert.AreEqual(20, VectorUtils.DotProduct(new Vector2(2, 4), new Vector2(4, 3)));
-            Assert.AreEqual(0, VectorUtils.DotProduct(Vector3.Forward, Vector3.Up));
-            Assert.AreEqual(8, VectorUtils.DotProduct(new Vector3(2, 3, 1), new Vector3(-1, 2, 4)));
+            Assert.AreEqual(20, new Vector2(2, 4).DotProduct(new Vector2(4, 3)));
+            Assert.AreEqual(0, Vector3.Forward.DotProduct(Vector3.Up));
+            Assert.AreEqual(8, new Vector3(2, 3, 1).DotProduct(new Vector3(-1, 2, 4)));
         }
 
         [TestMethod]
@@ -232,7 +232,7 @@ namespace SharpMath.Tests
         [TestMethod]
         public void CanConvertVectorIntoMatrices()
         {
-            var firstMatrix = new Matrix3x1()
+            var firstMatrix = new Matrix3x1
             {
                 [0, 0] = 1,
                 [1, 0] = 0,
@@ -241,7 +241,7 @@ namespace SharpMath.Tests
             var firstVectorMatrix = Vector3.Right.AsVerticalMatrix<Matrix3x1>();
             Assert.AreEqual(firstMatrix, firstVectorMatrix);
 
-            var secondMatrix = new Matrix1x3()
+            var secondMatrix = new Matrix1x3
             {
                 [0, 0] = 1,
                 [0, 1] = 0,
@@ -267,16 +267,16 @@ namespace SharpMath.Tests
             Assert.IsFalse(thirdVector != fourthVector);
 
             // Let's see, if the coordinate comparison is working when we have the same dimension but different coordinate values
-            var fifthVector = new Vector3()
+            var fifthVector = new Vector3
             {
                 [0] = 1,
                 [1] = 2,
                 [2] = 1
             };
-            
+
             Assert.AreEqual(new Vector3(1, 2, 1), fifthVector);
 
-            var sixthVector = new Vector3()
+            var sixthVector = new Vector3
             {
                 [0] = 2,
                 [1] = 2,
@@ -293,7 +293,7 @@ namespace SharpMath.Tests
         {
             var vector = new Vector3(2, 3, 2);
             Assert.AreEqual(new Vector3(-2, -3, -2), vector.Negate());
-            Assert.AreEqual(new Vector3(-2, -3, -2), vector.Negate<Vector3>());
+            Assert.AreEqual(new Vector3(-2, -3, -2), vector.Negate());
         }
 
         [TestMethod]
@@ -301,7 +301,7 @@ namespace SharpMath.Tests
         {
             var vector = new Vector2(3, 4);
             Assert.AreEqual(new Vector2(3d/5d, 4d/5d), vector.Normalize());
-            Assert.AreEqual(new Vector2(3d/5d, 4d/5d), vector.Normalize<Vector2>());
+            Assert.AreEqual(new Vector2(3d/5d, 4d/5d), vector.Normalize());
         }
     }
 }

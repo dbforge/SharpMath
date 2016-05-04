@@ -5,11 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable NonReadonlyMemberInGetHashCode
+
 namespace SharpMath.Geometry
 {
     /// <summary>
     ///     Represents a two-dimensional point.
     /// </summary>
+    [Serializable]
     public struct Point2D : IEquatable<Point2D>, IEnumerable<double>
     {
         /// <summary>
@@ -54,18 +57,26 @@ namespace SharpMath.Geometry
             {
                 switch (index)
                 {
-                    case 0: return X;
-                    case 1: return Y;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                    case 0:
+                        return X;
+                    case 1:
+                        return Y;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 1.");
                 }
             }
             set
             {
                 switch (index)
                 {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    default: throw new IndexOutOfRangeException("The index must be between 0 and 1.");
+                    case 0:
+                        X = value;
+                        break;
+                    case 1:
+                        Y = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("The index must be between 0 and 1.");
                 }
             }
         }
@@ -84,6 +95,27 @@ namespace SharpMath.Geometry
         ///     Gets the position <see cref="Vector2" /> of this <see cref="Point2D" />.
         /// </summary>
         public Vector2 PositionVector => new Vector2(X, Y);
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        public bool Equals(Point2D other)
+        {
+            return this == other;
+        }
 
         /// <summary>
         ///     Implements the operator +.
@@ -137,7 +169,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof (Point2D))
+            if (obj is Point2D)
                 return this == (Point2D) obj;
             return false;
         }
@@ -157,29 +189,6 @@ namespace SharpMath.Geometry
                 hash = hash*23 + Y.GetHashCode();
                 return hash;
             }
-        }
-
-        public bool Equals(Point2D other)
-        {
-            return this == other;
-        }
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 2; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 2; i++)
-            {
-                yield return this[i];
-            }
-            yield break;
         }
 
         /// <summary>

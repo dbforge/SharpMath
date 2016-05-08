@@ -51,7 +51,7 @@
             this.Controls.Add (this.testCanvas);
             this.Name = "Canvas2DTest";
             this.Text = "Canvas2DTest";
-            this.Load += new System.EventHandler (this.Form1_Load);
+            this.Load += new System.EventHandler (this.Canvas2DTest_Load);
             this.ResumeLayout (false);
 
         }

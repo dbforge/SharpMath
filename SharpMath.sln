@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath", "SharpMath\SharpMath.csproj", "{4706AE0F-30C8-460B-BBBF-5F189BE4EB76}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.3DTest", "SharpMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.PolygonTest", "SharpMath.PolygonTest\SharpMath.PolygonTest.csproj", "{1D3DD70B-E845-4993-A73E-7EBD14B9E005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.Canvas2DTest", "CanvasTest\SharpMath.Canvas2DTest.csproj", "{E8982E21-DEED-40EA-8DF9-0BD161AD1490}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.Canvas2DTest", "SharpMath.CanvasTest\SharpMath.Canvas2DTest.csproj", "{E8982E21-DEED-40EA-8DF9-0BD161AD1490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -75,6 +75,7 @@
     <Compile Include="Presentation\Canvas2D.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Presentation\FunctionWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\VectorUtils.cs" />
     <Compile Include="Geometry\Vector2.cs" />

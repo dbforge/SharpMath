@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath", "SharpMath\SharpMath.csproj", "{4706AE0F-30C8-460B-BBBF-5F189BE4EB76}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.3DTest", "SharpMath.3DTest\SharpMath.3DTest.csproj", "{15428131-2AC9-4AF4-8966-664FF1974CE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.PolygonTest", "SharpMath.PolygonTest\SharpMath.PolygonTest.csproj", "{1D3DD70B-E845-4993-A73E-7EBD14B9E005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMath.Canvas2DTest", "CanvasTest\SharpMath.Canvas2DTest.csproj", "{E8982E21-DEED-40EA-8DF9-0BD161AD1490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D3DD70B-E845-4993-A73E-7EBD14B9E005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8982E21-DEED-40EA-8DF9-0BD161AD1490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8982E21-DEED-40EA-8DF9-0BD161AD1490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8982E21-DEED-40EA-8DF9-0BD161AD1490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8982E21-DEED-40EA-8DF9-0BD161AD1490}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

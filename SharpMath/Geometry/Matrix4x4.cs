@@ -14,7 +14,7 @@ namespace SharpMath.Geometry
     /// </summary>
     // ReSharper disable once InconsistentNaming
     [Serializable]
-    public struct Matrix4x4 : IEnumerable<double>, IEquatable<Matrix4x4>, ISquareMatrix
+    public struct Matrix4x4 : IEnumerable<double>, IEquatable<Matrix4x4>, ISquareMatrix<Matrix4x4>
     {
         /// <summary>
         ///     Initializes a <see cref="Matrix3x3" /> struct.

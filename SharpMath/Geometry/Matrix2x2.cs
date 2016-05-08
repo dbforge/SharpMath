@@ -13,7 +13,7 @@ namespace SharpMath.Geometry
     ///     Represents a 2x2 matrix.
     /// </summary>
     [Serializable]
-    public struct Matrix2x2 : IEnumerable<double>, ISquareMatrix
+    public struct Matrix2x2 : IEnumerable<double>, ISquareMatrix<Matrix2x2>
     {
         /// <summary>
         ///     Initializes a <see cref="Matrix2x2" /> struct.

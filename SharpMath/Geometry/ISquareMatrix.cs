@@ -13,6 +13,16 @@ namespace SharpMath.Geometry
         bool IsSkewSymmetric { get; }
         bool IsAntiSymmetric { get; }
         bool IsDiagonal { get; }
+        bool IsSingular { get; }
         bool IsTriangle { get; }
+    }
+
+    public interface ISquareMatrix<out T> : ISquareMatrix where T : ISquareMatrix
+    {
+        T Adjugate { get; }
+        T CofactorMatrix { get; }
+        T Inverse { get; }
+        T Negate { get; }
+        T Transpose { get; }
     }
 }

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+//using SharpMath.Equations;
 using SharpMath.Equations.Exceptions;
 
 namespace SharpMath.Geometry
@@ -120,6 +121,33 @@ namespace SharpMath.Geometry
             return Math.Pow(-1, row + column)*matrix.GetSubMatrix(row, column).GetDeterminant();
         }
 
+        //public static TOut GetCore<TOut>(this ISquareMatrix matrix) where TOut : IVector, new()
+        //{
+        //    if (!matrix.Determinant.IsApproximatelyEqualTo(0))
+        //        throw new InvalidOperationException($"Cannot calculate core of {nameof(matrix)} as its determinant is not 0.");
+
+        //    var vector = new TOut();
+        //    if (matrix.Dimension != vector.Dimension)
+        //        throw new InvalidOperationException($"Type parameter TOut is not an adequate IVector - type as its dimension does not fit the one of the resulting vector. The dimension must be {matrix.Dimension}.");
+
+        //    var equations = new List<LinearEquation>((int)matrix.ColumnCount);
+        //    for (uint y = 0; y < matrix.RowCount; ++y)
+        //    {
+        //        var coefficients = new List<double>((int)matrix.ColumnCount);
+        //        for (uint x = 0; x < matrix.ColumnCount; ++x)
+        //            coefficients.Add(matrix[y, x]);
+
+        //        equations.Add(new LinearEquation(coefficients.ToArray(), 0));
+        //    }
+            
+        //    var equationSystem = new LinearEquationSystem(equations);
+        //    double[] solutions = equationSystem.Solve();
+        //    for (uint i = 0; i < matrix.ColumnCount; ++i)
+        //        vector[i] = solutions[i];
+
+        //    return vector;
+        //}
+
         /// <summary>
         ///     Calculates the determinant of the <see cref="ISquareMatrix" />.
         /// </summary>
@@ -153,6 +181,13 @@ namespace SharpMath.Geometry
                 resultMatrix[i, i] = 1;
             return resultMatrix;
         }
+
+        //public static T GetInverse<T>(this ISquareMatrix matrix) where T : ISquareMatrix, new()
+        //{
+        //    if (matrix.Determinant.IsApproximatelyEqualTo(0))
+        //        throw new InvalidOperationException("The specified matrix does not have an inverse.");
+        //    return GaussJordan(matrix, GetIdentity())
+        //}
 
         /// <summary>
         ///     Determines whether the <see cref="ISquareMatrix" /> is a diagonal <see cref="ISquareMatrix" />, or not.

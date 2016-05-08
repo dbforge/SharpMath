@@ -238,5 +238,22 @@ namespace SharpMath.Tests
             };
             Assert.IsTrue(fourthMatrix.IsTriangle);
         }
+
+        // TODO: Implement
+        //[TestMethod]
+        //public void CanGetCore()
+        //{
+        //    var matrix = new Matrix3x3
+        //    {
+        //        M11 = 3,
+        //        M12 = -1,
+        //        M13 = 4,
+        //        M21 = 0,
+        //        M22 = 1,
+        //        M23 = 5,
+        //    };
+
+        //    Assert.AreEqual(new Vector3(-3, -5, 1), matrix.GetCore<Vector3>());
+        //}
     }
 }

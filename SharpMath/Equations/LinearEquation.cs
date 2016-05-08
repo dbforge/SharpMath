@@ -16,6 +16,11 @@ namespace SharpMath.Equations
             Coefficients = coefficients;
             Result = result;
         }
+        public LinearEquation(double result, params double[] coefficients)
+        {
+            Coefficients = coefficients;
+            Result = result;
+        }
 
         public double[] Coefficients { get; set; }
         public double Result { get; set; }

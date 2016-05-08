@@ -1,216 +1,312 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="SharpMath.Algorithms">
-    <Position X="17.25" Y="0.5" Width="1.5" />
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Algorithm.cs</FileName>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Algorithms.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Extensions">
-    <Position X="21.5" Y="0.5" Width="2" />
+    <Position X="5.75" Y="1.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAICAAAA=</HashCode>
       <FileName>Extensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.FloatingNumber">
-    <Position X="19.25" Y="5.5" Width="3.25" />
+    <Position X="7.75" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FloatingNumber.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SharpMath.FloatingNumberExtensions">
+    <Position X="7.75" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>FloatingNumberExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="SharpMath.MathHelper">
-    <Position X="17.25" Y="2.25" Width="2" />
+    <Position X="10" Y="5" Width="2" />
     <TypeIdentifier>
       <HashCode>CAAAJAAAAAAAAAAQBAACAAAAAAQAAAAAAAEAAgAAAAA=</HashCode>
       <FileName>MathHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Equations.Exceptions.EquationNotSolvableException">
-    <Position X="24.75" Y="2.5" Width="2.5" />
+    <Position X="19" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Equations\Exceptions\EquationNotSolvableException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Equations.LinearEquation">
-    <Position X="27.75" Y="0.5" Width="1.5" />
+    <Position X="13" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Equations\LinearEquation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Equations.LinearEquationSystem">
-    <Position X="24.75" Y="0.5" Width="2.75" />
+    <Position X="15.75" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Equations\LinearEquationSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Expressions.CharEx">
-    <Position X="19" Y="0.5" Width="2.25" />
+    <Position X="5.75" Y="5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAAAA=</HashCode>
       <FileName>Expressions\CharEx.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Expressions.Parser">
-    <Position X="17.75" Y="7.75" Width="1.5" />
+    <Position X="8.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Parser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Expressions.Token">
-    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Position X="2.75" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAIAAAAEAAgAAIAAAAAAAEQAAAAAAAAA=</HashCode>
       <FileName>Expressions\Token.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Expressions.Token&lt;T&gt;">
-    <Position X="0.5" Y="4.5" Width="1.75" />
+    <Position X="2.75" Y="4.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAQgAAAAAAA=</HashCode>
       <FileName>Expressions\Token.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Expressions.Exceptions.ParserException">
-    <Position X="17.75" Y="9.75" Width="1.5" />
+    <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Expressions\Exceptions\ParserException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Geometry.Exceptions.DimensionException">
-    <Position X="24.75" Y="4" Width="2" />
+    <Position X="21.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Geometry\Exceptions\DimensionException.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SharpMath.Geometry.Line2D">
-    <Position X="30.5" Y="0.5" Width="2.75" />
+  <Class Name="SharpMath.Geometry.MatrixEnumerator" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="9" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIIAAAMAgAAAEgAAAAAAAAAAQIIAAAAAAAAAAgmA=</HashCode>
-      <FileName>Geometry\Line2D.cs</FileName>
+      <HashCode>AAAAAAAAACAABAAAAACgAAAAAAAAAAAAoAAAAQAAAAA=</HashCode>
+      <FileName>Geometry\MatrixEnumerator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SharpMath.Geometry.Line3D">
-    <Position X="33.5" Y="0.5" Width="1.5" />
+  <Class Name="SharpMath.Geometry.MatrixUtils">
+    <Position X="31.75" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAIAggAAEgCAAAAAAAAAAAIAAAAAIAAAAAiA=</HashCode>
-      <FileName>Geometry\Line3D.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SharpMath.Geometry.Matrix">
-    <Position X="8.25" Y="0.5" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAKAAAAAKQAAAACE6CGDCARAYQBACIAAAAAEgAgADjA=</HashCode>
-      <FileName>Geometry\Matrix.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SharpMath.Geometry.Matrix3x3">
-    <Position X="8.5" Y="13.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAIACYAEAAAAAAAAAAAAIAEAAAAAAAAA=</HashCode>
-      <FileName>Geometry\Matrix3x3.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SharpMath.Geometry.Matrix4x4">
-    <Position X="11.25" Y="13.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAABAAAIACYAEAAAAAAAABAIAIAEAAAAAAAAA=</HashCode>
-      <FileName>Geometry\Matrix4x4.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SharpMath.Geometry.Point">
-    <Position X="13.75" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAABAAyJECQAAAAAAAQIAEAAAAAAAAAjA=</HashCode>
-      <FileName>Geometry\Point.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SharpMath.Geometry.Point2D">
-    <Position X="12.5" Y="5.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAAEwAEAQAAAAAAAAIAAAAAAAAAAYiA=</HashCode>
-      <FileName>Geometry\Point2D.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SharpMath.Geometry.Point3D">
-    <Position X="14.75" Y="5.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAAEwAEAQAAAAAAAAIAAAAAAAAAAYiE=</HashCode>
-      <FileName>Geometry\Point3D.cs</FileName>
+      <HashCode>ACZCQAAAAAAAAACAIAADCAAAAAAEACAAAAAAICAADBA=</HashCode>
+      <FileName>Geometry\MatrixUtils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SharpMath.Geometry.Polygon" BaseTypeListCollapsed="true">
-    <Position X="30.5" Y="5.5" Width="2.5" />
+    <Position X="23.5" Y="4" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQAAgBAEgAAAAAAAACAAAIAEAACAAQAYAjA=</HashCode>
       <FileName>Geometry\Polygon.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SharpMath.Geometry.SquareMatrix">
-    <Position X="9.75" Y="9" Width="1.75" />
+  <Class Name="SharpMath.Geometry.VariableMatrix" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="1.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AARQAAAgAAAAAAAAICIAAAAAAAAEQDAAAAAAAAAAAAQ=</HashCode>
-      <FileName>Geometry\SquareMatrix.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAACACAAAAAQAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Geometry\VariableMatrix.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SharpMath.Geometry.VectorUtils">
+    <Position X="34.25" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAAAQAEACAAEYADAAAAQABAAABAgEAEAAEAABA=</HashCode>
+      <FileName>Geometry\VectorUtils.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SharpMath.Geometry.Vector">
-    <Position X="3" Y="0.5" Width="2.25" />
+  <Class Name="SharpMath.Presentation.Canvas2D">
+    <Position X="5" Y="7.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAIAAAUEAABCA+ZEDAEAAAABAQIhEgEAEAAEAEnA=</HashCode>
-      <FileName>Geometry\Vector.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SharpMath.Geometry.Vector2">
-    <Position X="3" Y="10.25" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAIAAAAAAAAE4AEAQQQAAQBAAIAAiACAAUGAYqI=</HashCode>
-      <FileName>Geometry\Vector2.cs</FileName>
+      <HashCode>AAgAADACAJABAACQAAASAAIAAAQAIAIAEABAAAJAAgA=</HashCode>
+      <FileName>Presentation\Canvas2D.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SharpMath.Geometry.Vector3">
-    <Position X="5.25" Y="10.25" Width="2.25" />
+  <Class Name="SharpMath.Presentation.FunctionWrapper">
+    <Position X="7.25" Y="7.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AQAAIgIAAAAAAAAE4AEAQQQAAQBAAIAAiBCAAUGAYqM=</HashCode>
-      <FileName>Geometry\Vector3.cs</FileName>
+      <HashCode>AAAAAAAAIAAAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Presentation\FunctionWrapper.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SharpMath.Geometry.Vector4">
-    <Position X="0.75" Y="10.25" Width="2" />
+  <Struct Name="SharpMath.Geometry.Line2D" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="8.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAIgAAAAAAAAAEgAABQQQAAQAAAIAAAAAAAACIYqE=</HashCode>
-      <FileName>Geometry\Vector4.cs</FileName>
+      <HashCode>AAAAIIAAAMAgAAAEgAAAAAAAAAAQIIAAAAAAAAAAgmA=</HashCode>
+      <FileName>Geometry\Line2D.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="SharpMath.Geometry.VectorExtensions">
-    <Position X="17.25" Y="5.5" Width="1.5" />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Line3D" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="8.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
-      <FileName>Geometry\VectorExtensions.cs</FileName>
+      <HashCode>AAAAIAAAAIAggAAEgCAAAAAAAAAAAIAAAAAAAAAAAiA=</HashCode>
+      <FileName>Geometry\Line3D.cs</FileName>
     </TypeIdentifier>
-  </Class>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix1x1" BaseTypeListCollapsed="true">
+    <Position X="26" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACQAAAgAAAAABAA6CMAAAAAQQIASLAEAEAEgAgAAiQ=</HashCode>
+      <FileName>Geometry\Matrix1x1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix1x3" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="14" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAACAAAAAAAQAAAABAEAAAAAAAAAgA=</HashCode>
+      <FileName>Geometry\Matrix1x3.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix1x4" BaseTypeListCollapsed="true">
+    <Position X="23.25" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAACAAAAAAAQAAAABAEAAAAAAAAAgA=</HashCode>
+      <FileName>Geometry\Matrix1x4.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix2x2" BaseTypeListCollapsed="true">
+    <Position X="23.25" Y="14.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACQAAAgAAAAABAA6CMAACAAQQIASLAEAEAEgAgAAiQ=</HashCode>
+      <FileName>Geometry\Matrix2x2.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix3x1" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="14" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAABAACAAAACAAQAAAABAEAAAAAAAAAgA=</HashCode>
+      <FileName>Geometry\Matrix3x1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix3x3" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="4.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AATQAAAgAAAAAJAC6CMAACAAQQIASLAMAEAEgAgAAiQ=</HashCode>
+      <FileName>Geometry\Matrix3x3.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix4x1" BaseTypeListCollapsed="true">
+    <Position X="23.25" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAABAACAAAACAAQAAAABAEAAAAAAgAAgA=</HashCode>
+      <FileName>Geometry\Matrix4x1.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Matrix4x4" BaseTypeListCollapsed="true">
+    <Position X="26" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AATQAAAgABAAAJAC6CMAACAAQQIBSLAMAEAEgAgAAiQ=</HashCode>
+      <FileName>Geometry\Matrix4x4.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Point2D" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="15.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAEyAEAQAAAAAAAAIAEAAAAAAAAYiA=</HashCode>
+      <FileName>Geometry\Point2D.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Point3D" BaseTypeListCollapsed="true">
+    <Position X="20" Y="15.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAEyAEAQAAAAAAAAIAEAAAAAAAAYiE=</HashCode>
+      <FileName>Geometry\Point3D.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
   <Struct Name="SharpMath.Geometry.ProjectionData">
-    <Position X="22.75" Y="5.5" Width="1.5" />
+    <Position X="12.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABkAAIAQAAAAAAAAiAAAAAAAAAAA=</HashCode>
       <FileName>Geometry\ProjectionData.cs</FileName>
     </TypeIdentifier>
   </Struct>
+  <Struct Name="SharpMath.Geometry.Vector2" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAYAIAAQAAgBAE6AEAQQQAAQBAQIhEiECAAQGAcuI=</HashCode>
+      <FileName>Geometry\Vector2.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Vector3" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIgIAAAAAgBAE6AEAQQQAAQBAQIgEiBCAAQGAYqM=</HashCode>
+      <FileName>Geometry\Vector3.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="SharpMath.Geometry.Vector4" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIgAAAAAAABAEiAABQQQAAQAAQIgEgAAAAAGIYqE=</HashCode>
+      <FileName>Geometry\Vector4.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="SharpMath.Geometry.IMatrix">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAQAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Geometry\IMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SharpMath.Geometry.ISquareMatrix">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAgAAAAAAAACCAAAAAAAAIASDAAAAAAgAAAAAQ=</HashCode>
+      <FileName>Geometry\ISquareMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SharpMath.Geometry.ISquareMatrix&lt;T&gt;">
+    <Position X="0.5" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAACIAAAAAAAAAAAAAAAAEAAgAAAA=</HashCode>
+      <FileName>Geometry\ISquareMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SharpMath.Geometry.IVector">
+    <Position X="20.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAQAgAgAAAAAEAACA=</HashCode>
+      <FileName>Geometry\IVector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Enum Name="SharpMath.Expressions.TokenType">
-    <Position X="19.5" Y="7.75" Width="1.5" />
+    <Position X="2.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>Expressions\TokenType.cs</FileName>

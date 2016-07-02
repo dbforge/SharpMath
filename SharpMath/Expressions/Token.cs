@@ -38,7 +38,12 @@ namespace SharpMath.Expressions
                     double exponent = stack.Pop();
                     stack.Push(Math.Log(exponent, stack.Pop()));
                 }
-            },
+            }
+        };
+
+        protected static Dictionary<string, Action<Stack<double>>> _constantActions = new Dictionary
+            <string, Action<Stack<double>>>
+        {
             {"pi", stack => stack.Push(Math.PI)},
             {"e", stack => stack.Push(Math.E)}
         };
@@ -108,7 +113,7 @@ namespace SharpMath.Expressions
         }
 
         /// <summary>
-        ///     Reads a bracket, operator or function token in the input string starting at the specified index.
+        ///     Reads a bracket, constant, operator or function token in the input string starting at the specified index.
         /// </summary>
         /// <param name="input">The input string.</param>
         /// <param name="index">The index to start at.</param>
@@ -123,9 +128,9 @@ namespace SharpMath.Expressions
             {
                 endIndex++;
                 string currentString = input.Substring(index, endIndex - index);
-                if (_functionActions.ContainsKey(currentString) || _operatorActions.ContainsKey(currentString) ||
-                    currentString.IsBracket()) // Last two conditions to parse e.g. "* sin(5)" correctly
-                    break;
+                if (_functionActions.ContainsKey(currentString) || _operatorActions.ContainsKey(currentString) || _constantActions.ContainsKey(currentString) ||
+                    currentString.IsBracket()) // Last two conditions to parse e.g. "* sin(5)" correctly: As soon as the current token has finished, we should stop reading.
+                    break; // This indicates that it has been found in the dictionary, so that is already it.
             }
 
             string stringToken = input.Substring(index, endIndex - index);
@@ -136,6 +141,8 @@ namespace SharpMath.Expressions
                 newType = TokenType.Operator;
             else if (stringToken.IsBracket())
                 newType = TokenType.Bracket;
+            else if (_constantActions.ContainsKey(stringToken))
+                newType = TokenType.Constant;
             else
                 throw new ParserException(
                     $"Invalid token: {stringToken} is not a valid function/operator, bracket or number equivalent.");
@@ -167,6 +174,11 @@ namespace SharpMath.Expressions
                     if (token2 != null)
                         _operatorActions[token2.Value](stack);
                     break;
+                case TokenType.Constant:
+                    var token3 = this as Token<string>;
+                    if (token3 != null)
+                        _constantActions[token3.Value](stack);
+                    break;
             }
         }
 
@@ -184,7 +196,7 @@ namespace SharpMath.Expressions
             {
                 char current = term[i];
                 if (char.IsLetter(current) || CharEx.IsMathematicOperator(current) || CharEx.IsBracket(current))
-                    // Functions/Operators
+                    // Functions/Operators/Constants
                 {
                     if ((current == '+' || current == '-') &&
                         (i == 0 ||
@@ -231,6 +243,7 @@ namespace SharpMath.Expressions
             switch (type)
             {
                 case TokenType.Number:
+                case TokenType.Constant:
                     Priority = 100;
                     break;
                 case TokenType.Operator:

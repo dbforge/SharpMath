@@ -10,6 +10,7 @@ namespace SharpMath.Expressions
         Function,
         Operator,
         Number,
+        Constant,
         Bracket
     }
 }

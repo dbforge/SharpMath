@@ -55,6 +55,9 @@ namespace SharpMath
                                 break;
                         }
                         break;
+                    case TokenType.Constant:
+                        output.Add((Token<string>)token);
+                        break;
                 }
             }
 

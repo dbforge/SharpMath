@@ -45,6 +45,7 @@
     <Compile Include="Expressions\Exceptions\ParserException.cs" />
     <Compile Include="Expressions\Parser.cs" />
     <Compile Include="Expressions\Token.cs" />
+    <Compile Include="Expressions\TokenEx.cs" />
     <Compile Include="Expressions\TokenType.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Algorithms.cs" />

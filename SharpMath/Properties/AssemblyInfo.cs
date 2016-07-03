@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("SharpMath")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A C# math library supporting vectors, matrices, linear equation systems and expression parsing.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SharpMath")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Dominic Beger (Trade/ProgTrade) 2015-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
@@ -37,5 +37,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.5.3.0")]
-[assembly: AssemblyFileVersion("0.5.3.0")]
+[assembly: AssemblyVersion("1.14.7.0")]
+[assembly: AssemblyFileVersion("1.14.7.0")]

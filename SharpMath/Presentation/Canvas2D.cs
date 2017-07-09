@@ -207,7 +207,7 @@ namespace SharpMath.Presentation
             if (!ValueIndicator)
                 return;
 
-            var currentX = (GridOrigin.X - _previousLocation.X)/GridSize.Width;
+            var currentX = (_previousLocation.X - GridOrigin.X)/GridSize.Width;
             var currentY = (GridOrigin.Y - _previousLocation.Y)/GridSize.Height;
 
             var resultString = $"{Math.Round(currentX, 2)} | {Math.Round(currentY, 2)}";

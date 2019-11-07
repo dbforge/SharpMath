@@ -402,7 +402,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator *(Vector2 vector, double scalar)
         {
-            return VectorUtils.Multiply(vector, scalar);
+            return vector.Multiply(scalar);
         }
 
         /// <summary>

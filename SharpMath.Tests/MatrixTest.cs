@@ -10,6 +10,15 @@ namespace SharpMath.Tests
     public class MatrixTest
     {
         [TestMethod]
+        public void CanMultiplyMatrix3X3WithVector2()
+        {
+            var translation = Matrix3x3.Translation(10, 10);
+            var transformed = translation * Vector2.One; 
+            var result = new Vector2(11, 11);
+            Assert.AreEqual(result, transformed);
+        }
+
+        [TestMethod]
         public void CanMultiplyMatrices()
         {
             var firstMatrix = new Matrix1x3();

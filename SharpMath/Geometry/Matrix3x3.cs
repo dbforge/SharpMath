@@ -359,8 +359,8 @@ namespace SharpMath.Geometry
         public static Matrix3x3 Translation(double x, double y)
         {
             var matrix = Identity;
-            matrix[2, 0] = x;
-            matrix[2, 1] = y;
+            matrix[0, 2] = x;
+            matrix[1, 2] = y;
 
             return matrix;
         }
@@ -401,7 +401,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator *(double scalar, Matrix3x3 matrix)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix3x3 operator *(Matrix3x3 matrix, double scalar)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>

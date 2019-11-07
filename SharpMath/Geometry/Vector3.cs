@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Vector3.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -132,18 +133,12 @@ namespace SharpMath.Geometry
 
         public IEnumerator<double> GetEnumerator()
         {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 3; i++) yield return this[i];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 3; i++) yield return this[i];
         }
 
         public bool Equals(Vector3 other)
@@ -229,7 +224,10 @@ namespace SharpMath.Geometry
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
         public string ToLaTeXString()
-            => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \end{array} \right)";
+        {
+            return @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] +
+                   @" \end{array} \right)";
+        }
 
         /// <summary>
         ///     Generates a <see cref="Vector3" /> from an object implementing the <see cref="IVector" /> interface, if the
@@ -326,7 +324,7 @@ namespace SharpMath.Geometry
         /// <returns>The calculated <see cref="Vector3" />.</returns>
         public Vector3 VectorProduct(Vector3 other)
         {
-            return new Vector3((Y*other.Z - Z*other.Y), (Z*other.X - X*other.Z), (X*other.Y - Y*other.X));
+            return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
         }
 
         /// <summary>
@@ -388,7 +386,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, double scalar)
         {
-            return VectorUtils.Multiply(vector, scalar);
+            return vector.Multiply(scalar);
         }
 
         /// <summary>
@@ -412,7 +410,7 @@ namespace SharpMath.Geometry
         /// <returns>The transformed <see cref="Vector3" />.</returns>
         public static Vector3 Transform(Vector3 vector, Matrix4x4 matrix)
         {
-            var result = matrix*new Vector4(vector.X, vector.Y, vector.Z, 1);
+            var result = matrix * new Vector4(vector.X, vector.Y, vector.Z, 1);
             result.X /= result.W;
             result.Y /= result.W;
             result.Z /= result.W;
@@ -458,10 +456,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
-                hash = hash*23 + X.GetHashCode();
-                hash = hash*23 + Y.GetHashCode();
-                hash = hash*23 + Z.GetHashCode();
+                var hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                hash = hash * 23 + Z.GetHashCode();
                 return hash;
             }
         }

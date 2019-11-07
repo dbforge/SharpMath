@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Polygon.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -27,9 +28,25 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets the <see cref="Point2D" /> instances that this <see cref="Polygon" /> consists of.
+        ///     Gets the area of this <see cref="Polygon" />.
         /// </summary>
-        public List<Point2D> Points { get; }
+        public double Area
+        {
+            get
+            {
+                double value = 0;
+                var j = 1;
+                for (var i = 0; i < Points.Count; ++i)
+                {
+                    value += Vector2.Area(Points[i].PositionVector, Points[j].PositionVector);
+                    j++;
+                    if (j == Points.Count)
+                        j = 0;
+                }
+
+                return Math.Abs(value * 0.5);
+            }
+        }
 
         /// <summary>
         ///     Gets the bounding box of this <see cref="Polygon" /> as a <see cref="RectangleF" />.
@@ -61,6 +78,27 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Gets the center of this <see cref="Polygon" />.
+        /// </summary>
+        public Point2D Center
+        {
+            get
+            {
+                double x = 0;
+                double y = 0;
+                for (var i = 0; i < Points.Count - 1; ++i)
+                {
+                    var factor = Points[i].X * Points[i + 1].Y - Points[i + 1].X * Points[i].Y;
+                    x += (Points[i].X + Points[i + 1].X) * factor;
+                    y += (Points[i].Y + Points[i + 1].Y) * factor;
+                }
+
+                var areaFactor = 1 / 6d * Area;
+                return new Point2D(areaFactor * x, areaFactor * y);
+            }
+        }
+
+        /// <summary>
         ///     Gets the perimeter of this <see cref="Polygon" />.
         /// </summary>
         public double Perimeter
@@ -68,8 +106,8 @@ namespace SharpMath.Geometry
             get
             {
                 double perimeter = 0;
-                int j = 1;
-                for (int i = 0; i < Points.Count; ++i)
+                var j = 1;
+                for (var i = 0; i < Points.Count; ++i)
                 {
                     perimeter += (Points[j] - Points[i]).PositionVector.Magnitude;
                     j++;
@@ -82,44 +120,19 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Gets the area of this <see cref="Polygon" />.
+        ///     Gets the <see cref="Point2D" /> instances that this <see cref="Polygon" /> consists of.
         /// </summary>
-        public double Area
-        {
-            get
-            {
-                double value = 0;
-                int j = 1;
-                for (int i = 0; i < Points.Count; ++i)
-                {
-                    value += Vector2.Area(Points[i].PositionVector, Points[j].PositionVector);
-                    j++;
-                    if (j == Points.Count)
-                        j = 0;
-                }
-                return Math.Abs(value*0.5);
-            }
-        }
+        public List<Point2D> Points { get; }
 
         /// <summary>
-        ///     Gets the center of this <see cref="Polygon" />.
+        ///     Returns an enumerator that iterates through a collection.
         /// </summary>
-        public Point2D Center
+        /// <returns>
+        ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            get
-            {
-                double x = 0;
-                double y = 0;
-                for (int i = 0; i < Points.Count - 1; ++i)
-                {
-                    var factor = (Points[i].X*Points[i + 1].Y - Points[i + 1].X*Points[i].Y);
-                    x += (Points[i].X + Points[i + 1].X)*factor;
-                    y += (Points[i].Y + Points[i + 1].Y)*factor;
-                }
-
-                var areaFactor = (1/6d)*Area;
-                return new Point2D(areaFactor*x, areaFactor*y);
-            }
+            return Points.GetEnumerator();
         }
 
         /// <summary>
@@ -129,17 +142,6 @@ namespace SharpMath.Geometry
         ///     An enumerator that can be used to iterate through the collection.
         /// </returns>
         public IEnumerator<Point2D> GetEnumerator()
-        {
-            return Points.GetEnumerator();
-        }
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
         {
             return Points.GetEnumerator();
         }
@@ -180,10 +182,7 @@ namespace SharpMath.Geometry
             points.AddRange(Points);
             points.Add(points[0]);
 
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                t = t*ContainsPointInternal(point, points[i], points[i + 1]);
-            }
+            for (var i = 0; i < points.Count - 1; i++) t = t * ContainsPointInternal(point, points[i], points[i + 1]);
             return t >= 0;
         }
 
@@ -193,8 +192,8 @@ namespace SharpMath.Geometry
             if (FloatingNumber.AreApproximatelyEqual(q.Y, p1.Y) &&
                 FloatingNumber.AreApproximatelyEqual(q.Y, p2.Y))
             {
-                if ((p1.X <= q.X && q.X <= p2.X) ||
-                    (p2.X <= q.X && q.X <= p1.X))
+                if (p1.X <= q.X && q.X <= p2.X ||
+                    p2.X <= q.X && q.X <= p1.X)
                     return 0;
                 return 1;
             }
@@ -213,7 +212,7 @@ namespace SharpMath.Geometry
             if (q.Y <= p1.Y || q.Y > p2.Y)
                 return 1;
 
-            double delta = (p1.X - q.X)*(p2.Y - q.Y) - (p1.Y - q.Y)*(p2.X - q.X);
+            var delta = (p1.X - q.X) * (p2.Y - q.Y) - (p1.Y - q.Y) * (p2.X - q.X);
             if (delta > 0)
                 return -1;
             return delta < 0 ? 1 : 0;
@@ -245,17 +244,6 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
-        ///     Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        ///     A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return $"Polygon {{{string.Join(", ", Points)}}}";
-        }
-
-        /// <summary>
         ///     Determines whether the two specified <see cref="Polygon" /> instances are equal to each other.
         /// </summary>
         /// <param name="left">The first <see cref="Polygon" />.</param>
@@ -283,6 +271,17 @@ namespace SharpMath.Geometry
             if (ReferenceEquals(left, right))
                 return false;
             return left != null && !left.Equals(right);
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        ///     A <see cref="string" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"Polygon {{{string.Join(", ", Points)}}}";
         }
     }
 }

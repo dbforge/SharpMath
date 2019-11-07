@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Line2DTest.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
@@ -12,37 +13,12 @@ namespace SharpMath.Tests
         public void CanCreateLineFromPoints()
         {
             var line = Line2D.FromPoints(new Point2D(0, 2), new Point2D(3, 1));
-            Assert.AreEqual(-1d/3d, line.Slope);
+            Assert.AreEqual(-1d / 3d, line.Slope);
             Assert.AreEqual(2, line.Offset);
 
             var secondLine = Line2D.FromPoints(new Point2D(4, 5), new Point2D(1, 3));
-            Assert.AreEqual(2d/3d, secondLine.Slope);
-            Assert.AreEqual(7d/3d, secondLine.Offset);
-        }
-
-        [TestMethod]
-        public void CanFindIntersectionPoint()
-        {
-            // 0.5x - 1
-            var firstLine = new Line2D(0.5, -1);
-            // -2x - 6
-            var secondLine = new Line2D(-2, -6);
-
-            var intersectionPoint = firstLine.GetIntersectionPoint(secondLine);
-            Assert.AreEqual(-2, intersectionPoint.X);
-            Assert.AreEqual(-2, intersectionPoint.Y);
-        }
-
-        [TestMethod]
-        public void CanDetermineIfPointIsOnLine()
-        {
-            var line = new Line2D(1, 0);
-            Assert.IsTrue(line.IsPointOnLine(new Point2D(1, 1)));
-            Assert.IsFalse(line.IsPointOnLine(new Point2D(2, 1)));
-
-            var secondLine = new Line2D(2, 3);
-            Assert.IsTrue(secondLine.IsPointOnLine(new Point2D(4, 11)));
-            Assert.IsFalse(secondLine.IsPointOnLine(new Point2D(3, 2)));
+            Assert.AreEqual(2d / 3d, secondLine.Slope);
+            Assert.AreEqual(7d / 3d, secondLine.Offset);
         }
 
         [TestMethod]
@@ -63,6 +39,31 @@ namespace SharpMath.Tests
             var thirdLine = new Line2D(2, 3);
             Assert.IsTrue(line.IntersectsWith(secondLine));
             Assert.IsFalse(line.IntersectsWith(thirdLine));
+        }
+
+        [TestMethod]
+        public void CanDetermineIfPointIsOnLine()
+        {
+            var line = new Line2D(1, 0);
+            Assert.IsTrue(line.IsPointOnLine(new Point2D(1, 1)));
+            Assert.IsFalse(line.IsPointOnLine(new Point2D(2, 1)));
+
+            var secondLine = new Line2D(2, 3);
+            Assert.IsTrue(secondLine.IsPointOnLine(new Point2D(4, 11)));
+            Assert.IsFalse(secondLine.IsPointOnLine(new Point2D(3, 2)));
+        }
+
+        [TestMethod]
+        public void CanFindIntersectionPoint()
+        {
+            // 0.5x - 1
+            var firstLine = new Line2D(0.5, -1);
+            // -2x - 6
+            var secondLine = new Line2D(-2, -6);
+
+            var intersectionPoint = firstLine.GetIntersectionPoint(secondLine);
+            Assert.AreEqual(-2, intersectionPoint.X);
+            Assert.AreEqual(-2, intersectionPoint.Y);
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// LinearEquationTest.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Equations;
@@ -10,16 +11,13 @@ namespace SharpMath.Tests
     public class LinearEquationTest
     {
         [TestMethod]
-        public void CanSolveSimpleLinearEquationSystem()
+        [ExpectedException(typeof(EquationNotSolvableException))]
+        public void CanNotSolveLinearEquationSystemClearly()
         {
-            // 2x = 1
-            var equation = new LinearEquation
-            {
-                Coefficients = new[] {2.0},
-                Result = 1
-            };
-            var linearEquationSystem = new LinearEquationSystem(equation);
-            Assert.AreEqual(0.5, linearEquationSystem.Solve()[0]);
+            // 0x = 0 - infinite solutions
+            var equation = new LinearEquation(new[] {0.0}, 0);
+            var results = new LinearEquationSystem(equation).Solve(); // This will throw an exception
+            Assert.AreEqual(0, results[0]);
         }
 
         [TestMethod]
@@ -33,20 +31,23 @@ namespace SharpMath.Tests
             var thirdEquation = new LinearEquation(new[] {3.0, 2.0, 1.0}, 8);
 
             var linearEquationSystem = new LinearEquationSystem(firstEquation, secondEquation, thirdEquation);
-            double[] results = linearEquationSystem.Solve();
+            var results = linearEquationSystem.Solve();
             Assert.AreEqual(1, results[0]);
             Assert.AreEqual(1, results[1]);
             Assert.AreEqual(3, results[2]);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (EquationNotSolvableException))]
-        public void CanNotSolveLinearEquationSystemClearly()
+        public void CanSolveSimpleLinearEquationSystem()
         {
-            // 0x = 0 - infinite solutions
-            var equation = new LinearEquation(new[] {0.0}, 0);
-            var results = new LinearEquationSystem(equation).Solve(); // This will throw an exception
-            Assert.AreEqual(0, results[0]);
+            // 2x = 1
+            var equation = new LinearEquation
+            {
+                Coefficients = new[] {2.0},
+                Result = 1
+            };
+            var linearEquationSystem = new LinearEquationSystem(equation);
+            Assert.AreEqual(0.5, linearEquationSystem.Solve()[0]);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// AssemblyInfo.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System.Reflection;
 using System.Runtime.InteropServices;

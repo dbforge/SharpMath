@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Vector4.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -94,18 +95,12 @@ namespace SharpMath.Geometry
 
         public IEnumerator<double> GetEnumerator()
         {
-            for (uint i = 0; i < 4; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 4; i++) yield return this[i];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (uint i = 0; i < 4; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 4; i++) yield return this[i];
         }
 
         public bool Equals(Vector4 other)
@@ -196,9 +191,10 @@ namespace SharpMath.Geometry
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
         public string ToLaTeXString()
-            =>
-                @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \\ " + this[3] +
-                @" \end{array} \right)";
+        {
+            return @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \\ " + this[3] +
+                   @" \end{array} \right)";
+        }
 
         /// <summary>
         ///     Generates a <see cref="Vector4" /> from an object implementing the <see cref="IVector" /> interface, if the
@@ -222,7 +218,7 @@ namespace SharpMath.Geometry
         /// <returns>The transformed <see cref="Vector4" />.</returns>
         public static Vector4 Transform(Vector4 vector, Matrix4x4 matrix)
         {
-            return matrix*vector;
+            return matrix * vector;
         }
 
         /// <summary>
@@ -263,11 +259,11 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
-                hash = hash*23 + X.GetHashCode();
-                hash = hash*23 + Y.GetHashCode();
-                hash = hash*23 + Z.GetHashCode();
-                hash = hash*23 + W.GetHashCode();
+                var hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                hash = hash * 23 + Z.GetHashCode();
+                hash = hash * 23 + W.GetHashCode();
                 return hash;
             }
         }

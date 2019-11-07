@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// VectorUtils.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Diagnostics;
@@ -35,7 +36,7 @@ namespace SharpMath.Geometry
         {
             if (first.IsZero || second.IsZero)
                 throw new InvalidOperationException("Cannot calculate the angle between two vectors, if one is zero.");
-            return Math.Acos(first.DotProduct(second)/(first.Magnitude*second.Magnitude));
+            return Math.Acos(first.DotProduct(second) / (first.Magnitude * second.Magnitude));
         }
 
         /// <summary>
@@ -80,7 +81,8 @@ namespace SharpMath.Geometry
         /// <returns><c>true</c>, if the <see cref="IVector" /> instances are orthogonal to each other, otherwise <c>false</c>.</returns>
         public static bool CheckForOrthogonality<T>(this T first, T second) where T : IVector
         {
-            return !first.IsZero && !second.IsZero && FloatingNumber.AreApproximatelyEqual(DotProduct(first, second), 0);
+            return !first.IsZero && !second.IsZero &&
+                   FloatingNumber.AreApproximatelyEqual(DotProduct(first, second), 0);
         }
 
         /// <summary>
@@ -107,15 +109,15 @@ namespace SharpMath.Geometry
 
             double firstResult = 0;
             for (uint i = 0; i < first.Dimension; ++i)
-            {
                 if (i == 0)
-                    firstResult = second[i]/first[i];
+                {
+                    firstResult = second[i] / first[i];
+                }
                 else
                 {
-                    if (!FloatingNumber.AreApproximatelyEqual(second[i]/first[i], firstResult))
+                    if (!FloatingNumber.AreApproximatelyEqual(second[i] / first[i], firstResult))
                         return false;
                 }
-            }
 
             return true;
         }
@@ -172,7 +174,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < resultVector.Dimension; ++i)
-                resultVector[i] = vector[i]*(1/scalar);
+                resultVector[i] = vector[i] * (1 / scalar);
             return resultVector;
         }
 
@@ -186,7 +188,7 @@ namespace SharpMath.Geometry
         {
             double result = 0;
             for (uint i = 0; i < first.Dimension; ++i)
-                result += first[i]*second[i];
+                result += first[i] * second[i];
             return result;
         }
 
@@ -229,7 +231,7 @@ namespace SharpMath.Geometry
         /// <returns>The position <see cref="IVector" /> of the new point.</returns>
         public static T MoveTowards<T>(this T source, T target, double maxDistanceDelta) where T : IVector, new()
         {
-            return source.LerpUnclamped(target, (maxDistanceDelta/source.Distance(target)));
+            return source.LerpUnclamped(target, maxDistanceDelta / source.Distance(target));
         }
 
         /// <summary>
@@ -242,7 +244,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < resultVector.Dimension; ++i)
-                resultVector[i] = vector[i]*scalar;
+                resultVector[i] = vector[i] * scalar;
             return resultVector;
         }
 
@@ -266,7 +268,7 @@ namespace SharpMath.Geometry
         {
             var resultVector = new T();
             for (uint i = 0; i < vector.Dimension; ++i)
-                resultVector[i] = vector[i]/vector.Magnitude;
+                resultVector[i] = vector[i] / vector.Magnitude;
             return resultVector;
         }
 

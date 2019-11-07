@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Line3DTest.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
@@ -21,18 +22,18 @@ namespace SharpMath.Tests
         }
 
         [TestMethod]
-        public void CanGetPoint()
-        {
-            var line = new Line3D(new Point3D(2, 3, 1), new Vector3(2, 1, 2));
-            Assert.AreEqual(new Point3D(6, 5, 5), line.GetPoint(2));
-        }
-
-        [TestMethod]
         public void CanDetermineIfPointIsOnLine()
         {
             var line = new Line3D(new Point3D(2, 3, 1), new Vector3(2, 1, 2));
             Assert.IsTrue(line.IsPointOnLine(new Point3D(6, 5, 5)));
             Assert.IsFalse(line.IsPointOnLine(new Point3D(2, 3.5, 2)));
+        }
+
+        [TestMethod]
+        public void CanGetPoint()
+        {
+            var line = new Line3D(new Point3D(2, 3, 1), new Vector3(2, 1, 2));
+            Assert.AreEqual(new Point3D(6, 5, 5), line.GetPoint(2));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// VariableMatrix.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.ComponentModel;
@@ -25,6 +26,11 @@ namespace SharpMath.Geometry
         }
 
         /// <summary>
+        ///     Gets the column count of the <see cref="VariableMatrix" />.
+        /// </summary>
+        public uint ColumnCount { get; }
+
+        /// <summary>
         ///     Gets or sets the field value at the specified row and column indices.
         /// </summary>
         /// <param name="row">The row index.</param>
@@ -32,24 +38,19 @@ namespace SharpMath.Geometry
         /// <returns>The field value at the specified row and column indices.</returns>
         public double this[uint row, uint column]
         {
-            get { return _fields[row, column]; }
-            set { _fields[row, column] = value; }
+            get => _fields[row, column];
+            set => _fields[row, column] = value;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Simple indexer is not supported in this class.", true)]
         public double this[uint index]
         {
-            get { return double.NaN; }
+            get => double.NaN;
 
             // ReSharper disable once ValueParameterNotUsed
             set { }
         }
-
-        /// <summary>
-        ///     Gets the column count of the <see cref="VariableMatrix" />.
-        /// </summary>
-        public uint ColumnCount { get; }
 
         /// <summary>
         ///     Gets the row count of the <see cref="VariableMatrix" />.

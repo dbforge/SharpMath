@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Point3D.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -109,18 +110,12 @@ namespace SharpMath.Geometry
 
         public IEnumerator<double> GetEnumerator()
         {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 3; i++) yield return this[i];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (uint i = 0; i < 3; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 3; i++) yield return this[i];
         }
 
         public bool Equals(Point3D other)
@@ -195,10 +190,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
-                hash = hash*23 + X.GetHashCode();
-                hash = hash*23 + Y.GetHashCode();
-                hash = hash*23 + Z.GetHashCode();
+                var hash = 17;
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
+                hash = hash * 23 + Z.GetHashCode();
                 return hash;
             }
         }

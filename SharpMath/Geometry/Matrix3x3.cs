@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Matrix3x3.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -232,8 +233,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get { return this[row*3 + column]; }
-            set { this[row*3 + column] = value; }
+            get => this[row * 3 + column];
+            set => this[row * 3 + column] = value;
         }
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this*Transpose) == Identity;
+        public bool IsOrthogonal => this * Transpose == Identity;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix3x3" /> is the identity <see cref="Matrix3x3" />, or not.
@@ -309,8 +310,8 @@ namespace SharpMath.Geometry
 
             var resultMatrix = new Matrix3x3();
             for (uint y = 0; y < resultMatrix.Dimension; ++y)
-                for (uint x = 0; x < resultMatrix.Dimension; ++x)
-                    resultMatrix[y, x] = matrix[y, x];
+            for (uint x = 0; x < resultMatrix.Dimension; ++x)
+                resultMatrix[y, x] = matrix[y, x];
             return resultMatrix;
         }
 
@@ -323,8 +324,8 @@ namespace SharpMath.Geometry
         {
             // the is actually the same as Matrix4x4.RotationZ as we are rotating around the Z-axis that is 0 in 2D-space.
 
-            double sin = Math.Sin(angle);
-            double cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            var cos = Math.Cos(angle);
 
             var matrix = Identity;
             matrix[0, 0] = cos;
@@ -442,7 +443,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector2 operator *(Vector2 vector, Matrix3x3 matrix)
         {
-            return matrix*vector;
+            return matrix * vector;
         }
 
         /// <summary>
@@ -469,7 +470,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix3x3 matrix)
         {
-            return matrix*vector;
+            return matrix * vector;
         }
 
         /// <summary>
@@ -509,14 +510,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 for (uint y = 0; y < RowCount; ++y)
-                {
-                    for (uint x = 0; x < ColumnCount; ++x)
-                    {
-                        hash = hash*23 + this[y, x].GetHashCode();
-                    }
-                }
+                for (uint x = 0; x < ColumnCount; ++x)
+                    hash = hash * 23 + this[y, x].GetHashCode();
                 return hash;
             }
         }

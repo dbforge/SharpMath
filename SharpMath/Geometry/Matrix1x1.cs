@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Matrix1x1.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -123,8 +124,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get { return this[row + column]; }
-            set { this[row + column] = value; }
+            get => this[row + column];
+            set => this[row + column] = value;
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this*Transpose) == Identity;
+        public bool IsOrthogonal => this * Transpose == Identity;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix1x1" /> is the identity <see cref="Matrix1x1" />, or not.
@@ -223,7 +224,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix1x1 operator *(double scalar, Matrix1x1 matrix)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -236,7 +237,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix1x1 operator *(Matrix1x1 matrix, double scalar)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -276,7 +277,7 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                return 17*23 + this[0, 0].GetHashCode();
+                return 17 * 23 + this[0, 0].GetHashCode();
             }
         }
 

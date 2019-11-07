@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Vector2.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -182,7 +183,9 @@ namespace SharpMath.Geometry
         ///     Gets the LaTeX-string representing this vector graphically.
         /// </summary>
         public string ToLaTeXString()
-            => @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)";
+        {
+            return @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \end{array} \right)";
+        }
 
         /// <summary>
         ///     Generates a <see cref="Vector2" /> from an object that implements the <see cref="IVector" /> interface, if the
@@ -282,7 +285,7 @@ namespace SharpMath.Geometry
         /// <returns>The resulting <see cref="Vector2" />.</returns>
         public static Vector2 Divide(Vector2 vector, double scalar)
         {
-            return vector*(1/scalar);
+            return vector * (1 / scalar);
         }
 
         /// <summary>
@@ -340,7 +343,7 @@ namespace SharpMath.Geometry
         /// <returns>The vector product of the current and the specified <see cref="Vector2" />.</returns>
         public double VectorProduct(Vector2 other)
         {
-            return (X*other.Y) - (Y*other.X);
+            return X * other.Y - Y * other.X;
         }
 
         /// <summary>
@@ -425,7 +428,7 @@ namespace SharpMath.Geometry
         /// <returns>The transformed <see cref="Vector2" />.</returns>
         public Vector2 Transform(Matrix3x3 matrix)
         {
-            return matrix*this;
+            return matrix * this;
         }
 
         /// <summary>
@@ -488,10 +491,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 // ReSharper disable NonReadonlyMemberInGetHashCode
-                hash = hash*23 + X.GetHashCode();
-                hash = hash*23 + Y.GetHashCode();
+                hash = hash * 23 + X.GetHashCode();
+                hash = hash * 23 + Y.GetHashCode();
                 return hash;
             }
         }
@@ -503,18 +506,12 @@ namespace SharpMath.Geometry
 
         public IEnumerator<double> GetEnumerator()
         {
-            for (uint i = 0; i < 2; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 2; i++) yield return this[i];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (uint i = 0; i < 2; i++)
-            {
-                yield return this[i];
-            }
+            for (uint i = 0; i < 2; i++) yield return this[i];
         }
 
         /// <summary>

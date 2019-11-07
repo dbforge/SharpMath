@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// ContainsTestForm.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,9 +28,13 @@ namespace SharpMath.PolygonTest
             _polygon = new Polygon(polygonPoints.ToArray());
         }
 
-        private Point2D FromPointF(PointF point)
+        private void ContainsTestForm_MouseMove(object sender, MouseEventArgs e)
         {
-            return new Point2D(point.X, point.Y);
+            var containsPointOld = _containsPoint;
+            _containsPoint = _polygon.ContainsPoint(new Point2D(e.X, e.Y));
+            if (_containsPoint != containsPointOld)
+                Invalidate();
+            Text = e.Location.ToString();
         }
 
         private void ContainsTestForm_Paint(object sender, PaintEventArgs e)
@@ -38,13 +43,9 @@ namespace SharpMath.PolygonTest
             e.Graphics.FillPolygon(_containsPoint ? Brushes.AliceBlue : Brushes.Red, _points);
         }
 
-        private void ContainsTestForm_MouseMove(object sender, MouseEventArgs e)
+        private Point2D FromPointF(PointF point)
         {
-            bool containsPointOld = _containsPoint;
-            _containsPoint = _polygon.ContainsPoint(new Point2D(e.X, e.Y));
-            if (_containsPoint != containsPointOld)
-                Invalidate();
-            Text = e.Location.ToString();
+            return new Point2D(point.X, point.Y);
         }
     }
 }

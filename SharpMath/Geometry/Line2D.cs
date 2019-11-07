@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Line2D.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 
@@ -31,8 +32,8 @@ namespace SharpMath.Geometry
             var vectorA = a.PositionVector;
             var vectorB = b.PositionVector;
 
-            Slope = (vectorB.Y - vectorA.Y)/(vectorB.X - vectorA.X);
-            Offset = vectorA.Y - (Slope*vectorA.X); // Insert a point
+            Slope = (vectorB.Y - vectorA.Y) / (vectorB.X - vectorA.X);
+            Offset = vectorA.Y - Slope * vectorA.X; // Insert a point
         }
 
         /// <summary>
@@ -138,8 +139,8 @@ namespace SharpMath.Geometry
             if (IsParallelTo(line))
                 return new Point2D(double.NaN, double.NaN);
 
-            var pointX = (line.Offset - Offset)/(Slope - line.Slope);
-            return new Point2D(pointX, Slope*pointX + Offset);
+            var pointX = (line.Offset - Offset) / (Slope - line.Slope);
+            return new Point2D(pointX, Slope * pointX + Offset);
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace SharpMath.Geometry
         /// <returns>The <see cref="Point2D" /> with the specified X-coordinate.</returns>
         public Point2D GetPoint(double x)
         {
-            return new Point2D(x, Slope*x + Offset);
+            return new Point2D(x, Slope * x + Offset);
         }
 
         /// <summary>

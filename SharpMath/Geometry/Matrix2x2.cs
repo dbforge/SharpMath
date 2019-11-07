@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Matrix2x2.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -155,8 +156,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get { return this[row*2 + column]; }
-            set { this[row*2 + column] = value; }
+            get => this[row * 2 + column];
+            set => this[row * 2 + column] = value;
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this*Transpose) == Identity;
+        public bool IsOrthogonal => this * Transpose == Identity;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix2x2" /> is the identity <see cref="Matrix2x2" />, or not.
@@ -255,7 +256,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix2x2 operator *(double scalar, Matrix2x2 matrix)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -268,7 +269,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix2x2 operator *(Matrix2x2 matrix, double scalar)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -308,14 +309,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 for (uint y = 0; y < RowCount; ++y)
-                {
-                    for (uint x = 0; x < ColumnCount; ++x)
-                    {
-                        hash = hash*23 + this[y, x].GetHashCode();
-                    }
-                }
+                for (uint x = 0; x < ColumnCount; ++x)
+                    hash = hash * 23 + this[y, x].GetHashCode();
                 return hash;
             }
         }

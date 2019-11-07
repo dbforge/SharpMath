@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Line3D.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 
@@ -65,7 +66,7 @@ namespace SharpMath.Geometry
         /// <returns>The relating <see cref="Point3D" /> on the <see cref="Line3D" />.</returns>
         public Point3D GetPoint(double lambda)
         {
-            var resultVector = Point.PositionVector + Direction*lambda;
+            var resultVector = Point.PositionVector + Direction * lambda;
             return new Point3D(resultVector.X, resultVector.Y, resultVector.Z);
         }
 
@@ -79,7 +80,7 @@ namespace SharpMath.Geometry
             double lambda = 0;
             for (uint i = 0; i < 3; ++i)
             {
-                double value = (point[i] - Point[i])/Direction[i];
+                var value = (point[i] - Point[i]) / Direction[i];
                 if (i != 0 && !FloatingNumber.AreApproximatelyEqual(value, lambda))
                     return false;
                 lambda = value;

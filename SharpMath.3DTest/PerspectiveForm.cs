@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// PerspectiveForm.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Drawing;
@@ -26,12 +27,23 @@ namespace SharpMath._3DTest
         private Matrix4x4 _view;
         private Matrix4x4 _world;
         private float angle;
+
         private float delta = 1f;
         //private Matrix4x4 _projection;
 
         public PerspectiveForm()
         {
             InitializeComponent();
+        }
+
+        private void autoRotateCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            rotationTimer.Enabled = !rotationTimer.Enabled;
+            trackBar1.Enabled = !trackBar1.Enabled;
+            trackBar2.Enabled = !trackBar2.Enabled;
+            trackBar3.Enabled = !trackBar3.Enabled;
+            if (!rotationTimer.Enabled)
+                _color = Color.White;
         }
 
         private void PerspectiveForm_Load(object sender, EventArgs e)
@@ -41,48 +53,38 @@ namespace SharpMath._3DTest
             UpdateMatrices();
         }
 
-        private void UpdateMatrices()
-        {
-            var cameraPosition = Vector3.Zero;
-            var cameraTarget = Vector3.Back;
-            _view = Matrix4x4.View(cameraPosition, cameraTarget, Vector3.Up);
-            _world = Matrix4x4.World(cameraPosition, Vector3.Back, Vector3.Up);
-            //_projection = Matrix4x4.PerspectiveFieldOfView(projectionData);
-
-            perspectivePanel.Invalidate();
-        }
-
         private void perspectivePanel_Paint(object sender, PaintEventArgs e)
         {
-            var transformationMatrix = Matrix4x4.Translation(0, 0, 2)*_view*_world*_rotationX*_rotationY*_rotationZ*
-                                       _scalation*Matrix4x4.Translation(0, 0, -2);
-            var projectionData = new ProjectionData(perspectivePanel.Size, 16f/9f, (float) Math.PI/3f, 0.1f, 100f);
+            var transformationMatrix = Matrix4x4.Translation(0, 0, 2) * _view * _world * _rotationX * _rotationY *
+                                       _rotationZ *
+                                       _scalation * Matrix4x4.Translation(0, 0, -2);
+            var projectionData = new ProjectionData(perspectivePanel.Size, 16f / 9f, (float) Math.PI / 3f, 0.1f, 100f);
 
             Func<Vector4, Vector2> projectPerspective = vector =>
             {
-                var perspectiveVector = vector*Matrix4x4.PerspectiveFieldOfView(projectionData);
+                var perspectiveVector = vector * Matrix4x4.PerspectiveFieldOfView(projectionData);
                 perspectiveVector.X /= perspectiveVector.W;
                 perspectiveVector.Y /= perspectiveVector.W;
                 perspectiveVector.Z /= perspectiveVector.W;
 
-                var deviceVector = perspectiveVector*
-                                   Matrix4x4.Scalation(projectionData.CanvasSize.Width/2.0,
-                                       projectionData.CanvasSize.Height/2.0, 1);
-                return new Vector2(deviceVector.X + projectionData.CanvasSize.Width/2,
-                    (projectionData.CanvasSize.Height/2) - deviceVector.Y);
+                var deviceVector = perspectiveVector *
+                                   Matrix4x4.Scalation(projectionData.CanvasSize.Width / 2.0,
+                                       projectionData.CanvasSize.Height / 2.0, 1);
+                return new Vector2(deviceVector.X + projectionData.CanvasSize.Width / 2,
+                    projectionData.CanvasSize.Height / 2 - deviceVector.Y);
             };
 
-            PointF[] displayCoordinates = new PointF[_vertices.Length];
-            for (int i = 0; i < _vertices.Length; i++)
+            var displayCoordinates = new PointF[_vertices.Length];
+            for (var i = 0; i < _vertices.Length; i++)
             {
-                Vector2 displayVector = projectPerspective(_vertices[i]*transformationMatrix);
+                var displayVector = projectPerspective(_vertices[i] * transformationMatrix);
                 displayCoordinates[i] = new PointF((float) displayVector.X, (float) displayVector.Y);
             }
 
-            Graphics g = e.Graphics;
+            var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            using (Pen p = new Pen(_color, 3))
+            using (var p = new Pen(_color, 3))
             {
                 for (int i = 0, j = 3; i < 4; j = i, i++)
                     g.DrawLine(p, displayCoordinates[i], displayCoordinates[j]);
@@ -91,24 +93,6 @@ namespace SharpMath._3DTest
                 for (int i = 0, j = 4; i < 4; i++, j++)
                     g.DrawLine(p, displayCoordinates[i], displayCoordinates[j]);
             }
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            _rotationX = Matrix4x4.RotationX(MathHelper.DegreesToRadians(trackBar1.Value));
-            UpdateMatrices();
-        }
-
-        private void trackBar2_Scroll(object sender, EventArgs e)
-        {
-            _rotationY = Matrix4x4.RotationY(MathHelper.DegreesToRadians(trackBar2.Value));
-            UpdateMatrices();
-        }
-
-        private void trackBar3_Scroll(object sender, EventArgs e)
-        {
-            _rotationZ = Matrix4x4.RotationZ(MathHelper.DegreesToRadians(trackBar3.Value));
-            UpdateMatrices();
         }
 
         private void rotationTimer_Tick(object sender, EventArgs e)
@@ -136,20 +120,39 @@ namespace SharpMath._3DTest
             UpdateMatrices();
         }
 
-        private void autoRotateCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            rotationTimer.Enabled = !rotationTimer.Enabled;
-            trackBar1.Enabled = !trackBar1.Enabled;
-            trackBar2.Enabled = !trackBar2.Enabled;
-            trackBar3.Enabled = !trackBar3.Enabled;
-            if (!rotationTimer.Enabled)
-                _color = Color.White;
-        }
-
         private void scalationTrackBar_Scroll(object sender, EventArgs e)
         {
-            _scalation = Matrix4x4.Scalation(scalationTrackBar.Value/720f);
+            _scalation = Matrix4x4.Scalation(scalationTrackBar.Value / 720f);
             UpdateMatrices();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            _rotationX = Matrix4x4.RotationX(MathHelper.DegreesToRadians(trackBar1.Value));
+            UpdateMatrices();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            _rotationY = Matrix4x4.RotationY(MathHelper.DegreesToRadians(trackBar2.Value));
+            UpdateMatrices();
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            _rotationZ = Matrix4x4.RotationZ(MathHelper.DegreesToRadians(trackBar3.Value));
+            UpdateMatrices();
+        }
+
+        private void UpdateMatrices()
+        {
+            var cameraPosition = Vector3.Zero;
+            var cameraTarget = Vector3.Back;
+            _view = Matrix4x4.View(cameraPosition, cameraTarget, Vector3.Up);
+            _world = Matrix4x4.World(cameraPosition, Vector3.Back, Vector3.Up);
+            //_projection = Matrix4x4.PerspectiveFieldOfView(projectionData);
+
+            perspectivePanel.Invalidate();
         }
     }
 }

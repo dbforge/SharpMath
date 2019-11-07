@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// MatrixEnumerator.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,8 +17,6 @@ namespace SharpMath.Geometry
             _index = -1;
         }
 
-        public double Current => _matrix[(uint) _index%_matrix.ColumnCount, (uint) _index/_matrix.RowCount];
-
         public void Dispose()
         {
         }
@@ -34,5 +33,7 @@ namespace SharpMath.Geometry
         {
             _index = -1;
         }
+
+        public double Current => _matrix[(uint) _index % _matrix.ColumnCount, (uint) _index / _matrix.RowCount];
     }
 }

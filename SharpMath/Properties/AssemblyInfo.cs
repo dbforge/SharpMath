@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// AssemblyInfo.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -8,7 +9,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("SharpMath")]
-[assembly: AssemblyDescription("A C# math library supporting vectors, matrices, linear equation systems and expression parsing.")]
+[assembly:
+    AssemblyDescription(
+        "A C# math library supporting vectors, matrices, linear equation systems and expression parsing.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SharpMath")]

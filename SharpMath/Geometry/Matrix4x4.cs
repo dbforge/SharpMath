@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Matrix4x4.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -319,8 +320,8 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get { return this[row*4 + column]; }
-            set { this[row*4 + column] = value; }
+            get => this[row * 4 + column];
+            set => this[row * 4 + column] = value;
         }
 
         /// <summary>
@@ -341,7 +342,7 @@ namespace SharpMath.Geometry
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is orthogonal, or not.
         /// </summary>
-        public bool IsOrthogonal => (this*Transpose) == Identity;
+        public bool IsOrthogonal => this * Transpose == Identity;
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="Matrix4x4" /> is the identity <see cref="Matrix4x4" />, or not.
@@ -396,8 +397,8 @@ namespace SharpMath.Geometry
 
             var resultMatrix = new Matrix4x4();
             for (uint y = 0; y < resultMatrix.Dimension; ++y)
-                for (uint x = 0; x < resultMatrix.Dimension; ++x)
-                    resultMatrix[y, x] = matrix[y, x];
+            for (uint x = 0; x < resultMatrix.Dimension; ++x)
+                resultMatrix[y, x] = matrix[y, x];
             return resultMatrix;
         }
 
@@ -438,7 +439,7 @@ namespace SharpMath.Geometry
         /// <returns></returns>
         public static Matrix4x4 Rotation(double angleX, double angleY, double angleZ)
         {
-            return RotationX(angleX)*RotationY(angleY)*RotationZ(angleZ);
+            return RotationX(angleX) * RotationY(angleY) * RotationZ(angleZ);
         }
 
         /// <summary>
@@ -449,8 +450,8 @@ namespace SharpMath.Geometry
         // https://ksgamedev.files.wordpress.com/2010/01/matrix-rotation.png
         public static Matrix4x4 RotationX(double angle)
         {
-            double sin = Math.Sin(angle);
-            double cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            var cos = Math.Cos(angle);
 
             var matrix = Identity;
             matrix[1, 1] = cos;
@@ -468,8 +469,8 @@ namespace SharpMath.Geometry
         /// <returns>A <see cref="Matrix4x4" /> that represents a rotation around the Y-axis using the specified angle.</returns>
         public static Matrix4x4 RotationY(double angle)
         {
-            double sin = Math.Sin(angle);
-            double cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            var cos = Math.Cos(angle);
 
             var matrix = Identity;
             matrix[0, 0] = cos;
@@ -487,8 +488,8 @@ namespace SharpMath.Geometry
         /// <returns>A <see cref="Matrix4x4" /> that represents a rotation around the Z-axis using the specified angle.</returns>
         public static Matrix4x4 RotationZ(double angle)
         {
-            double sin = Math.Sin(angle);
-            double cos = Math.Cos(angle);
+            var sin = Math.Sin(angle);
+            var cos = Math.Cos(angle);
 
             var matrix = Identity;
             matrix[0, 0] = cos;
@@ -534,16 +535,16 @@ namespace SharpMath.Geometry
                 xScale = yScale / aspect ratio
             */
 
-            var yScale = 1.0f/(float) Math.Tan(projectionData.FieldOfView/2f);
-            var xScale = yScale/projectionData.AspectRatio;
+            var yScale = 1.0f / (float) Math.Tan(projectionData.FieldOfView / 2f);
+            var xScale = yScale / projectionData.AspectRatio;
 
             var invertedDepth = -projectionData.Depth;
             var matrix = Identity;
             matrix[0, 0] = xScale;
             matrix[1, 1] = yScale;
-            matrix[2, 2] = projectionData.FarPlane/invertedDepth;
+            matrix[2, 2] = projectionData.FarPlane / invertedDepth;
             matrix[2, 3] = -1.0f;
-            matrix[3, 2] = projectionData.NearPlane*projectionData.FarPlane/invertedDepth;
+            matrix[3, 2] = projectionData.NearPlane * projectionData.FarPlane / invertedDepth;
 
             return matrix;
         }
@@ -557,9 +558,9 @@ namespace SharpMath.Geometry
         /// <returns>The created view <see cref="Matrix4x4" />.</returns>
         public static Matrix4x4 View(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 upVector)
         {
-            Vector3 vector = Vector3.FromVector((cameraPosition - cameraTarget).Normalize());
-            Vector3 vector2 = Vector3.FromVector(Vector3.VectorProduct(upVector, vector));
-            Vector3 vector3 = Vector3.FromVector(Vector3.VectorProduct(vector, vector2));
+            var vector = Vector3.FromVector((cameraPosition - cameraTarget).Normalize());
+            var vector2 = Vector3.FromVector(Vector3.VectorProduct(upVector, vector));
+            var vector3 = Vector3.FromVector(Vector3.VectorProduct(vector, vector2));
 
             var matrix = Identity;
             matrix[0, 0] = vector2.X;
@@ -653,7 +654,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator *(double scalar, Matrix4x4 matrix)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -666,7 +667,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Matrix4x4 operator *(Matrix4x4 matrix, double scalar)
         {
-            return MatrixUtils.Multiply(matrix, scalar);
+            return matrix.Multiply(scalar);
         }
 
         /// <summary>
@@ -711,7 +712,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector3 operator *(Vector3 vector, Matrix4x4 matrix)
         {
-            return matrix*vector;
+            return matrix * vector;
         }
 
         /// <summary>
@@ -738,7 +739,7 @@ namespace SharpMath.Geometry
         /// </returns>
         public static Vector4 operator *(Vector4 vector, Matrix4x4 matrix)
         {
-            return matrix*vector;
+            return matrix * vector;
         }
 
         /// <summary>
@@ -765,14 +766,10 @@ namespace SharpMath.Geometry
         {
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 for (uint y = 0; y < RowCount; ++y)
-                {
-                    for (uint x = 0; x < ColumnCount; ++x)
-                    {
-                        hash = hash*23 + this[y, x].GetHashCode();
-                    }
-                }
+                for (uint x = 0; x < ColumnCount; ++x)
+                    hash = hash * 23 + this[y, x].GetHashCode();
                 return hash;
             }
         }

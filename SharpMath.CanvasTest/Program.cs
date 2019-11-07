@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// Program.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
+
+using System;
 using System.Windows.Forms;
 
-namespace SharpMath.Canvas2DTest {
-    static class Program {
+namespace SharpMath.Canvas2DTest
+{
+    internal static class Program
+    {
         /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
+        ///     Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         [STAThread]
-        static void Main () {
-            Application.EnableVisualStyles ();
-            Application.SetCompatibleTextRenderingDefault (false);
-            Application.Run (new Canvas2DTest ());
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Canvas2DTest());
         }
     }
 }

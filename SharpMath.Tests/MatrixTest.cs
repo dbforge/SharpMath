@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// MatrixTest.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,81 +10,6 @@ namespace SharpMath.Tests
     [TestClass]
     public class MatrixTest
     {
-        [TestMethod]
-        public void CanMultiplyMatrix3X3WithVector2()
-        {
-            var translation = Matrix3x3.Translation(10, 10);
-            var transformed = translation * Vector2.One; 
-            var result = new Vector2(11, 11);
-            Assert.AreEqual(result, transformed);
-        }
-
-        [TestMethod]
-        public void CanMultiplyMatrices()
-        {
-            var firstMatrix = new Matrix1x3();
-            var secondMatrix = new Matrix3x1();
-
-            firstMatrix[0, 0] = 1;
-            firstMatrix[0, 1] = 2;
-            firstMatrix[0, 2] = 3;
-
-            secondMatrix[0, 0] = 2;
-            secondMatrix[1, 0] = 1;
-            secondMatrix[2, 0] = 2;
-
-            var matrixProduct = MatrixUtils.Multiply<Matrix1x1>(firstMatrix, secondMatrix);
-            Assert.AreEqual(matrixProduct[0, 0], 10);
-
-            // --------------------------------
-
-            var thirdMatrix = new Matrix3x3
-            {
-                [0, 0] = 2,
-                [0, 1] = 5,
-                [0, 2] = 2,
-                [1, 0] = 3,
-                [1, 1] = -3,
-                [1, 2] = 1,
-                [2, 0] = 1,
-                [2, 1] = 4,
-                [2, 2] = -4
-            };
-
-            var fourthMatrix = new Matrix3x3
-            {
-                [0, 0] = -4,
-                [0, 1] = 2.5,
-                [0, 2] = 3,
-                [1, 0] = 5,
-                [1, 1] = 6,
-                [1, 2] = 4,
-                [2, 0] = 9,
-                [2, 1] = 10,
-                [2, 2] = -9
-            };
-
-            /* 
-                35.000  55.000   8.000
-                -18.000 -0.500   -12.000
-                -20.000 -13.500  55.000
-            */
-            var resultMatrix = new Matrix3x3
-            {
-                [0, 0] = 35,
-                [0, 1] = 55,
-                [0, 2] = 8,
-                [1, 0] = -18,
-                [1, 1] = -0.5,
-                [1, 2] = -12,
-                [2, 0] = -20,
-                [2, 1] = -13.5,
-                [2, 2] = 55
-            };
-
-            Assert.AreEqual(resultMatrix, MatrixUtils.Multiply<Matrix3x3>(thirdMatrix, fourthMatrix));
-        }
-
         [TestMethod]
         public void CanCalculateDeterminant()
         {
@@ -150,13 +76,6 @@ namespace SharpMath.Tests
             };
 
             Assert.AreEqual(-24, fifthMatrix.Determinant);
-        }
-
-        [TestMethod]
-        public void CanGetStringRepresentation()
-        {
-            var matrix = Matrix4x4.View(Vector3.Zero, Vector3.Forward, Vector3.Up);
-            Debug.Print(matrix.ToString());
         }
 
         [TestMethod]
@@ -246,6 +165,88 @@ namespace SharpMath.Tests
                 M44 = 1
             };
             Assert.IsTrue(fourthMatrix.IsTriangle);
+        }
+
+        [TestMethod]
+        public void CanGetStringRepresentation()
+        {
+            var matrix = Matrix4x4.View(Vector3.Zero, Vector3.Forward, Vector3.Up);
+            Debug.Print(matrix.ToString());
+        }
+
+        [TestMethod]
+        public void CanMultiplyMatrices()
+        {
+            var firstMatrix = new Matrix1x3();
+            var secondMatrix = new Matrix3x1();
+
+            firstMatrix[0, 0] = 1;
+            firstMatrix[0, 1] = 2;
+            firstMatrix[0, 2] = 3;
+
+            secondMatrix[0, 0] = 2;
+            secondMatrix[1, 0] = 1;
+            secondMatrix[2, 0] = 2;
+
+            var matrixProduct = MatrixUtils.Multiply<Matrix1x1>(firstMatrix, secondMatrix);
+            Assert.AreEqual(matrixProduct[0, 0], 10);
+
+            // --------------------------------
+
+            var thirdMatrix = new Matrix3x3
+            {
+                [0, 0] = 2,
+                [0, 1] = 5,
+                [0, 2] = 2,
+                [1, 0] = 3,
+                [1, 1] = -3,
+                [1, 2] = 1,
+                [2, 0] = 1,
+                [2, 1] = 4,
+                [2, 2] = -4
+            };
+
+            var fourthMatrix = new Matrix3x3
+            {
+                [0, 0] = -4,
+                [0, 1] = 2.5,
+                [0, 2] = 3,
+                [1, 0] = 5,
+                [1, 1] = 6,
+                [1, 2] = 4,
+                [2, 0] = 9,
+                [2, 1] = 10,
+                [2, 2] = -9
+            };
+
+            /* 
+                35.000  55.000   8.000
+                -18.000 -0.500   -12.000
+                -20.000 -13.500  55.000
+            */
+            var resultMatrix = new Matrix3x3
+            {
+                [0, 0] = 35,
+                [0, 1] = 55,
+                [0, 2] = 8,
+                [1, 0] = -18,
+                [1, 1] = -0.5,
+                [1, 2] = -12,
+                [2, 0] = -20,
+                [2, 1] = -13.5,
+                [2, 2] = 55
+            };
+
+            Assert.AreEqual(resultMatrix, MatrixUtils.Multiply<Matrix3x3>(thirdMatrix, fourthMatrix));
+        }
+
+        [TestMethod]
+        public void CanMultiplyMatrix3X3WithVector2()
+        {
+            var translation = Matrix3x3.Translation(10, 10);
+            var transformed = translation * Vector2.One;
+            var result = new Vector2(11, 11);
+            Assert.AreEqual(result, transformed);
         }
 
         // TODO: Implement

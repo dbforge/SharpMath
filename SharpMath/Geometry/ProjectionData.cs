@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// ProjectionData.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Drawing;
@@ -81,6 +82,6 @@ namespace SharpMath.Geometry
         ///     Gets the default <see cref="ProjectionData" />.
         /// </summary>
         public static ProjectionData Default
-            => new ProjectionData(new Size(100, 100), 16f/9f, (float) Math.PI/3f, 1f, 100f);
+            => new ProjectionData(new Size(100, 100), 16f / 9f, (float) Math.PI / 3f, 1f, 100f);
     }
 }

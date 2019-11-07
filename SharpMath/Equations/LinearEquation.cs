@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// LinearEquation.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 namespace SharpMath.Equations
 {
@@ -7,7 +8,7 @@ namespace SharpMath.Equations
     /// </summary>
     public class LinearEquation
     {
-        public LinearEquation() : this(new double[] {}, 0)
+        public LinearEquation() : this(new double[] { }, 0)
         {
         }
 
@@ -16,6 +17,7 @@ namespace SharpMath.Equations
             Coefficients = coefficients;
             Result = result;
         }
+
         public LinearEquation(double result, params double[] coefficients)
         {
             Coefficients = coefficients;

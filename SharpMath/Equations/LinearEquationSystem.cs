@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// LinearEquationSystem.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace SharpMath.Equations
         /// <returns>The result of each variable in chronological order.</returns>
         public double[] Solve()
         {
-            uint count = (uint) Equations.Count;
+            var count = (uint) Equations.Count;
             if (count == 0)
                 throw new ArgumentException("There must be at least one equation to solve.");
 
@@ -69,14 +70,14 @@ namespace SharpMath.Equations
             for (uint i = 0; i < count; ++i)
             {
                 var currentEquation = Equations[(int) i];
-                double[] coefficients = currentEquation.Coefficients;
+                var coefficients = currentEquation.Coefficients;
                 for (uint c = 0; c < coefficients.Length; ++c)
                     leftSide[i, c] = coefficients[c];
                 rightSide[i, 0] = currentEquation.Result;
             }
 
             var resultMatrix = MatrixUtils.GaussJordan(leftSide, rightSide);
-            double[] result = new double[rightSide.RowCount];
+            var result = new double[rightSide.RowCount];
             for (uint i = 0; i < resultMatrix.RowCount; ++i)
                 result[i] = resultMatrix[i, 0];
 

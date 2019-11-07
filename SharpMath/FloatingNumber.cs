@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// FloatingNumber.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 
@@ -22,7 +23,9 @@ namespace SharpMath
         /// <param name="secondNumber">The second <see cref="float" />.</param>
         /// <returns>Returns <c>true</c>, if they are approximately equal, otherwise <c>false</c>.</returns>
         public static bool AreApproximatelyEqual(float firstNumber, float secondNumber)
-            => AreApproximatelyEqual(firstNumber, secondNumber, Epsilon);
+        {
+            return AreApproximatelyEqual(firstNumber, secondNumber, Epsilon);
+        }
 
         /// <summary>
         ///     Determines whether two floating numbers are approximately equal to each other using the specified epsilon value.
@@ -32,7 +35,9 @@ namespace SharpMath
         /// <param name="epsilon">The epsilon value that represents the tolerance.</param>
         /// <returns>Returns <c>true</c>, if they are approximately equal, otherwise <c>false</c>.</returns>
         public static bool AreApproximatelyEqual(float firstNumber, float secondNumber, double epsilon)
-            => Math.Abs(firstNumber - secondNumber) <= epsilon;
+        {
+            return Math.Abs(firstNumber - secondNumber) <= epsilon;
+        }
 
         /// <summary>
         ///     Determines whether two floating numbers are approximately equal to each other using the <see cref="Epsilon" />
@@ -42,7 +47,9 @@ namespace SharpMath
         /// <param name="secondNumber">The second <see cref="float" />.</param>
         /// <returns>Returns <c>true</c>, if they are approximately equal, otherwise <c>false</c>.</returns>
         public static bool AreApproximatelyEqual(double firstNumber, double secondNumber)
-            => AreApproximatelyEqual(firstNumber, secondNumber, Epsilon);
+        {
+            return AreApproximatelyEqual(firstNumber, secondNumber, Epsilon);
+        }
 
         /// <summary>
         ///     Determines whether two floating numbers are approximately equal to each other using the specified epsilon value.
@@ -52,6 +59,8 @@ namespace SharpMath
         /// <param name="epsilon">The epsilon value that represents the tolerance.</param>
         /// <returns>Returns <c>true</c>, if they are approximately equal, otherwise <c>false</c>.</returns>
         public static bool AreApproximatelyEqual(double firstNumber, double secondNumber, double epsilon)
-            => Math.Abs(firstNumber - secondNumber) <= epsilon;
+        {
+            return Math.Abs(firstNumber - secondNumber) <= epsilon;
+        }
     }
 }

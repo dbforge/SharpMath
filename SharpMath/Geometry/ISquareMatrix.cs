@@ -1,20 +1,21 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// ISquareMatrix.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 namespace SharpMath.Geometry
 {
     public interface ISquareMatrix : IMatrix
     {
-        uint Dimension { get; }
         double Determinant { get; }
-        double Trace { get; }
-        bool IsIdentity { get; }
-        bool IsOrthogonal { get; }
-        bool IsSymmetric { get; }
-        bool IsSkewSymmetric { get; }
+        uint Dimension { get; }
         bool IsAntiSymmetric { get; }
         bool IsDiagonal { get; }
+        bool IsIdentity { get; }
+        bool IsOrthogonal { get; }
         bool IsSingular { get; }
+        bool IsSkewSymmetric { get; }
+        bool IsSymmetric { get; }
         bool IsTriangle { get; }
+        double Trace { get; }
     }
 
     public interface ISquareMatrix<out T> : ISquareMatrix where T : ISquareMatrix

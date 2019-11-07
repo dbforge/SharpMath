@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Matrix3x1.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections;
@@ -87,9 +88,9 @@ namespace SharpMath.Geometry
         /// <returns>The value at the specified row and column.</returns>
         public double this[uint row, uint column]
         {
-            get { return this[row + column]; }
+            get => this[row + column];
 
-            set { this[row + column] = value; }
+            set => this[row + column] = value;
         }
 
         /// <summary>

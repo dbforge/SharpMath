@@ -1,4 +1,7 @@
-﻿using System;
+﻿// FunctionWrapper.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
+
+using System;
 using System.Collections.Generic;
 
 namespace SharpMath.Presentation

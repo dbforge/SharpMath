@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// Token.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections.Generic;
@@ -21,61 +22,61 @@ namespace SharpMath.Expressions
 
         protected static Dictionary<string, Action<Stack<double>>> _functionActions = new Dictionary
             <string, Action<Stack<double>>>
-        {
-            {"sin", stack => stack.Push(Math.Sin(stack.Pop()))},
-            {"cos", stack => stack.Push(Math.Cos(stack.Pop()))},
-            {"tan", stack => stack.Push(Math.Tan(stack.Pop()))},
-            {"asin", stack => stack.Push(Math.Asin(stack.Pop()))},
-            {"acos", stack => stack.Push(Math.Acos(stack.Pop()))},
-            {"atan", stack => stack.Push(Math.Atan(stack.Pop()))},
-            {"sqrt", stack => stack.Push(Math.Sqrt(stack.Pop()))},
-            {"abs", stack => stack.Push(Math.Abs(stack.Pop()))},
-            {"ln", stack => stack.Push(Math.Log(stack.Pop()))},
-            {"lg", stack => stack.Push(Math.Log(stack.Pop(), 10))},
             {
-                "log", stack =>
+                {"sin", stack => stack.Push(Math.Sin(stack.Pop()))},
+                {"cos", stack => stack.Push(Math.Cos(stack.Pop()))},
+                {"tan", stack => stack.Push(Math.Tan(stack.Pop()))},
+                {"asin", stack => stack.Push(Math.Asin(stack.Pop()))},
+                {"acos", stack => stack.Push(Math.Acos(stack.Pop()))},
+                {"atan", stack => stack.Push(Math.Atan(stack.Pop()))},
+                {"sqrt", stack => stack.Push(Math.Sqrt(stack.Pop()))},
+                {"abs", stack => stack.Push(Math.Abs(stack.Pop()))},
+                {"ln", stack => stack.Push(Math.Log(stack.Pop()))},
+                {"lg", stack => stack.Push(Math.Log(stack.Pop(), 10))},
                 {
-                    double exponent = stack.Pop();
-                    stack.Push(Math.Log(exponent, stack.Pop()));
+                    "log", stack =>
+                    {
+                        var exponent = stack.Pop();
+                        stack.Push(Math.Log(exponent, stack.Pop()));
+                    }
                 }
-            }
-        };
+            };
 
         protected static Dictionary<string, Action<Stack<double>>> _constantActions = new Dictionary
             <string, Action<Stack<double>>>
-        {
-            {"pi", stack => stack.Push(Math.PI)},
-            {"e", stack => stack.Push(Math.E)}
-        };
+            {
+                {"pi", stack => stack.Push(Math.PI)},
+                {"e", stack => stack.Push(Math.E)}
+            };
 
         protected static Dictionary<string, Action<Stack<double>>> _operatorActions = new Dictionary
             <string, Action<Stack<double>>>
-        {
-            {"+", stack => stack.Push(stack.Pop() + stack.Pop())},
             {
-                "-", stack =>
+                {"+", stack => stack.Push(stack.Pop() + stack.Pop())},
                 {
-                    double subtrahend = stack.Pop();
-                    stack.Push(stack.Pop() - subtrahend);
-                }
-            },
-            {"*", stack => stack.Push(stack.Pop()*stack.Pop())},
-            {
-                "/", stack =>
+                    "-", stack =>
+                    {
+                        var subtrahend = stack.Pop();
+                        stack.Push(stack.Pop() - subtrahend);
+                    }
+                },
+                {"*", stack => stack.Push(stack.Pop() * stack.Pop())},
                 {
-                    double divisor = stack.Pop();
-                    stack.Push(stack.Pop()/divisor);
-                }
-            },
-            {"!", stack => stack.Push(-stack.Pop())},
-            {
-                "^", stack =>
+                    "/", stack =>
+                    {
+                        var divisor = stack.Pop();
+                        stack.Push(stack.Pop() / divisor);
+                    }
+                },
+                {"!", stack => stack.Push(-stack.Pop())},
                 {
-                    double exponent = stack.Pop();
-                    stack.Push(Math.Pow(stack.Pop(), exponent));
+                    "^", stack =>
+                    {
+                        var exponent = stack.Pop();
+                        stack.Push(Math.Pow(stack.Pop(), exponent));
+                    }
                 }
-            }
-        };
+            };
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Token" /> class.
@@ -92,63 +93,53 @@ namespace SharpMath.Expressions
         public TokenType Type { get; set; }
 
         /// <summary>
-        ///     Reads a number token in the input string starting at the specified index.
+        ///     Creates an <see cref="IEnumerable{Token}" /> containing infix tokens from partitioning the specified term.
         /// </summary>
-        /// <param name="input">The input string.</param>
-        /// <param name="index">The index to start at.</param>
-        /// <returns>The <see cref="Token" /> that has been read.</returns>
-        public static Token<double> ReadNumberToken(string input, ref int index)
+        /// <param name="term">The term to partition into infix tokens.</param>
+        /// <returns><see cref="IEnumerable{Token}" /> containing the created infix tokens.</returns>
+        public static IEnumerable<Token> CalculateInfixTokens(string term)
         {
-            int endIndex = index;
-            while (endIndex < input.Length && (char.IsDigit(input, endIndex) || input[endIndex] == '.'))
-                endIndex++;
-            string numberToken = input.Substring(index, endIndex - index);
-            double numberValue;
-            if (
-                !double.TryParse(numberToken, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
-                    out numberValue))
-                throw new ParserException($"Invalid token: {numberToken} is not a valid number.");
-            index = endIndex;
-            return new Token<double>(numberValue, TokenType.Number);
-        }
-
-        /// <summary>
-        ///     Reads a bracket, constant, operator or function token in the input string starting at the specified index.
-        /// </summary>
-        /// <param name="input">The input string.</param>
-        /// <param name="index">The index to start at.</param>
-        /// <returns>The <see cref="Token" /> that has been read.</returns>
-        public static Token<string> ReadStringToken(string input, ref int index)
-        {
-            TokenType newType;
-            int endIndex = index;
-            while (endIndex < input.Length &&
-                   (char.IsLetter(input, endIndex) || CharEx.IsMathematicOperator(input[endIndex]) ||
-                    CharEx.IsBracket(input[endIndex])))
+            var infixTokens = new List<Token>();
+            term = SWhitespace.Replace(term, string.Empty).ToLowerInvariant();
+            var i = 0;
+            while (i < term.Length)
             {
-                endIndex++;
-                string currentString = input.Substring(index, endIndex - index);
-                if (_functionActions.ContainsKey(currentString) || _operatorActions.ContainsKey(currentString) || _constantActions.ContainsKey(currentString) ||
-                    currentString.IsBracket()) // Last two conditions to parse e.g. "* sin(5)" correctly: As soon as the current token has finished, we should stop reading.
-                    break; // This indicates that it has been found in the dictionary, so that is already it.
+                var current = term[i];
+                if (char.IsLetter(current) || CharEx.IsMathematicOperator(current) || CharEx.IsBracket(current))
+                    // Functions/Operators/Constants
+                {
+                    if ((current == '+' || current == '-') &&
+                        (i == 0 ||
+                         infixTokens.Last().Type == TokenType.Bracket &&
+                         ((Token<string>) infixTokens.Last()).Value == "("))
+                        // Must be a sign and handled differently.
+                    {
+                        if (current == '-')
+                        {
+                            var sb = new StringBuilder(term) {[term.IndexOf(current)] = '!'};
+                            term = sb.ToString();
+                        }
+                        else
+                        {
+                            term.Remove(term.IndexOf(current), 1);
+                        }
+
+                        // Remove the '+' as it is redundant and disturbs our calculations
+                    }
+
+                    infixTokens.Add(ReadStringToken(term, ref i));
+                }
+                else if (char.IsDigit(current)) // Numbers
+                {
+                    infixTokens.Add(ReadNumberToken(term, ref i));
+                }
+                else
+                {
+                    throw new ParserException($"Char {current} cannot be interpreted as a valid token.");
+                }
             }
 
-            string stringToken = input.Substring(index, endIndex - index);
-
-            if (_functionActions.ContainsKey(stringToken))
-                newType = TokenType.Function;
-            else if (_operatorActions.ContainsKey(stringToken))
-                newType = TokenType.Operator;
-            else if (stringToken.IsBracket())
-                newType = TokenType.Bracket;
-            else if (_constantActions.ContainsKey(stringToken))
-                newType = TokenType.Constant;
-            else
-                throw new ParserException(
-                    $"Invalid token: {stringToken} is not a valid function/operator, bracket or number equivalent.");
-
-            index = endIndex;
-            return new Token<string>(stringToken, newType);
+            return infixTokens;
         }
 
         /// <summary>
@@ -183,45 +174,65 @@ namespace SharpMath.Expressions
         }
 
         /// <summary>
-        ///     Creates an <see cref="IEnumerable{Token}" /> containing infix tokens from partitioning the specified term.
+        ///     Reads a number token in the input string starting at the specified index.
         /// </summary>
-        /// <param name="term">The term to partition into infix tokens.</param>
-        /// <returns><see cref="IEnumerable{Token}" /> containing the created infix tokens.</returns>
-        public static IEnumerable<Token> CalculateInfixTokens(string term)
+        /// <param name="input">The input string.</param>
+        /// <param name="index">The index to start at.</param>
+        /// <returns>The <see cref="Token" /> that has been read.</returns>
+        public static Token<double> ReadNumberToken(string input, ref int index)
         {
-            var infixTokens = new List<Token>();
-            term = SWhitespace.Replace(term, string.Empty).ToLowerInvariant();
-            int i = 0;
-            while (i < term.Length)
+            var endIndex = index;
+            while (endIndex < input.Length && (char.IsDigit(input, endIndex) || input[endIndex] == '.'))
+                endIndex++;
+            var numberToken = input.Substring(index, endIndex - index);
+            double numberValue;
+            if (
+                !double.TryParse(numberToken, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+                    out numberValue))
+                throw new ParserException($"Invalid token: {numberToken} is not a valid number.");
+            index = endIndex;
+            return new Token<double>(numberValue, TokenType.Number);
+        }
+
+        /// <summary>
+        ///     Reads a bracket, constant, operator or function token in the input string starting at the specified index.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <param name="index">The index to start at.</param>
+        /// <returns>The <see cref="Token" /> that has been read.</returns>
+        public static Token<string> ReadStringToken(string input, ref int index)
+        {
+            TokenType newType;
+            var endIndex = index;
+            while (endIndex < input.Length &&
+                   (char.IsLetter(input, endIndex) || CharEx.IsMathematicOperator(input[endIndex]) ||
+                    CharEx.IsBracket(input[endIndex])))
             {
-                char current = term[i];
-                if (char.IsLetter(current) || CharEx.IsMathematicOperator(current) || CharEx.IsBracket(current))
-                    // Functions/Operators/Constants
-                {
-                    if ((current == '+' || current == '-') &&
-                        (i == 0 ||
-                         (infixTokens.Last().Type == TokenType.Bracket &&
-                          ((Token<string>) infixTokens.Last()).Value == "(")))
-                        // Must be a sign and handled differently.
-                    {
-                        if (current == '-')
-                        {
-                            var sb = new StringBuilder(term) {[term.IndexOf(current)] = '!'};
-                            term = sb.ToString();
-                        }
-                        else
-                            term.Remove(term.IndexOf(current), 1);
-                        // Remove the '+' as it is redundant and disturbs our calculations
-                    }
-                    infixTokens.Add(ReadStringToken(term, ref i));
-                }
-                else if (char.IsDigit(current)) // Numbers
-                    infixTokens.Add(ReadNumberToken(term, ref i));
-                else
-                    throw new ParserException($"Char {current} cannot be interpreted as a valid token.");
+                endIndex++;
+                var currentString = input.Substring(index, endIndex - index);
+                if (_functionActions.ContainsKey(currentString) || _operatorActions.ContainsKey(currentString) ||
+                    _constantActions.ContainsKey(currentString) ||
+                    currentString.IsBracket()
+                ) // Last two conditions to parse e.g. "* sin(5)" correctly: As soon as the current token has finished, we should stop reading.
+                    break; // This indicates that it has been found in the dictionary, so that is already it.
             }
 
-            return infixTokens;
+            var stringToken = input.Substring(index, endIndex - index);
+
+            if (_functionActions.ContainsKey(stringToken))
+                newType = TokenType.Function;
+            else if (_operatorActions.ContainsKey(stringToken))
+                newType = TokenType.Operator;
+            else if (stringToken.IsBracket())
+                newType = TokenType.Bracket;
+            else if (_constantActions.ContainsKey(stringToken))
+                newType = TokenType.Constant;
+            else
+                throw new ParserException(
+                    $"Invalid token: {stringToken} is not a valid function/operator, bracket or number equivalent.");
+
+            index = endIndex;
+            return new Token<string>(stringToken, newType);
         }
     }
 
@@ -278,14 +289,15 @@ namespace SharpMath.Expressions
                             IsRightAssociative = true;
                             break;
                     }
+
                     break;
             }
         }
 
         /// <summary>
-        ///     Gets or sets the value of this <see cref="Token{T}" />.
+        ///     Gets or sets a value indicating whether this <see cref="Token" /> is right associative, or not.
         /// </summary>
-        public T Value { get; set; }
+        public bool IsRightAssociative { get; set; }
 
         /// <summary>
         ///     Gets or sets the priority of this <see cref="Token{T}" />.
@@ -293,9 +305,9 @@ namespace SharpMath.Expressions
         public int Priority { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether this <see cref="Token" /> is right associative, or not.
+        ///     Gets or sets the value of this <see cref="Token{T}" />.
         /// </summary>
-        public bool IsRightAssociative { get; set; }
+        public T Value { get; set; }
 
         public override string ToString()
         {

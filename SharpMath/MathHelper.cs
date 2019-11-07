@@ -1,4 +1,5 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// MathHelper.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 
@@ -34,17 +35,17 @@ namespace SharpMath
         /// <summary>
         ///     Represents <see cref="Pi" /> over 2 (90 degrees).
         /// </summary>
-        public const float PiOver2 = (float) (Math.PI/2.0);
+        public const float PiOver2 = (float) (Math.PI / 2.0);
 
         /// <summary>
         ///     Represents <see cref="Pi" /> over 4 (45 degrees).
         /// </summary>
-        public const float PiOver4 = (float) (Math.PI/4.0);
+        public const float PiOver4 = (float) (Math.PI / 4.0);
 
         /// <summary>
         ///     Represents 2 <see cref="Pi" /> (360 degrees).
         /// </summary>
-        public const float TwoPi = (float) (Math.PI*2.0);
+        public const float TwoPi = (float) (Math.PI * 2.0);
 
         /// <summary>
         ///     Converts degrees to radians.
@@ -53,7 +54,7 @@ namespace SharpMath
         /// <returns>The angle in radians.</returns>
         public static double DegreesToRadians(double degrees)
         {
-            return degrees*(Math.PI/180);
+            return degrees * (Math.PI / 180);
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace SharpMath
         /// <returns>The angle in degrees.</returns>
         public static double RadiansToDegrees(double radians)
         {
-            return radians*(180/Math.PI);
+            return radians * (180 / Math.PI);
         }
     }
 }

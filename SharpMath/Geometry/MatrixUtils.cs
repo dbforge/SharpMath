@@ -1,10 +1,11 @@
-﻿// Author: Dominic Beger (Trade/ProgTrade) 2016
+﻿// MatrixUtils.cs, 07.11.2019
+// Copyright (C) Dominic Beger 07.11.2019
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-//using SharpMath.Equations;
 using SharpMath.Equations.Exceptions;
+//using SharpMath.Equations;
 
 namespace SharpMath.Geometry
 {
@@ -19,8 +20,8 @@ namespace SharpMath.Geometry
         public static T Add<T>(T firstMatrix, T secondMatrix) where T : IMatrix
         {
             for (uint y = 0; y < firstMatrix.RowCount; ++y)
-                for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
-                    firstMatrix[y, x] += secondMatrix[y, x];
+            for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
+                firstMatrix[y, x] += secondMatrix[y, x];
             return firstMatrix;
         }
 
@@ -33,12 +34,8 @@ namespace SharpMath.Geometry
         {
             var resultMatrix = new T();
             for (uint y = 0; y < matrix.RowCount; ++y)
-            {
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                {
-                    resultMatrix[y, x] = matrix.GetCofactor(y, x);
-                }
-            }
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                resultMatrix[y, x] = matrix.GetCofactor(y, x);
 
             return resultMatrix;
         }
@@ -53,12 +50,8 @@ namespace SharpMath.Geometry
         {
             var cloneMatrix = new T();
             for (uint y = 0; y < matrix.RowCount; ++y)
-            {
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                {
-                    cloneMatrix[y, x] = matrix[y, x];
-                }
-            }
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                cloneMatrix[y, x] = matrix[y, x];
             return cloneMatrix;
         }
 
@@ -73,7 +66,7 @@ namespace SharpMath.Geometry
         {
             for (uint x = 0; x < leftSide.ColumnCount; x++)
             {
-                uint nextX = x;
+                var nextX = x;
                 while (leftSide[x, x].IsApproximatelyEqualTo(0))
                 {
                     nextX++;
@@ -89,19 +82,17 @@ namespace SharpMath.Geometry
                 }
 
                 for (uint y = 0; y < leftSide.RowCount; y++)
-                {
                     if (y != x && Math.Abs(leftSide[y, x]) >= FloatingNumber.Epsilon)
                     {
-                        double factor = leftSide[y, x]/leftSide[x, x];
+                        var factor = leftSide[y, x] / leftSide[x, x];
                         leftSide.SubtractRows(y, x, factor);
                         rightSide.SubtractRows(y, x, factor);
                     }
-                }
             }
 
             for (uint i = 0; i < leftSide.ColumnCount; i++)
             {
-                double factor = 1/leftSide[i, i];
+                var factor = 1 / leftSide[i, i];
                 leftSide.MultiplyRow(i, factor);
                 rightSide.MultiplyRow(i, factor);
             }
@@ -118,7 +109,7 @@ namespace SharpMath.Geometry
         /// <returns>The cofactor of the element in this <see cref="ISquareMatrix" />.</returns>
         public static double GetCofactor(this ISquareMatrix matrix, uint row, uint column)
         {
-            return Math.Pow(-1, row + column)*matrix.GetSubMatrix(row, column).GetDeterminant();
+            return Math.Pow(-1, row + column) * matrix.GetSubMatrix(row, column).GetDeterminant();
         }
 
         //public static TOut GetCore<TOut>(this ISquareMatrix matrix) where TOut : IVector, new()
@@ -139,7 +130,7 @@ namespace SharpMath.Geometry
 
         //        equations.Add(new LinearEquation(coefficients.ToArray(), 0));
         //    }
-            
+
         //    var equationSystem = new LinearEquationSystem(equations);
         //    double[] solutions = equationSystem.Solve();
         //    for (uint i = 0; i < matrix.ColumnCount; ++i)
@@ -160,7 +151,7 @@ namespace SharpMath.Geometry
                 case 1:
                     return matrix[0, 0];
                 case 2:
-                    return matrix[0, 0]*matrix[1, 1] - matrix[0, 1]*matrix[1, 0];
+                    return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0];
                 default:
                     return LaplaceExpansion(matrix);
             }
@@ -203,12 +194,10 @@ namespace SharpMath.Geometry
                 return false;
 
             for (uint y = 0; y < matrix.RowCount; ++y)
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                {
-                    if ((y == x && FloatingNumber.AreApproximatelyEqual(matrix[y, x], 0)) ||
-                        (y != x && !FloatingNumber.AreApproximatelyEqual(matrix[y, x], 0)))
-                        return false;
-                }
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                if (y == x && FloatingNumber.AreApproximatelyEqual(matrix[y, x], 0) ||
+                    y != x && !FloatingNumber.AreApproximatelyEqual(matrix[y, x], 0))
+                    return false;
             return true;
         }
 
@@ -260,8 +249,8 @@ namespace SharpMath.Geometry
         {
             var resultMatrix = new T();
             for (uint y = 0; y < matrix.RowCount; ++y)
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                    resultMatrix[y, x] = -matrix[y, x];
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                resultMatrix[y, x] = -matrix[y, x];
             return resultMatrix;
         }
 
@@ -294,7 +283,6 @@ namespace SharpMath.Geometry
 
             uint y = 0;
             for (uint cy = 0; cy < matrix.RowCount; cy++)
-            {
                 if (cy != row)
                 {
                     uint x = 0;
@@ -304,9 +292,10 @@ namespace SharpMath.Geometry
                             resultMatrix[y, x] = matrix[cy, cx];
                             x++;
                         }
+
                     y++;
                 }
-            }
+
             return resultMatrix;
         }
 
@@ -319,17 +308,27 @@ namespace SharpMath.Geometry
         {
             var resultMatrix = new T();
             for (uint y = 0; y < matrix.Dimension; ++y)
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                    resultMatrix[y, x] = matrix[x, y];
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                resultMatrix[y, x] = matrix[x, y];
             return resultMatrix;
+        }
+
+        internal static void InterchangeRows(this IMatrix matrix, uint firstRowIndex, uint secondRowIndex)
+        {
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+            {
+                var firstValue = matrix[firstRowIndex, x];
+                matrix[firstRowIndex, x] = matrix[secondRowIndex, x];
+                matrix[secondRowIndex, x] = firstValue;
+            }
         }
 
         internal static double LaplaceExpansion(this ISquareMatrix matrix)
         {
             double determinant = 0;
             for (uint i = 0; i < matrix.Dimension; ++i)
-                determinant += matrix[i, 0]*matrix.GetCofactor(i, 0);
-                    // The sigma sign is equal to a for-loop with recursion.
+                determinant += matrix[i, 0] * matrix.GetCofactor(i, 0);
+            // The sigma sign is equal to a for-loop with recursion.
             return determinant;
         }
 
@@ -342,8 +341,8 @@ namespace SharpMath.Geometry
         public static T Multiply<T>(this T matrix, double scalar) where T : IMatrix
         {
             for (uint y = 0; y < matrix.RowCount; ++y)
-                for (uint x = 0; x < matrix.ColumnCount; ++x)
-                    matrix[y, x] *= scalar;
+            for (uint x = 0; x < matrix.ColumnCount; ++x)
+                matrix[y, x] *= scalar;
             return matrix;
         }
 
@@ -365,13 +364,9 @@ namespace SharpMath.Geometry
                     $"Type parameter TOut is not an adequate IMatrix-type as its constraints do not fit those of the resulting matrix. The constraints must be {firstMatrix.RowCount}x{secondMatrix.ColumnCount}.");
 
             for (uint y = 0; y < matrixProduct.RowCount; ++y)
-            {
-                for (uint x = 0; x < matrixProduct.ColumnCount; ++x)
-                {
-                    for (uint i = 0; i < firstMatrix.ColumnCount; ++i)
-                        matrixProduct[y, x] += firstMatrix[y, i]*secondMatrix[i, x];
-                }
-            }
+            for (uint x = 0; x < matrixProduct.ColumnCount; ++x)
+            for (uint i = 0; i < firstMatrix.ColumnCount; ++i)
+                matrixProduct[y, x] += firstMatrix[y, i] * secondMatrix[i, x];
 
             return matrixProduct;
         }
@@ -380,16 +375,6 @@ namespace SharpMath.Geometry
         {
             for (uint x = 0; x < matrix.ColumnCount; ++x)
                 matrix[rowIndex, x] *= factor;
-        }
-
-        internal static void InterchangeRows(this IMatrix matrix, uint firstRowIndex, uint secondRowIndex)
-        {
-            for (uint x = 0; x < matrix.ColumnCount; ++x)
-            {
-                var firstValue = matrix[firstRowIndex, x];
-                matrix[firstRowIndex, x] = matrix[secondRowIndex, x];
-                matrix[secondRowIndex, x] = firstValue;
-            }
         }
 
         /// <summary>
@@ -401,15 +386,15 @@ namespace SharpMath.Geometry
         public static T Subtract<T>(T firstMatrix, T secondMatrix) where T : IMatrix
         {
             for (uint y = 0; y < firstMatrix.RowCount; ++y)
-                for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
-                    firstMatrix[y, x] -= secondMatrix[y, x];
+            for (uint x = 0; x < firstMatrix.ColumnCount; ++x)
+                firstMatrix[y, x] -= secondMatrix[y, x];
             return firstMatrix;
         }
 
         internal static void SubtractRows(this IMatrix matrix, uint firstRowIndex, uint secondRowIndex, double factor)
         {
             for (uint x = 0; x < matrix.ColumnCount; x++)
-                matrix[firstRowIndex, x] -= matrix[secondRowIndex, x]*factor;
+                matrix[firstRowIndex, x] -= matrix[secondRowIndex, x] * factor;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SharpMath.Canvas2DTest
         {
             testCanvas.Functions.Add(new FunctionWrapper(x => Math.Pow(x, 3)));
             testCanvas.Functions.Add(new FunctionWrapper(x => 1.5 * Math.Sin(x)));
-            testCanvas.Vertices.Add(new Vector2(4, 8));
+            testCanvas.Vectors.Add(new Vector2(4, 8));
         }
     }
 }

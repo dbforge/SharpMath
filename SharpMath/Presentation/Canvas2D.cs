@@ -41,7 +41,7 @@ namespace SharpMath.Presentation
         public SizeF GridScale { get; set; }
         public bool TrackingLines { get; set; }
         public bool ValueIndicator { get; set; }
-        public BindingList<Vector2> Vertices { get; } = new BindingList<Vector2>();
+        public BindingList<Vector2> Vectors { get; } = new BindingList<Vector2>();
 
         private void CanvasResized(object sender, EventArgs e)
         {
@@ -156,7 +156,7 @@ namespace SharpMath.Presentation
         private void DrawVertices(Graphics g)
         {
             Pen vectorPen = new Pen(new SolidBrush(Color.FromArgb(255, 122, 125, 201))) {EndCap = LineCap.ArrowAnchor};
-            foreach (Vector2 v in Vertices)
+            foreach (Vector2 v in Vectors)
             {
                 g.DrawLine(vectorPen,
                     GridOrigin,

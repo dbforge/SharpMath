@@ -26,7 +26,7 @@ namespace SharpMath.Geometry
         public bool MoveNext()
         {
             _index++;
-            return _index < _matrix.ColumnCount + _matrix.RowCount;
+            return _index < _matrix.ColumnCount * _matrix.RowCount;
         }
 
         public void Reset()

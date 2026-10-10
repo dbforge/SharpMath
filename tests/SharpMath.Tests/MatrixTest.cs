@@ -1,20 +1,15 @@
-﻿// MatrixTest.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
-
 using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Geometry;
 
 namespace SharpMath.Tests
 {
-    [TestClass]
     public class MatrixTest
     {
-        [TestMethod]
+        [Fact]
         public void CanCalculateDeterminant()
         {
             var firstMatrix = new Matrix1x1 {[0, 0] = 2};
-            Assert.AreEqual(2, firstMatrix.Determinant);
+            Assert.Equal(2, firstMatrix.Determinant);
 
             var secondMatrix = new Matrix2x2
             {
@@ -23,7 +18,7 @@ namespace SharpMath.Tests
                 [1, 0] = 4,
                 [1, 1] = 2
             };
-            Assert.AreEqual(4, secondMatrix.Determinant);
+            Assert.Equal(4, secondMatrix.Determinant);
 
             var thirdMatrix = new Matrix3x3
             {
@@ -38,7 +33,7 @@ namespace SharpMath.Tests
                 [2, 2] = -4
             };
 
-            Assert.AreEqual(111, thirdMatrix.Determinant);
+            Assert.Equal(111, thirdMatrix.Determinant);
 
             var fourthMatrix = new Matrix3x3
             {
@@ -53,7 +48,7 @@ namespace SharpMath.Tests
                 [2, 2] = -9
             };
 
-            Assert.AreEqual(566.5, fourthMatrix.Determinant);
+            Assert.Equal(566.5, fourthMatrix.Determinant);
 
             var fifthMatrix = new Matrix4x4
             {
@@ -75,10 +70,10 @@ namespace SharpMath.Tests
                 [3, 3] = -2
             };
 
-            Assert.AreEqual(-24, fifthMatrix.Determinant);
+            Assert.Equal(-24, fifthMatrix.Determinant);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanDetermineIfMatrixIsDiagonal()
         {
             var matrix = new Matrix3x3
@@ -87,7 +82,7 @@ namespace SharpMath.Tests
                 M22 = 1,
                 M33 = 1
             };
-            Assert.IsTrue(matrix.IsDiagonal);
+            Assert.True(matrix.IsDiagonal);
 
             var secondMatrix = new Matrix4x4
             {
@@ -96,7 +91,7 @@ namespace SharpMath.Tests
                 M33 = 1,
                 M44 = 1
             };
-            Assert.IsTrue(secondMatrix.IsDiagonal);
+            Assert.True(secondMatrix.IsDiagonal);
 
             var thirdMatrix = new Matrix4x4
             {
@@ -106,7 +101,7 @@ namespace SharpMath.Tests
                 M44 = 1,
                 M14 = 1
             };
-            Assert.IsFalse(thirdMatrix.IsDiagonal);
+            Assert.False(thirdMatrix.IsDiagonal);
 
             var fourthMatrix = new Matrix4x4
             {
@@ -114,10 +109,10 @@ namespace SharpMath.Tests
                 M22 = 1,
                 M33 = 1
             };
-            Assert.IsFalse(fourthMatrix.IsDiagonal);
+            Assert.False(fourthMatrix.IsDiagonal);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanDetermineIfMatrixIsTriangle()
         {
             var matrix = new Matrix3x3
@@ -129,7 +124,7 @@ namespace SharpMath.Tests
                 M13 = 4,
                 M23 = 7
             };
-            Assert.IsTrue(matrix.IsTriangle);
+            Assert.True(matrix.IsTriangle);
 
             var secondMatrix = new Matrix4x4
             {
@@ -144,7 +139,7 @@ namespace SharpMath.Tests
                 M24 = 3,
                 M34 = 9
             };
-            Assert.IsTrue(secondMatrix.IsTriangle);
+            Assert.True(secondMatrix.IsTriangle);
 
             var thirdMatrix = new Matrix4x4
             {
@@ -155,7 +150,7 @@ namespace SharpMath.Tests
                 M14 = 2,
                 M31 = 9
             };
-            Assert.IsFalse(thirdMatrix.IsTriangle);
+            Assert.False(thirdMatrix.IsTriangle);
 
             var fourthMatrix = new Matrix4x4
             {
@@ -164,17 +159,17 @@ namespace SharpMath.Tests
                 M33 = 1,
                 M44 = 1
             };
-            Assert.IsTrue(fourthMatrix.IsTriangle);
+            Assert.True(fourthMatrix.IsTriangle);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetStringRepresentation()
         {
             var matrix = Matrix4x4.View(Vector3.Zero, Vector3.Forward, Vector3.Up);
             Debug.Print(matrix.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void CanMultiplyMatrices()
         {
             var firstMatrix = new Matrix1x3();
@@ -189,7 +184,7 @@ namespace SharpMath.Tests
             secondMatrix[2, 0] = 2;
 
             var matrixProduct = MatrixUtils.Multiply<Matrix1x1>(firstMatrix, secondMatrix);
-            Assert.AreEqual(matrixProduct[0, 0], 10);
+            Assert.Equal(matrixProduct[0, 0], 10);
 
             // --------------------------------
 
@@ -237,20 +232,20 @@ namespace SharpMath.Tests
                 [2, 2] = 55
             };
 
-            Assert.AreEqual(resultMatrix, MatrixUtils.Multiply<Matrix3x3>(thirdMatrix, fourthMatrix));
+            Assert.Equal(resultMatrix, MatrixUtils.Multiply<Matrix3x3>(thirdMatrix, fourthMatrix));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanMultiplyMatrix3X3WithVector2()
         {
             var translation = Matrix3x3.Translation(10, 10);
             var transformed = translation * Vector2.One;
             var result = new Vector2(11, 11);
-            Assert.AreEqual(result, transformed);
+            Assert.Equal(result, transformed);
         }
 
         // TODO: Implement
-        //[TestMethod]
+        //[Fact]
         //public void CanGetCore()
         //{
         //    var matrix = new Matrix3x3
@@ -263,7 +258,7 @@ namespace SharpMath.Tests
         //        M23 = 5,
         //    };
 
-        //    Assert.AreEqual(new Vector3(-3, -5, 1), matrix.GetCore<Vector3>());
+        //    Assert.Equal(new Vector3(-3, -5, 1), matrix.GetCore<Vector3>());
         //}
     }
 }

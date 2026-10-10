@@ -1,26 +1,23 @@
-﻿// LinearEquationTest.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpMath.Equations;
 using SharpMath.Equations.Exceptions;
 
 namespace SharpMath.Tests
 {
-    [TestClass]
     public class LinearEquationTest
     {
-        [TestMethod]
-        [ExpectedException(typeof(EquationNotSolvableException))]
+        [Fact]
         public void CanNotSolveLinearEquationSystemClearly()
         {
-            // 0x = 0 - infinite solutions
-            var equation = new LinearEquation(new[] {0.0}, 0);
-            var results = new LinearEquationSystem(equation).Solve(); // This will throw an exception
-            Assert.AreEqual(0, results[0]);
+            Assert.Throws<EquationNotSolvableException>(() =>
+            {
+                // 0x = 0 - infinite solutions
+                var equation = new LinearEquation(new[] {0.0}, 0);
+                var results = new LinearEquationSystem(equation).Solve(); // This will throw an exception
+                Assert.Equal(0, results[0]);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSolveLinearEquationSystem()
         {
             // x - y + 2z = 6
@@ -32,12 +29,12 @@ namespace SharpMath.Tests
 
             var linearEquationSystem = new LinearEquationSystem(firstEquation, secondEquation, thirdEquation);
             var results = linearEquationSystem.Solve();
-            Assert.AreEqual(1, results[0]);
-            Assert.AreEqual(1, results[1]);
-            Assert.AreEqual(3, results[2]);
+            Assert.Equal(1, results[0]);
+            Assert.Equal(1, results[1]);
+            Assert.Equal(3, results[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSolveSimpleLinearEquationSystem()
         {
             // 2x = 1
@@ -47,7 +44,7 @@ namespace SharpMath.Tests
                 Result = 1
             };
             var linearEquationSystem = new LinearEquationSystem(equation);
-            Assert.AreEqual(0.5, linearEquationSystem.Solve()[0]);
+            Assert.Equal(0.5, linearEquationSystem.Solve()[0]);
         }
     }
 }

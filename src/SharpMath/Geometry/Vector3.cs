@@ -45,17 +45,17 @@ public readonly struct Vector3 : IVector, IEquatable<Vector3>
     /// <summary>
     ///     Gets the X component.
     /// </summary>
-    public double X { get; }
+    public double X { get; init; }
 
     /// <summary>
     ///     Gets the Y component.
     /// </summary>
-    public double Y { get; }
+    public double Y { get; init; }
 
     /// <summary>
     ///     Gets the Z component.
     /// </summary>
-    public double Z { get; }
+    public double Z { get; init; }
 
     /// <summary>
     ///     Gets the vector (0, 0, 0).

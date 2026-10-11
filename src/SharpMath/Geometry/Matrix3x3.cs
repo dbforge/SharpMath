@@ -49,47 +49,47 @@ public readonly partial struct Matrix3x3 : ISquareMatrix, IEquatable<Matrix3x3>
     /// <summary>
     ///     Gets the entry in row 1, column 1.
     /// </summary>
-    public double M11 { get; }
+    public double M11 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 2.
     /// </summary>
-    public double M12 { get; }
+    public double M12 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 3.
     /// </summary>
-    public double M13 { get; }
+    public double M13 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 1.
     /// </summary>
-    public double M21 { get; }
+    public double M21 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 2.
     /// </summary>
-    public double M22 { get; }
+    public double M22 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 3.
     /// </summary>
-    public double M23 { get; }
+    public double M23 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 1.
     /// </summary>
-    public double M31 { get; }
+    public double M31 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 2.
     /// </summary>
-    public double M32 { get; }
+    public double M32 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 3.
     /// </summary>
-    public double M33 { get; }
+    public double M33 { get; init; }
 
     /// <summary>
     ///     Gets the zero matrix.

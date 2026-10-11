@@ -33,12 +33,12 @@ public readonly struct Vector2 : IVector, IEquatable<Vector2>
     /// <summary>
     ///     Gets the X component.
     /// </summary>
-    public double X { get; }
+    public double X { get; init; }
 
     /// <summary>
     ///     Gets the Y component.
     /// </summary>
-    public double Y { get; }
+    public double Y { get; init; }
 
     /// <summary>
     ///     Gets the vector (0, 0).

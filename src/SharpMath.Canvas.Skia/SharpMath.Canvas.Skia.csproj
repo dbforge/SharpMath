@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>SkiaSharp renderer for the SharpMath 2D canvas: draw on any SKCanvas and export PNG images on Windows, Linux and macOS.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SharpMath.Canvas/SharpMath.Canvas.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" />
+  </ItemGroup>
+
+</Project>

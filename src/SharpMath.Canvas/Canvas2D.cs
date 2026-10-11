@@ -287,10 +287,10 @@ public sealed class Canvas2D
 
         if (ShowTrackingLines)
         {
-            context.DrawLine(new CanvasPoint(pointer.X, 0), new CanvasPoint(pointer.X, Viewport.Height),
-                Style.TrackingStroke);
-            context.DrawLine(new CanvasPoint(0, pointer.Y), new CanvasPoint(Viewport.Width, pointer.Y),
-                Style.TrackingStroke);
+            var x = GridRenderer.Snap(pointer.X, Style.TrackingStroke);
+            var y = GridRenderer.Snap(pointer.Y, Style.TrackingStroke);
+            context.DrawLine(new CanvasPoint(x, 0), new CanvasPoint(x, Viewport.Height), Style.TrackingStroke);
+            context.DrawLine(new CanvasPoint(0, y), new CanvasPoint(Viewport.Width, y), Style.TrackingStroke);
         }
 
         if (!ShowValueIndicator)

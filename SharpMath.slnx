@@ -1,9 +1,11 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/SharpMath.Canvas.Skia/SharpMath.Canvas.Skia.csproj" />
     <Project Path="src/SharpMath.Canvas/SharpMath.Canvas.csproj" />
     <Project Path="src/SharpMath/SharpMath.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/SharpMath.Canvas.Skia.Tests/SharpMath.Canvas.Skia.Tests.csproj" />
     <Project Path="tests/SharpMath.Canvas.Tests/SharpMath.Canvas.Tests.csproj" />
     <Project Path="tests/SharpMath.Tests/SharpMath.Tests.csproj" />
   </Folder>

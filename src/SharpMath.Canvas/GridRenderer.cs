@@ -28,7 +28,7 @@ internal static class GridRenderer
         for (var i = firstX; i <= lastX; i++)
         {
             var stroke = IsMultiple(i * minorX, majorX) ? style.MajorGridStroke : style.MinorGridStroke;
-            var x = viewport.WorldToScreen(new Point2D(i * minorX, 0)).X;
+            var x = Snap(viewport.WorldToScreen(new Point2D(i * minorX, 0)).X, stroke);
             context.DrawLine(new CanvasPoint(x, 0), new CanvasPoint(x, viewport.Height), stroke);
         }
 
@@ -36,13 +36,23 @@ internal static class GridRenderer
         for (var i = firstY; i <= lastY; i++)
         {
             var stroke = IsMultiple(i * minorY, majorY) ? style.MajorGridStroke : style.MinorGridStroke;
-            var y = viewport.WorldToScreen(new Point2D(0, i * minorY)).Y;
+            var y = Snap(viewport.WorldToScreen(new Point2D(0, i * minorY)).Y, stroke);
             context.DrawLine(new CanvasPoint(0, y), new CanvasPoint(viewport.Width, y), stroke);
         }
 
         DrawLabels(context, viewport, style, area, majorX, majorY);
         DrawAxes(context, viewport, style.AxisStroke);
         return (minorX, minorY);
+    }
+
+    /// <summary>
+    ///     Snaps the position of an axis-aligned line to the pixel grid so anti-aliasing renderers draw it crisply: lines
+    ///     with an odd width are centered on a pixel, lines with an even width on a pixel border.
+    /// </summary>
+    public static double Snap(double coordinate, Stroke stroke)
+    {
+        var width = Math.Max(1, Math.Round(stroke.Width));
+        return width % 2 == 1 ? Math.Floor(coordinate) + 0.5 : Math.Round(coordinate);
     }
 
     private static void DrawLabels(IDrawingContext context, Viewport viewport, CanvasStyle style, BoundingBox2D area,
@@ -86,9 +96,16 @@ internal static class GridRenderer
     {
         var origin = viewport.Origin;
         if (origin.Y >= 0 && origin.Y <= viewport.Height)
-            context.DrawLine(new CanvasPoint(0, origin.Y), new CanvasPoint(viewport.Width, origin.Y), stroke);
+        {
+            var y = Snap(origin.Y, stroke);
+            context.DrawLine(new CanvasPoint(0, y), new CanvasPoint(viewport.Width, y), stroke);
+        }
+
         if (origin.X >= 0 && origin.X <= viewport.Width)
-            context.DrawLine(new CanvasPoint(origin.X, 0), new CanvasPoint(origin.X, viewport.Height), stroke);
+        {
+            var x = Snap(origin.X, stroke);
+            context.DrawLine(new CanvasPoint(x, 0), new CanvasPoint(x, viewport.Height), stroke);
+        }
     }
 
     private static bool IsMultiple(double value, double step)

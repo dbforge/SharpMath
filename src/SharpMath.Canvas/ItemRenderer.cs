@@ -9,6 +9,7 @@ internal sealed class ItemRenderer
     private const double ArrowHalfWidth = 4;
 
     private readonly List<CanvasPoint> _polygon = [];
+    private readonly FunctionSampler _sampler = new();
 
     public void Draw(IDrawingContext context, CanvasItem item, Viewport viewport, CanvasStyle style,
         CanvasRect guardBand)
@@ -17,8 +18,9 @@ internal sealed class ItemRenderer
         {
             case FunctionItem function:
                 var stroke = (function.Style ?? style.FunctionStyle).Stroke;
-                foreach (var polyline in FunctionSampler.Sample(function.Function, viewport, guardBand))
-                    context.DrawPolyline(polyline, stroke);
+                _sampler.Sample(function.Function, viewport, guardBand);
+                for (var i = 0; i < _sampler.PolylineCount; i++)
+                    context.DrawPolyline(_sampler.GetPolyline(i), stroke);
                 break;
             case VectorItem vector:
                 DrawVector(context, vector, viewport, vector.Style ?? style.VectorStyle, guardBand);

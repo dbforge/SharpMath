@@ -15,6 +15,9 @@ public sealed class Polygon : IEquatable<Polygon>
 {
     private readonly Point2D[] _points;
 
+    // The largest absolute coordinate, used to scale the tolerance of boundary checks.
+    private readonly double _scale;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="Polygon" /> class.
     /// </summary>
@@ -26,6 +29,8 @@ public sealed class Polygon : IEquatable<Polygon>
             throw new ArgumentException("A polygon needs at least three points.", nameof(points));
         _points = points.ToArray();
         Points = Array.AsReadOnly(_points);
+        foreach (var point in _points)
+            _scale = Math.Max(_scale, Math.Max(Math.Abs(point.X), Math.Abs(point.Y)));
     }
 
     /// <summary>
@@ -120,11 +125,12 @@ public sealed class Polygon : IEquatable<Polygon>
     /// <returns><see langword="true" /> if the polygon contains the point; otherwise, <see langword="false" />.</returns>
     public bool Contains(Point2D point)
     {
+        var tolerance = SegmentMath.DistanceTolerance(Math.Max(_scale, SegmentMath.CoordinateScale(point)));
         var inside = false;
         for (int i = 0, j = _points.Length - 1; i < _points.Length; j = i++)
         {
             Point2D a = _points[j], b = _points[i];
-            if (new LineSegment2D(a, b).Contains(point))
+            if (SegmentMath.IsOnSegment(point, a, b, tolerance))
                 return true;
 
             // Crossing number test with a horizontal ray to the right.

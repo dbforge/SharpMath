@@ -458,6 +458,12 @@ public sealed class MatrixMxN : IMatrix, IEquatable<MatrixMxN>
     /// <returns><see langword="true" /> if the matrices differ; otherwise, <see langword="false" />.</returns>
     public static bool operator !=(MatrixMxN? left, MatrixMxN? right) => !(left == right);
 
+    /// <summary>
+    ///     Creates a matrix that takes ownership of a row-major array without copying it.
+    /// </summary>
+    internal static MatrixMxN WrapRowMajor(int rowCount, int columnCount, double[] values) =>
+        new(rowCount, columnCount, values);
+
     internal bool TrySolve(ReadOnlySpan<double> rightHandSide,
         [NotNullWhen(true)] out double[]? solution)
     {

@@ -480,3 +480,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# SharpMath
+/coverage/
+/output/
+/samples/SharpMath.Samples.Export/output/

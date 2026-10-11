@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [master, "refactor/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore SharpMath.slnx
+
+      # Builds everything, including the WinForms projects (EnableWindowsTargeting), samples and benchmarks.
+      - name: Build
+        run: dotnet build SharpMath.slnx --configuration Release --no-restore
+
+      # The WinForms tests only run on Windows; elsewhere their project is not a test project.
+      - name: Test
+        run: dotnet test --solution SharpMath.slnx --configuration Release --no-build
+
+      - name: Collect coverage
+        if: runner.os == 'Linux'
+        run: |
+          dotnet test --project tests/SharpMath.Tests --configuration Release --no-build --coverage --coverage-output-format cobertura --coverage-output core.cobertura.xml --results-directory coverage
+          dotnet test --project tests/SharpMath.Canvas.Tests --configuration Release --no-build --coverage --coverage-output-format cobertura --coverage-output canvas.cobertura.xml --results-directory coverage
+
+      - name: Check coverage (at least 90 % line coverage)
+        if: runner.os == 'Linux'
+        run: dotnet run eng/CheckCoverage.cs -- 90 coverage/core.cobertura.xml=SharpMath coverage/canvas.cobertura.xml=SharpMath.Canvas
+
+      - name: Upload coverage
+        if: runner.os == 'Linux' && always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: coverage/*.cobertura.xml
+          if-no-files-found: ignore

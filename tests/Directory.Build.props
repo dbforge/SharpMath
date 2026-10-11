@@ -4,13 +4,16 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsTestProject>true</IsTestProject>
+    <!-- Needed for IDE0005 (unnecessary usings) on build; tests need no XML docs. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Test names use underscores; tests are not localized; test classes need not be sealed. -->
-    <NoWarn>$(NoWarn);CA1707;CA1305;CA1307;CA1310;CA1852;CA1861</NoWarn>
+    <NoWarn>$(NoWarn);CA1707;CA1305;CA1307;CA1310;CA1852;CA1861;CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="CsCheck" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

@@ -1,493 +1,466 @@
-﻿// Vector3.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
+using System.Globalization;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+namespace SharpMath.Geometry;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
-
-namespace SharpMath.Geometry
+/// <summary>
+///     Represents an immutable three-dimensional vector.
+/// </summary>
+/// <remarks>
+///     The library uses a right-handed coordinate system with column vectors: <see cref="Forward" /> points along −Z.
+///     Equality (<see cref="Equals(Vector3)" />, <c>==</c>) is exact. Use <see cref="ApproximatelyEquals(Vector3)" />
+///     for tolerance-based comparisons.
+/// </remarks>
+public readonly struct Vector3 : IVector, IEquatable<Vector3>
 {
     /// <summary>
-    ///     Represents a three-dimensional vector.
+    ///     Initializes a new instance of the <see cref="Vector3" /> struct.
     /// </summary>
-    [Serializable]
-    public struct Vector3 : IVector, IEquatable<Vector3>, IEnumerable<double>
+    /// <param name="x">The X component.</param>
+    /// <param name="y">The Y component.</param>
+    /// <param name="z">The Z component.</param>
+    public Vector3(double x, double y, double z)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector3" /> class.
-        /// </summary>
-        /// <param name="vector">The existing <see cref="Vector3" /> to copy.</param>
-        public Vector3(Vector3 vector)
-        {
-            X = vector.X;
-            Y = vector.Y;
-            Z = vector.Z;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector3" /> class.
-        /// </summary>
-        /// <param name="x">The value of the X-coordinate (X2 in mathematic coordinate systems).</param>
-        /// <param name="y">The value of the Y-coordinate (X3 in mathematic coordinate systems).</param>
-        /// <param name="z">The value of the Z-coordinate (X1 in mathematic coordinate systems).</param>
-        public Vector3(double x, double y, double z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector3" /> class.
-        /// </summary>
-        /// <param name="point">The <see cref="Point3D" /> that a position <see cref="Vector3" /> should be created for.</param>
-        public Vector3(Point3D point)
-        {
-            X = point.X;
-            Y = point.Y;
-            Z = point.Z;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector3" /> class.
-        /// </summary>
-        /// <param name="bottom">The tail of the <see cref="Vector3" />.</param>
-        /// <param name="tip">The head of the <see cref="Vector3" />.</param>
-        public Vector3(Point3D bottom, Point3D tip)
-            : this((tip - bottom).PositionVector)
-        {
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the X-coordinate (X2 in mathematic coordinate systems).
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Y-coordinate (X3 in mathematic coordinate systems).
-        /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Z-coordinate (X1 in mathematic coordinate systems).
-        /// </summary>
-        public double Z { get; set; }
-
-        /// <summary>
-        ///     A <see cref="Vector3" /> with all values set to zero.
-        /// </summary>
-        public static Vector3 Zero => new Vector3(0, 0, 0);
-
-        /// <summary>
-        ///     A <see cref="Vector3" /> with all values set to one.
-        /// </summary>
-        public static Vector3 One => new Vector3(1, 1, 1);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing up.
-        /// </summary>
-        public static Vector3 Up => new Vector3(0, 1, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing down.
-        /// </summary>
-        public static Vector3 Down => new Vector3(0, -1, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing to the left.
-        /// </summary>
-        public static Vector3 Left => new Vector3(-1, 0, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing to the right.
-        /// </summary>
-        public static Vector3 Right => new Vector3(1, 0, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing forward.
-        /// </summary>
-        public static Vector3 Forward => new Vector3(0, 0, 1);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> pointing backward.
-        /// </summary>
-        public static Vector3 Back => new Vector3(0, 0, -1);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" />  with coordinates 1, 0, 0.
-        /// </summary>
-        public static Vector3 UnitX => new Vector3(1, 0, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" />  with coordinates 0, 1, 0.
-        /// </summary>
-        public static Vector3 UnitY => new Vector3(0, 1, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" />  with coordinates 0, 0, 1.
-        /// </summary>
-        public static Vector3 UnitZ => new Vector3(0, 0, 1);
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++) yield return this[i];
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++) yield return this[i];
-        }
-
-        public bool Equals(Vector3 other)
-        {
-            return this == other;
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0:
-                        return X;
-                    case 1:
-                        return Y;
-                    case 2:
-                        return Z;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0:
-                        X = value;
-                        break;
-                    case 1:
-                        Y = value;
-                        break;
-                    case 2:
-                        Z = value;
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets the dimension of the <see cref="Vector3" />.
-        /// </summary>
-        public uint Dimension => 3;
-
-        /// <summary>
-        ///     Gets the length of the <see cref="Vector3" />.
-        /// </summary>
-        public double Magnitude => Math.Sqrt(SquareMagnitude);
-
-        /// <summary>
-        ///     Gets the squared length of the <see cref="Vector3" />.
-        /// </summary>
-        public double SquareMagnitude
-        {
-            get
-            {
-                double result = 0;
-                for (uint i = 0; i < 3; ++i)
-                    result += Math.Pow(this[i], 2);
-                return result;
-            }
-        }
-
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector3" /> is normalized, or not.
-        /// </summary>
-        public bool IsNormalized => Magnitude.IsApproximatelyEqualTo(1);
-
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector3" /> has all of its components set to zero, or not.
-        /// </summary>
-        public bool IsZero => this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
-
-        /// <summary>
-        ///     Gets the LaTeX-string representing this vector graphically.
-        /// </summary>
-        public string ToLaTeXString()
-        {
-            return @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] +
-                   @" \end{array} \right)";
-        }
-
-        /// <summary>
-        ///     Generates a <see cref="Vector3" /> from an object implementing the <see cref="IVector" /> interface, if the
-        ///     dimension is correct.
-        /// </summary>
-        /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector3" /> from.</param>
-        /// <returns>The generated <see cref="Vector3" />.</returns>
-        /// <exception cref="ArgumentException">The dimension of the given vector is invalid. It must be 3.</exception>
-        public static Vector3 FromVector(IVector vector)
-        {
-            if (vector.Dimension != 3)
-                throw new ArgumentException("The dimension of the given vector is invalid. It must be 3.");
-            return new Vector3(vector[0], vector[1], vector[2]);
-        }
-
-        /// <summary>
-        ///     Calculates the area of the parallelogram that this and the specified <see cref="Vector3" /> instances span.
-        /// </summary>
-        /// <param name="other">The other <see cref="Vector3" />.</param>
-        /// <returns>The area of the spanned parallelogram.</returns>
-        public double Area(Vector3 other)
-        {
-            return VectorProduct(this, other).Magnitude;
-        }
-
-        /// <summary>
-        ///     Calculates the area of the parallelogram that the two specified <see cref="Vector3" /> instances span.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
-        /// <returns>The area of the spanned parallelogram.</returns>
-        public static double Area(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.Area(secondVector);
-        }
-
-        /// <summary>
-        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        public static Vector3 Lerp(Vector3 source, Vector3 target, double fraction)
-        {
-            return source.Lerp(target, fraction);
-        }
-
-        /// <summary>
-        ///     Linearly interpolates between two <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="fraction">The fraction.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        public static Vector3 LerpUnclamped(Vector3 source, Vector3 target, double fraction)
-        {
-            return source.LerpUnclamped(target, fraction);
-        }
-
-        /// <summary>
-        ///     Moves a source point in a straight line towards a target point by adding the given distance delta and returns its
-        ///     new position.
-        /// </summary>
-        /// <param name="source">The source point.</param>
-        /// <param name="target">The target point.</param>
-        /// <param name="maxDistanceDelta">The distance delta that the source point is moved by in all directions.</param>
-        /// <returns>The position <see cref="Vector3" /> of the new point.</returns>
-        public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
-        {
-            return source.MoveTowards(target, maxDistanceDelta);
-        }
-
-        /// <summary>
-        ///     Calculates the volume of the parallelepiped that is being created by the three specified <see cref="Vector3" />
-        ///     instances.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
-        /// <param name="thirdVector">The third <see cref="Vector3" />.</param>
-        /// <returns>Returns the calculated volume.</returns>
-        public static double ScalarTripleProduct(Vector3 firstVector, Vector3 secondVector, Vector3 thirdVector)
-        {
-            //var matrix = SquareMatrix.FromMatrix(firstVector.AsHorizontalMatrix().AugmentVertically(secondVector.AsHorizontalMatrix()).AugmentVertically(thirdVector.AsHorizontalMatrix()));
-            //return Math.Abs(matrix.Determinant);
-
-            return Math.Abs(VectorProduct(firstVector, secondVector).DotProduct(thirdVector));
-        }
-
-        /// <summary>
-        ///     Calculates the vector product of the current and the specified <see cref="Vector3" />.
-        /// </summary>
-        /// <param name="other">The other <see cref="Vector3" />.</param>
-        /// <returns>The calculated <see cref="Vector3" />.</returns>
-        public Vector3 VectorProduct(Vector3 other)
-        {
-            return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
-        }
-
-        /// <summary>
-        ///     Calculates the <see cref="Vector3" /> that is perpendicular to the specified <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" /> that should be included into the calculation.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" /> that should be included into the calculation.</param>
-        /// <returns>Returns the calculated <see cref="Vector3" />.</returns>
-        public static Vector3 VectorProduct(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.VectorProduct(secondVector);
-        }
-
-        /// <summary>
-        ///     Implements the operator +.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
-        /// <returns>
-        ///     The resulting <see cref="Vector3" />.
-        /// </returns>
-        public static Vector3 operator +(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.Add(secondVector);
-        }
-
-        /// <summary>
-        ///     Implements the operator -.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
-        /// <returns>
-        ///     The resulting <see cref="Vector3" />.
-        /// </returns>
-        public static Vector3 operator -(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.Subtract(secondVector);
-        }
-
-        /// <summary>
-        ///     Implements the operator -.
-        /// </summary>
-        /// <param name="current">The <see cref="Vector3" /> to negate.</param>
-        /// <returns>
-        ///     The negated <see cref="Vector3" />.
-        /// </returns>
-        public static Vector3 operator -(Vector3 current)
-        {
-            return current.Negate();
-        }
-
-        /// <summary>
-        ///     Implements the operator *.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector3" />.</param>
-        /// <param name="scalar">The scalar.</param>
-        /// <returns>
-        ///     The resulting <see cref="Vector3" />.
-        /// </returns>
-        public static Vector3 operator *(Vector3 vector, double scalar)
-        {
-            return vector.Multiply(scalar);
-        }
-
-        /// <summary>
-        ///     Implements the operator * for calculating the scalar product of two <see cref="Vector3" /> instances.
-        /// </summary>
-        /// <param name="firstVector">The first <see cref="Vector3" />.</param>
-        /// <param name="secondVector">The second <see cref="Vector3" />.</param>
-        /// <returns>
-        ///     The scalar that has been calculated.
-        /// </returns>
-        public static double operator *(Vector3 firstVector, Vector3 secondVector)
-        {
-            return firstVector.DotProduct(secondVector);
-        }
-
-        /// <summary>
-        ///     Transforms the specified <see cref="Vector3" /> with the specified <see cref="Matrix4x4" />.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector3" /> that should be transformed.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix4x4" />.</param>
-        /// <returns>The transformed <see cref="Vector3" />.</returns>
-        public static Vector3 Transform(Vector3 vector, Matrix4x4 matrix)
-        {
-            var result = matrix * new Vector4(vector.X, vector.Y, vector.Z, 1);
-            result.X /= result.W;
-            result.Y /= result.W;
-            result.Z /= result.W;
-            result.Z /= result.W;
-            return result.Convert<Vector3>();
-        }
-
-        /// <summary>
-        ///     Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        ///     A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return $"X: {this[0]}, Y: {this[1]}, Z: {this[2]}";
-        }
-
-        /// <summary>
-        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Vector3)
-                return this == (Vector3) obj;
-            var vector = obj as IVector;
-            if (Dimension != vector?.Dimension)
-                return false;
-            return this == FromVector(vector);
-        }
-
-        /// <summary>
-        ///     Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + X.GetHashCode();
-                hash = hash * 23 + Y.GetHashCode();
-                hash = hash * 23 + Z.GetHashCode();
-                return hash;
-            }
-        }
-
-        /// <summary>
-        ///     Implements the operator ==.
-        /// </summary>
-        /// <param name="left">The left <see cref="Vector3" />.</param>
-        /// <param name="right">The right <see cref="Vector3" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator ==(Vector3 left, Vector3 right)
-        {
-            return left.SequenceEqual(right);
-        }
-
-        /// <summary>
-        ///     Implements the operator !=.
-        /// </summary>
-        /// <param name="left">The left <see cref="Vector3" />.</param>
-        /// <param name="right">The right <see cref="Vector3" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator !=(Vector3 left, Vector3 right)
-        {
-            return !left.SequenceEqual(right);
-        }
+        X = x;
+        Y = y;
+        Z = z;
     }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Vector3" /> struct from a two-dimensional vector and a Z component.
+    /// </summary>
+    /// <param name="xy">The X and Y components.</param>
+    /// <param name="z">The Z component.</param>
+    public Vector3(Vector2 xy, double z) : this(xy.X, xy.Y, z)
+    {
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Vector3" /> struct with the position vector of a point.
+    /// </summary>
+    /// <param name="point">The point.</param>
+    public Vector3(Point3D point) : this(point.X, point.Y, point.Z)
+    {
+    }
+
+    /// <summary>
+    ///     Gets the X component.
+    /// </summary>
+    public double X { get; }
+
+    /// <summary>
+    ///     Gets the Y component.
+    /// </summary>
+    public double Y { get; }
+
+    /// <summary>
+    ///     Gets the Z component.
+    /// </summary>
+    public double Z { get; }
+
+    /// <summary>
+    ///     Gets the vector (0, 0, 0).
+    /// </summary>
+    public static Vector3 Zero => default;
+
+    /// <summary>
+    ///     Gets the vector (1, 1, 1).
+    /// </summary>
+    public static Vector3 One => new(1, 1, 1);
+
+    /// <summary>
+    ///     Gets the unit vector (1, 0, 0).
+    /// </summary>
+    public static Vector3 UnitX => new(1, 0, 0);
+
+    /// <summary>
+    ///     Gets the unit vector (0, 1, 0).
+    /// </summary>
+    public static Vector3 UnitY => new(0, 1, 0);
+
+    /// <summary>
+    ///     Gets the unit vector (0, 0, 1).
+    /// </summary>
+    public static Vector3 UnitZ => new(0, 0, 1);
+
+    /// <summary>
+    ///     Gets the vector (0, 1, 0).
+    /// </summary>
+    public static Vector3 Up => new(0, 1, 0);
+
+    /// <summary>
+    ///     Gets the vector (0, −1, 0).
+    /// </summary>
+    public static Vector3 Down => new(0, -1, 0);
+
+    /// <summary>
+    ///     Gets the vector (−1, 0, 0).
+    /// </summary>
+    public static Vector3 Left => new(-1, 0, 0);
+
+    /// <summary>
+    ///     Gets the vector (1, 0, 0).
+    /// </summary>
+    public static Vector3 Right => new(1, 0, 0);
+
+    /// <summary>
+    ///     Gets the vector (0, 0, −1), the viewing direction in the right-handed coordinate system.
+    /// </summary>
+    public static Vector3 Forward => new(0, 0, -1);
+
+    /// <summary>
+    ///     Gets the vector (0, 0, 1).
+    /// </summary>
+    public static Vector3 Back => new(0, 0, 1);
+
+    /// <inheritdoc />
+    public int Dimension => 3;
+
+    /// <inheritdoc />
+    public double this[int index] => index switch
+    {
+        0 => X,
+        1 => Y,
+        2 => Z,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "The index must be between 0 and 2.")
+    };
+
+    /// <inheritdoc />
+    public double Length => Math.Sqrt(LengthSquared);
+
+    /// <inheritdoc />
+    public double LengthSquared => X * X + Y * Y + Z * Z;
+
+    /// <inheritdoc />
+    public bool IsZero => Tolerance.IsZero(X) && Tolerance.IsZero(Y) && Tolerance.IsZero(Z);
+
+    /// <inheritdoc />
+    public bool IsNormalized => Tolerance.AreEqual(LengthSquared, 1);
+
+    /// <summary>
+    ///     Creates a vector from homogeneous coordinates by dividing X, Y and Z by W.
+    /// </summary>
+    /// <param name="vector">The homogeneous vector.</param>
+    /// <returns>The Cartesian vector.</returns>
+    /// <exception cref="ArgumentException">The W component is zero (a point at infinity).</exception>
+    public static Vector3 FromHomogeneous(Vector4 vector)
+    {
+        if (vector.W == 0)
+            throw new ArgumentException("A homogeneous vector with W = 0 has no Cartesian representation.", nameof(vector));
+        return new Vector3(vector.X / vector.W, vector.Y / vector.W, vector.Z / vector.W);
+    }
+
+    /// <summary>
+    ///     Returns the vector with the same direction and a length of 1.
+    /// </summary>
+    /// <returns>The normalized vector.</returns>
+    /// <exception cref="InvalidOperationException">The vector is the zero vector.</exception>
+    public Vector3 Normalize()
+    {
+        // Scaling by the largest component first avoids underflow and overflow of the squared length.
+        var scale = Math.Max(Math.Max(Math.Abs(X), Math.Abs(Y)), Math.Abs(Z));
+        if (scale == 0)
+            throw new InvalidOperationException("The zero vector cannot be normalized.");
+        var scaled = new Vector3(X / scale, Y / scale, Z / scale);
+        var length = scaled.Length;
+        return new Vector3(scaled.X / length, scaled.Y / length, scaled.Z / length);
+    }
+
+    /// <summary>
+    ///     Calculates the dot product with another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The dot product.</returns>
+    public double Dot(Vector3 other) => X * other.X + Y * other.Y + Z * other.Z;
+
+    /// <summary>
+    ///     Calculates the dot product of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The dot product.</returns>
+    public static double Dot(Vector3 left, Vector3 right) => left.Dot(right);
+
+    /// <summary>
+    ///     Calculates the cross product with another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The cross product <c>this × other</c>.</returns>
+    public Vector3 Cross(Vector3 other) =>
+        new(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+
+    /// <summary>
+    ///     Calculates the cross product of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The cross product <c>left × right</c>.</returns>
+    public static Vector3 Cross(Vector3 left, Vector3 right) => left.Cross(right);
+
+    /// <summary>
+    ///     Calculates the scalar triple product <c>first · (second × third)</c>, the signed volume of the parallelepiped
+    ///     spanned by the three vectors.
+    /// </summary>
+    /// <param name="first">The first vector.</param>
+    /// <param name="second">The second vector.</param>
+    /// <param name="third">The third vector.</param>
+    /// <returns>The scalar triple product.</returns>
+    public static double ScalarTripleProduct(Vector3 first, Vector3 second, Vector3 third) =>
+        first.Dot(second.Cross(third));
+
+    /// <summary>
+    ///     Calculates the angle between this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The angle in radians, in the range [0, π].</returns>
+    /// <exception cref="InvalidOperationException">One of the vectors is the zero vector.</exception>
+    public double Angle(Vector3 other)
+    {
+        if (IsExactlyZero || other.IsExactlyZero)
+            throw VectorMath.ZeroVectorAngle();
+        var (u, v) = (Normalize(), other.Normalize());
+        return VectorMath.Angle(u.Cross(v).Length, u.Dot(v));
+    }
+
+    /// <summary>
+    ///     Calculates the angle between two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The angle in radians, in the range [0, π].</returns>
+    /// <exception cref="InvalidOperationException">One of the vectors is the zero vector.</exception>
+    public static double Angle(Vector3 left, Vector3 right) => left.Angle(right);
+
+    /// <summary>
+    ///     Calculates the distance between the tips of this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The distance.</returns>
+    public double Distance(Vector3 other) => (this - other).Length;
+
+    /// <summary>
+    ///     Calculates the distance between the tips of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The distance.</returns>
+    public static double Distance(Vector3 left, Vector3 right) => left.Distance(right);
+
+    /// <summary>
+    ///     Calculates the squared distance between the tips of this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The squared distance.</returns>
+    public double DistanceSquared(Vector3 other) => (this - other).LengthSquared;
+
+    /// <summary>
+    ///     Calculates the squared distance between the tips of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The squared distance.</returns>
+    public static double DistanceSquared(Vector3 left, Vector3 right) => left.DistanceSquared(right);
+
+    /// <summary>
+    ///     Calculates the area of the parallelogram spanned by this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The area <c>|this × other|</c>.</returns>
+    public double ParallelogramArea(Vector3 other) => Cross(other).Length;
+
+    /// <summary>
+    ///     Interpolates linearly between two vectors. The interpolant is clamped to [0, 1].
+    /// </summary>
+    /// <param name="source">The vector returned for an interpolant of 0.</param>
+    /// <param name="target">The vector returned for an interpolant of 1.</param>
+    /// <param name="amount">The interpolant.</param>
+    /// <returns>The interpolated vector.</returns>
+    public static Vector3 Lerp(Vector3 source, Vector3 target, double amount) =>
+        LerpUnclamped(source, target, Math.Clamp(amount, 0, 1));
+
+    /// <summary>
+    ///     Interpolates or extrapolates linearly between two vectors.
+    /// </summary>
+    /// <param name="source">The vector returned for an interpolant of 0.</param>
+    /// <param name="target">The vector returned for an interpolant of 1.</param>
+    /// <param name="amount">The interpolant; values outside of [0, 1] extrapolate.</param>
+    /// <returns>The interpolated vector.</returns>
+    public static Vector3 LerpUnclamped(Vector3 source, Vector3 target, double amount) =>
+        source + (target - source) * amount;
+
+    /// <summary>
+    ///     Moves a vector towards a target by at most the specified distance without overshooting it.
+    /// </summary>
+    /// <param name="source">The vector to move.</param>
+    /// <param name="target">The target vector.</param>
+    /// <param name="maxDistanceDelta">The maximum distance to move.</param>
+    /// <returns>The moved vector, or <paramref name="target" /> if it is within reach.</returns>
+    public static Vector3 MoveTowards(Vector3 source, Vector3 target, double maxDistanceDelta)
+    {
+        var delta = target - source;
+        var distance = delta.Length;
+        if (distance <= maxDistanceDelta || distance == 0)
+            return target;
+        return source + delta / distance * maxDistanceDelta;
+    }
+
+    /// <summary>
+    ///     Determines whether this vector is parallel (or antiparallel) to another vector, i.e. whether the sine of the
+    ///     angle between them is at most 1e-9, independent of their lengths. The zero vector is parallel to every vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are parallel; otherwise, <see langword="false" />.</returns>
+    public bool IsParallelTo(Vector3 other)
+    {
+        if (IsExactlyZero || other.IsExactlyZero)
+            return true;
+        var (u, v) = (Normalize(), other.Normalize());
+        return VectorMath.IsNegligible(u.Cross(v).Length);
+    }
+
+    /// <summary>
+    ///     Determines whether this vector is orthogonal to another vector, i.e. whether the cosine of the angle between
+    ///     them is at most 1e-9, independent of their lengths. The zero vector is orthogonal to every vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are orthogonal; otherwise, <see langword="false" />.</returns>
+    public bool IsOrthogonalTo(Vector3 other) =>
+        IsExactlyZero || other.IsExactlyZero || VectorMath.IsNegligible(Normalize().Dot(other.Normalize()));
+
+    /// <summary>
+    ///     Determines whether this vector and another vector are both normalized and orthogonal to each other.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are orthonormal; otherwise, <see langword="false" />.</returns>
+    public bool IsOrthonormalTo(Vector3 other) => IsNormalized && other.IsNormalized && IsOrthogonalTo(other);
+
+    /// <summary>
+    ///     Transforms a vector with a 3x3 matrix (<c>matrix · vector</c>).
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>The transformed vector.</returns>
+    public static Vector3 Transform(Vector3 vector, Matrix3x3 matrix) => matrix * vector;
+
+    /// <summary>
+    ///     Transforms a vector with a 4x4 matrix in homogeneous coordinates (<c>matrix · (x, y, z, 1)</c>), so
+    ///     translations are applied. The result is divided by the resulting W component if it is not 1 (perspective divide).
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>The transformed vector.</returns>
+    public static Vector3 Transform(Vector3 vector, Matrix4x4 matrix) => matrix * vector;
+
+    /// <summary>
+    ///     Converts the vector into the point it points to.
+    /// </summary>
+    /// <returns>The point (X, Y, Z).</returns>
+    public Point3D ToPoint() => new(X, Y, Z);
+
+    /// <summary>
+    ///     Determines whether this vector equals another vector within the default tolerances (component-wise).
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Vector3 other) =>
+        ApproximatelyEquals(other, Tolerance.DefaultAbsolute, Tolerance.DefaultRelative);
+
+    /// <summary>
+    ///     Determines whether this vector equals another vector within the specified tolerances (component-wise).
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <param name="absolute">The absolute tolerance.</param>
+    /// <param name="relative">The relative tolerance.</param>
+    /// <returns><see langword="true" /> if the vectors are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Vector3 other, double absolute, double relative) =>
+        Tolerance.AreEqual(X, other.X, absolute, relative) && Tolerance.AreEqual(Y, other.Y, absolute, relative) &&
+        Tolerance.AreEqual(Z, other.Z, absolute, relative);
+
+    private bool IsExactlyZero => X == 0 && Y == 0 && Z == 0;
+
+    /// <summary>
+    ///     Returns a LaTeX representation of the vector as a column vector.
+    /// </summary>
+    /// <returns>The LaTeX string.</returns>
+    public string ToLaTeXString() => VectorMath.ToLaTeX([X, Y, Z]);
+
+    /// <inheritdoc />
+    public override string ToString() =>
+        string.Create(CultureInfo.InvariantCulture, $"Vector3 {{X: {X}, Y: {Y}, Z: {Z}}}");
+
+    /// <inheritdoc />
+    public bool Equals(Vector3 other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Vector3 other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+
+    /// <summary>
+    ///     Adds two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The sum.</returns>
+    public static Vector3 operator +(Vector3 left, Vector3 right) =>
+        new(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+
+    /// <summary>
+    ///     Subtracts a vector from another vector.
+    /// </summary>
+    /// <param name="left">The minuend.</param>
+    /// <param name="right">The subtrahend.</param>
+    /// <returns>The difference.</returns>
+    public static Vector3 operator -(Vector3 left, Vector3 right) =>
+        new(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+
+    /// <summary>
+    ///     Negates a vector.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <returns>The negated vector.</returns>
+    public static Vector3 operator -(Vector3 vector) => new(-vector.X, -vector.Y, -vector.Z);
+
+    /// <summary>
+    ///     Multiplies a vector with a scalar.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="scalar">The scalar.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector3 operator *(Vector3 vector, double scalar) =>
+        new(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
+
+    /// <summary>
+    ///     Multiplies a scalar with a vector.
+    /// </summary>
+    /// <param name="scalar">The scalar.</param>
+    /// <param name="vector">The vector.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector3 operator *(double scalar, Vector3 vector) => vector * scalar;
+
+    /// <summary>
+    ///     Divides a vector by a scalar.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="scalar">The scalar.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector3 operator /(Vector3 vector, double scalar) =>
+        new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
+
+    /// <summary>
+    ///     Determines whether two vectors are exactly equal (component-wise <c>==</c>).
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns><see langword="true" /> if all components are equal; otherwise, <see langword="false" />.</returns>
+    public static bool operator ==(Vector3 left, Vector3 right) =>
+        left.X == right.X && left.Y == right.Y && left.Z == right.Z;
+
+    /// <summary>
+    ///     Determines whether two vectors differ in at least one component.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns><see langword="true" /> if any component differs; otherwise, <see langword="false" />.</returns>
+    public static bool operator !=(Vector3 left, Vector3 right) => !(left == right);
 }

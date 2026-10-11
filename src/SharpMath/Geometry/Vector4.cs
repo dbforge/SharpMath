@@ -1,297 +1,391 @@
-﻿// Vector4.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
+using System.Globalization;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+namespace SharpMath.Geometry;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
-
-namespace SharpMath.Geometry
+/// <summary>
+///     Represents an immutable four-dimensional vector, e.g. a point or direction in homogeneous coordinates.
+/// </summary>
+/// <remarks>
+///     Equality (<see cref="Equals(Vector4)" />, <c>==</c>) is exact. Use <see cref="ApproximatelyEquals(Vector4)" />
+///     for tolerance-based comparisons.
+/// </remarks>
+public readonly struct Vector4 : IVector, IEquatable<Vector4>
 {
     /// <summary>
-    ///     Represents a four-dimensional vector with a homogeneous coordinate.
+    ///     Initializes a new instance of the <see cref="Vector4" /> struct.
     /// </summary>
-    [Serializable]
-    public struct Vector4 : IVector, IEquatable<Vector4>, IEnumerable<double>
+    /// <param name="x">The X component.</param>
+    /// <param name="y">The Y component.</param>
+    /// <param name="z">The Z component.</param>
+    /// <param name="w">The W component.</param>
+    public Vector4(double x, double y, double z, double w)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector4" /> class.
-        /// </summary>
-        /// <param name="x">The value of the X-coordinate (X2 in mathematic coordinate systems).</param>
-        /// <param name="y">The value of the Y-coordinate (X3 in mathematic coordinate systems).</param>
-        /// <param name="z">The value of the Z-coordinate (X1 in mathematic coordinate systems).</param>
-        /// <param name="w">The value of the homogeneous coordinate.</param>
-        public Vector4(double x, double y, double z, double w)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector4" /> class.
-        /// </summary>
-        /// <param name="vector">The existing <see cref="Vector4" /> to copy.</param>
-        public Vector4(Vector4 vector)
-        {
-            X = vector.X;
-            Y = vector.Y;
-            Z = vector.Z;
-            W = vector.W;
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the X-coordinate (X2 in mathematic coordinate systems).
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Y-coordinate (X3 in mathematic coordinate systems).
-        /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Z-coordinate (X1 in mathematic coordinate systems).
-        /// </summary>
-        public double Z { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the homogenous coordinate.
-        /// </summary>
-        public double W { get; set; }
-
-        /// <summary>
-        ///     A <see cref="Vector4" /> with all values set to zero.
-        /// </summary>
-        public static Vector4 Zero => new Vector4();
-
-        /// <summary>
-        ///     A unit <see cref="Vector3" /> with all values set to one.
-        /// </summary>
-        public static Vector4 One => new Vector4(1, 1, 1, 1);
-
-        /// <summary>
-        ///     A unit <see cref="Vector4" />  with coordinates 1, 0, 0, 0.
-        /// </summary>
-        public static Vector4 UnitX => new Vector4(1, 0, 0, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector4" />  with coordinates 0, 1, 0, 0.
-        /// </summary>
-        public static Vector4 UnitY => new Vector4(0, 1, 0, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector4" />  with coordinates 0, 0, 1, 0.
-        /// </summary>
-        public static Vector4 UnitZ => new Vector4(0, 0, 1, 0);
-
-        /// <summary>
-        ///     A unit <see cref="Vector4" />  with coordinates 0, 0, 0, 1.
-        /// </summary>
-        public static Vector4 UnitW => new Vector4(0, 0, 1, 0);
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 4; i++) yield return this[i];
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 4; i++) yield return this[i];
-        }
-
-        public bool Equals(Vector4 other)
-        {
-            return this == other;
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0:
-                        return X;
-                    case 1:
-                        return Y;
-                    case 2:
-                        return Z;
-                    case 3:
-                        return W;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0:
-                        X = value;
-                        break;
-                    case 1:
-                        Y = value;
-                        break;
-                    case 2:
-                        Z = value;
-                        break;
-                    case 3:
-                        W = value;
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 3.");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets the dimension of the <see cref="Vector3" />.
-        /// </summary>
-        public uint Dimension => 4;
-
-        /// <summary>
-        ///     Gets the length of the <see cref="Vector3" />.
-        /// </summary>
-        public double Magnitude => Math.Sqrt(SquareMagnitude);
-
-        /// <summary>
-        ///     Gets the squared length of the <see cref="Vector3" />.
-        /// </summary>
-        public double SquareMagnitude
-        {
-            get
-            {
-                double result = 0;
-                for (uint i = 0; i < 4; ++i)
-                    result += Math.Pow(this[i], 2);
-                return result;
-            }
-        }
-
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector3" /> is normalized, or not.
-        /// </summary>
-        public bool IsNormalized => Magnitude.IsApproximatelyEqualTo(1);
-
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="Vector3" /> has all of its components set to zero, or not.
-        /// </summary>
-        public bool IsZero => this.All(c => FloatingNumber.AreApproximatelyEqual(c, 0));
-
-        /// <summary>
-        ///     Gets the LaTeX-string representing this vector graphically.
-        /// </summary>
-        public string ToLaTeXString()
-        {
-            return @"\left( \begin{array}{c} " + this[0] + @" \\ " + this[1] + @" \\ " + this[2] + @" \\ " + this[3] +
-                   @" \end{array} \right)";
-        }
-
-        /// <summary>
-        ///     Generates a <see cref="Vector4" /> from an object implementing the <see cref="IVector" /> interface, if the
-        ///     dimension is correct.
-        /// </summary>
-        /// <param name="vector">The <see cref="IVector" /> to generate a <see cref="Vector4" /> from.</param>
-        /// <returns>The generated <see cref="Vector4" />.</returns>
-        /// <exception cref="ArgumentException">The dimension of the given vector is invalid. It must be 4.</exception>
-        public static Vector4 FromVector(IVector vector)
-        {
-            if (vector.Dimension != 4)
-                throw new ArgumentException("The dimension of the given vector is invalid. It must be 4.");
-            return new Vector4(vector[0], vector[1], vector[2], vector[3]);
-        }
-
-        /// <summary>
-        ///     Transforms the specified <see cref="Vector4" /> with the specified <see cref="Matrix4x4" />.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector4" /> that should be transformed.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix4x4" />.</param>
-        /// <returns>The transformed <see cref="Vector4" />.</returns>
-        public static Vector4 Transform(Vector4 vector, Matrix4x4 matrix)
-        {
-            return matrix * vector;
-        }
-
-        /// <summary>
-        ///     Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        ///     A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return $"X: {this[0]}, Y: {this[1]}, Z: {this[2]}, W: {this[3]}";
-        }
-
-        /// <summary>
-        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Vector4)
-                return this == (Vector4) obj;
-            var vector = obj as IVector;
-            if (Dimension != vector?.Dimension)
-                return false;
-            return this == FromVector(vector);
-        }
-
-        /// <summary>
-        ///     Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + X.GetHashCode();
-                hash = hash * 23 + Y.GetHashCode();
-                hash = hash * 23 + Z.GetHashCode();
-                hash = hash * 23 + W.GetHashCode();
-                return hash;
-            }
-        }
-
-        /// <summary>
-        ///     Implements the operator ==.
-        /// </summary>
-        /// <param name="left">The left <see cref="Vector4" />.</param>
-        /// <param name="right">The right <see cref="Vector4" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator ==(Vector4 left, Vector4 right)
-        {
-            return left.SequenceEqual(right);
-        }
-
-        /// <summary>
-        ///     Implements the operator !=.
-        /// </summary>
-        /// <param name="left">The left <see cref="Vector4" />.</param>
-        /// <param name="right">The right <see cref="Vector4" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator !=(Vector4 left, Vector4 right)
-        {
-            return !left.SequenceEqual(right);
-        }
+        X = x;
+        Y = y;
+        Z = z;
+        W = w;
     }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Vector4" /> struct from a three-dimensional vector and a W component.
+    /// </summary>
+    /// <param name="xyz">The X, Y and Z components.</param>
+    /// <param name="w">The W component (1 for points, 0 for directions).</param>
+    public Vector4(Vector3 xyz, double w) : this(xyz.X, xyz.Y, xyz.Z, w)
+    {
+    }
+
+    /// <summary>
+    ///     Gets the X component.
+    /// </summary>
+    public double X { get; }
+
+    /// <summary>
+    ///     Gets the Y component.
+    /// </summary>
+    public double Y { get; }
+
+    /// <summary>
+    ///     Gets the Z component.
+    /// </summary>
+    public double Z { get; }
+
+    /// <summary>
+    ///     Gets the W component.
+    /// </summary>
+    public double W { get; }
+
+    /// <summary>
+    ///     Gets the vector (0, 0, 0, 0).
+    /// </summary>
+    public static Vector4 Zero => default;
+
+    /// <summary>
+    ///     Gets the vector (1, 1, 1, 1).
+    /// </summary>
+    public static Vector4 One => new(1, 1, 1, 1);
+
+    /// <summary>
+    ///     Gets the unit vector (1, 0, 0, 0).
+    /// </summary>
+    public static Vector4 UnitX => new(1, 0, 0, 0);
+
+    /// <summary>
+    ///     Gets the unit vector (0, 1, 0, 0).
+    /// </summary>
+    public static Vector4 UnitY => new(0, 1, 0, 0);
+
+    /// <summary>
+    ///     Gets the unit vector (0, 0, 1, 0).
+    /// </summary>
+    public static Vector4 UnitZ => new(0, 0, 1, 0);
+
+    /// <summary>
+    ///     Gets the unit vector (0, 0, 0, 1).
+    /// </summary>
+    public static Vector4 UnitW => new(0, 0, 0, 1);
+
+    /// <inheritdoc />
+    public int Dimension => 4;
+
+    /// <inheritdoc />
+    public double this[int index] => index switch
+    {
+        0 => X,
+        1 => Y,
+        2 => Z,
+        3 => W,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "The index must be between 0 and 3.")
+    };
+
+    /// <inheritdoc />
+    public double Length => Math.Sqrt(LengthSquared);
+
+    /// <inheritdoc />
+    public double LengthSquared => X * X + Y * Y + Z * Z + W * W;
+
+    /// <inheritdoc />
+    public bool IsZero => Tolerance.IsZero(X) && Tolerance.IsZero(Y) && Tolerance.IsZero(Z) && Tolerance.IsZero(W);
+
+    /// <inheritdoc />
+    public bool IsNormalized => Tolerance.AreEqual(LengthSquared, 1);
+
+    /// <summary>
+    ///     Returns the vector with the same direction and a length of 1.
+    /// </summary>
+    /// <returns>The normalized vector.</returns>
+    /// <exception cref="InvalidOperationException">The vector is the zero vector.</exception>
+    public Vector4 Normalize()
+    {
+        // Scaling by the largest component first avoids underflow and overflow of the squared length.
+        var scale = Math.Max(Math.Max(Math.Max(Math.Abs(X), Math.Abs(Y)), Math.Abs(Z)), Math.Abs(W));
+        if (scale == 0)
+            throw new InvalidOperationException("The zero vector cannot be normalized.");
+        var scaled = new Vector4(X / scale, Y / scale, Z / scale, W / scale);
+        var length = scaled.Length;
+        return new Vector4(scaled.X / length, scaled.Y / length, scaled.Z / length, scaled.W / length);
+    }
+
+    /// <summary>
+    ///     Calculates the dot product with another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The dot product.</returns>
+    public double Dot(Vector4 other) => X * other.X + Y * other.Y + Z * other.Z + W * other.W;
+
+    /// <summary>
+    ///     Calculates the dot product of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The dot product.</returns>
+    public static double Dot(Vector4 left, Vector4 right) => left.Dot(right);
+
+    /// <summary>
+    ///     Calculates the angle between this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The angle in radians, in the range [0, π].</returns>
+    /// <exception cref="InvalidOperationException">One of the vectors is the zero vector.</exception>
+    public double Angle(Vector4 other)
+    {
+        if (IsExactlyZero || other.IsExactlyZero)
+            throw VectorMath.ZeroVectorAngle();
+        var (u, v) = (Normalize(), other.Normalize());
+        return VectorMath.Angle(u.SpannedArea(v), u.Dot(v));
+    }
+
+    /// <summary>
+    ///     Calculates the angle between two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The angle in radians, in the range [0, π].</returns>
+    /// <exception cref="InvalidOperationException">One of the vectors is the zero vector.</exception>
+    public static double Angle(Vector4 left, Vector4 right) => left.Angle(right);
+
+    /// <summary>
+    ///     Calculates the distance between the tips of this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The distance.</returns>
+    public double Distance(Vector4 other) => (this - other).Length;
+
+    /// <summary>
+    ///     Calculates the distance between the tips of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The distance.</returns>
+    public static double Distance(Vector4 left, Vector4 right) => left.Distance(right);
+
+    /// <summary>
+    ///     Calculates the squared distance between the tips of this vector and another vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns>The squared distance.</returns>
+    public double DistanceSquared(Vector4 other) => (this - other).LengthSquared;
+
+    /// <summary>
+    ///     Calculates the squared distance between the tips of two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The squared distance.</returns>
+    public static double DistanceSquared(Vector4 left, Vector4 right) => left.DistanceSquared(right);
+
+    /// <summary>
+    ///     Interpolates linearly between two vectors. The interpolant is clamped to [0, 1].
+    /// </summary>
+    /// <param name="source">The vector returned for an interpolant of 0.</param>
+    /// <param name="target">The vector returned for an interpolant of 1.</param>
+    /// <param name="amount">The interpolant.</param>
+    /// <returns>The interpolated vector.</returns>
+    public static Vector4 Lerp(Vector4 source, Vector4 target, double amount) =>
+        LerpUnclamped(source, target, Math.Clamp(amount, 0, 1));
+
+    /// <summary>
+    ///     Interpolates or extrapolates linearly between two vectors.
+    /// </summary>
+    /// <param name="source">The vector returned for an interpolant of 0.</param>
+    /// <param name="target">The vector returned for an interpolant of 1.</param>
+    /// <param name="amount">The interpolant; values outside of [0, 1] extrapolate.</param>
+    /// <returns>The interpolated vector.</returns>
+    public static Vector4 LerpUnclamped(Vector4 source, Vector4 target, double amount) =>
+        source + (target - source) * amount;
+
+    /// <summary>
+    ///     Moves a vector towards a target by at most the specified distance without overshooting it.
+    /// </summary>
+    /// <param name="source">The vector to move.</param>
+    /// <param name="target">The target vector.</param>
+    /// <param name="maxDistanceDelta">The maximum distance to move.</param>
+    /// <returns>The moved vector, or <paramref name="target" /> if it is within reach.</returns>
+    public static Vector4 MoveTowards(Vector4 source, Vector4 target, double maxDistanceDelta)
+    {
+        var delta = target - source;
+        var distance = delta.Length;
+        if (distance <= maxDistanceDelta || distance == 0)
+            return target;
+        return source + delta / distance * maxDistanceDelta;
+    }
+
+    /// <summary>
+    ///     Determines whether this vector is parallel (or antiparallel) to another vector, i.e. whether the sine of the
+    ///     angle between them is at most 1e-9, independent of their lengths. The zero vector is parallel to every vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are parallel; otherwise, <see langword="false" />.</returns>
+    public bool IsParallelTo(Vector4 other)
+    {
+        if (IsExactlyZero || other.IsExactlyZero)
+            return true;
+        var (u, v) = (Normalize(), other.Normalize());
+        return VectorMath.IsNegligible(u.SpannedArea(v));
+    }
+
+
+    /// <summary>
+    ///     Determines whether this vector is orthogonal to another vector, i.e. whether the cosine of the angle between
+    ///     them is at most 1e-9, independent of their lengths. The zero vector is orthogonal to every vector.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are orthogonal; otherwise, <see langword="false" />.</returns>
+    public bool IsOrthogonalTo(Vector4 other) =>
+        IsExactlyZero || other.IsExactlyZero || VectorMath.IsNegligible(Normalize().Dot(other.Normalize()));
+
+    /// <summary>
+    ///     Determines whether this vector and another vector are both normalized and orthogonal to each other.
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are orthonormal; otherwise, <see langword="false" />.</returns>
+    public bool IsOrthonormalTo(Vector4 other) => IsNormalized && other.IsNormalized && IsOrthogonalTo(other);
+
+    /// <summary>
+    ///     Transforms a vector with a 4x4 matrix (<c>matrix · vector</c>).
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>The transformed vector.</returns>
+    public static Vector4 Transform(Vector4 vector, Matrix4x4 matrix) => matrix * vector;
+
+    /// <summary>
+    ///     Determines whether this vector equals another vector within the default tolerances (component-wise).
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <returns><see langword="true" /> if the vectors are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Vector4 other) =>
+        ApproximatelyEquals(other, Tolerance.DefaultAbsolute, Tolerance.DefaultRelative);
+
+    /// <summary>
+    ///     Determines whether this vector equals another vector within the specified tolerances (component-wise).
+    /// </summary>
+    /// <param name="other">The other vector.</param>
+    /// <param name="absolute">The absolute tolerance.</param>
+    /// <param name="relative">The relative tolerance.</param>
+    /// <returns><see langword="true" /> if the vectors are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Vector4 other, double absolute, double relative) =>
+        Tolerance.AreEqual(X, other.X, absolute, relative) && Tolerance.AreEqual(Y, other.Y, absolute, relative) &&
+        Tolerance.AreEqual(Z, other.Z, absolute, relative) && Tolerance.AreEqual(W, other.W, absolute, relative);
+
+    private bool IsExactlyZero => X == 0 && Y == 0 && Z == 0 && W == 0;
+
+    /// <summary>
+    ///     The area of the parallelogram spanned with another vector, from the 2x2 minors (Lagrange identity), which
+    ///     avoids the cancellation of |a|²|b|² − (a·b)².
+    /// </summary>
+    private double SpannedArea(Vector4 other) =>
+        Math.Sqrt(Square(X * other.Y - Y * other.X) + Square(X * other.Z - Z * other.X) +
+                  Square(X * other.W - W * other.X) + Square(Y * other.Z - Z * other.Y) +
+                  Square(Y * other.W - W * other.Y) + Square(Z * other.W - W * other.Z));
+
+    private static double Square(double value) => value * value;
+
+    /// <summary>
+    ///     Returns a LaTeX representation of the vector as a column vector.
+    /// </summary>
+    /// <returns>The LaTeX string.</returns>
+    public string ToLaTeXString() => VectorMath.ToLaTeX([X, Y, Z, W]);
+
+    /// <inheritdoc />
+    public override string ToString() =>
+        string.Create(CultureInfo.InvariantCulture, $"Vector4 {{X: {X}, Y: {Y}, Z: {Z}, W: {W}}}");
+
+    /// <inheritdoc />
+    public bool Equals(Vector4 other) =>
+        X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Vector4 other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
+
+    /// <summary>
+    ///     Adds two vectors.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns>The sum.</returns>
+    public static Vector4 operator +(Vector4 left, Vector4 right) =>
+        new(left.X + right.X, left.Y + right.Y, left.Z + right.Z, left.W + right.W);
+
+    /// <summary>
+    ///     Subtracts a vector from another vector.
+    /// </summary>
+    /// <param name="left">The minuend.</param>
+    /// <param name="right">The subtrahend.</param>
+    /// <returns>The difference.</returns>
+    public static Vector4 operator -(Vector4 left, Vector4 right) =>
+        new(left.X - right.X, left.Y - right.Y, left.Z - right.Z, left.W - right.W);
+
+    /// <summary>
+    ///     Negates a vector.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <returns>The negated vector.</returns>
+    public static Vector4 operator -(Vector4 vector) => new(-vector.X, -vector.Y, -vector.Z, -vector.W);
+
+    /// <summary>
+    ///     Multiplies a vector with a scalar.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="scalar">The scalar.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector4 operator *(Vector4 vector, double scalar) =>
+        new(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
+
+    /// <summary>
+    ///     Multiplies a scalar with a vector.
+    /// </summary>
+    /// <param name="scalar">The scalar.</param>
+    /// <param name="vector">The vector.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector4 operator *(double scalar, Vector4 vector) => vector * scalar;
+
+    /// <summary>
+    ///     Divides a vector by a scalar.
+    /// </summary>
+    /// <param name="vector">The vector.</param>
+    /// <param name="scalar">The scalar.</param>
+    /// <returns>The scaled vector.</returns>
+    public static Vector4 operator /(Vector4 vector, double scalar) =>
+        new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar, vector.W / scalar);
+
+    /// <summary>
+    ///     Determines whether two vectors are exactly equal (component-wise <c>==</c>).
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns><see langword="true" /> if all components are equal; otherwise, <see langword="false" />.</returns>
+    public static bool operator ==(Vector4 left, Vector4 right) =>
+        left.X == right.X && left.Y == right.Y && left.Z == right.Z && left.W == right.W;
+
+    /// <summary>
+    ///     Determines whether two vectors differ in at least one component.
+    /// </summary>
+    /// <param name="left">The first vector.</param>
+    /// <param name="right">The second vector.</param>
+    /// <returns><see langword="true" /> if any component differs; otherwise, <see langword="false" />.</returns>
+    public static bool operator !=(Vector4 left, Vector4 right) => !(left == right);
 }

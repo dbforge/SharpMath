@@ -1,12 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <!-- TEMP: legacy code until the rewrite; strictness is restored afterwards. -->
-    <Nullable>disable</Nullable>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <AnalysisLevel>none</AnalysisLevel>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="../../src/SharpMath/SharpMath.csproj" />
   </ItemGroup>

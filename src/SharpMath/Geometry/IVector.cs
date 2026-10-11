@@ -1,40 +1,39 @@
-﻿// IVector.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
+namespace SharpMath.Geometry;
 
-namespace SharpMath.Geometry
+/// <summary>
+///     Represents a read-only vector of fixed dimension.
+/// </summary>
+public interface IVector
 {
-    public interface IVector
-    {
-        /// <summary>
-        ///     Gets the dimension of the <see cref="IVector" />.
-        /// </summary>
-        uint Dimension { get; }
+    /// <summary>
+    ///     Gets the number of components of the vector.
+    /// </summary>
+    int Dimension { get; }
 
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="IVector" /> is normalized, or not.
-        /// </summary>
-        bool IsNormalized { get; }
+    /// <summary>
+    ///     Gets the component at the specified index.
+    /// </summary>
+    /// <param name="index">The zero-based index of the component.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="index" /> is outside of [0, <see cref="Dimension" />).</exception>
+    double this[int index] { get; }
 
-        /// <summary>
-        ///     Gets a value indicating whether the <see cref="IVector" /> has all of its components set to zero, or not.
-        /// </summary>
-        bool IsZero { get; }
+    /// <summary>
+    ///     Gets the Euclidean length of the vector.
+    /// </summary>
+    double Length { get; }
 
-        /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        double this[uint index] { get; set; }
+    /// <summary>
+    ///     Gets the squared Euclidean length of the vector.
+    /// </summary>
+    double LengthSquared { get; }
 
-        /// <summary>
-        ///     Gets the length of the <see cref="IVector" />.
-        /// </summary>
-        double Magnitude { get; }
+    /// <summary>
+    ///     Gets a value indicating whether all components are zero within <see cref="Tolerance.DefaultAbsolute" />.
+    /// </summary>
+    bool IsZero { get; }
 
-        /// <summary>
-        ///     Gets the squared length of the <see cref="IVector" />.
-        /// </summary>
-        double SquareMagnitude { get; }
-    }
+    /// <summary>
+    ///     Gets a value indicating whether the vector has a length of 1 within the default tolerances.
+    /// </summary>
+    bool IsNormalized { get; }
 }

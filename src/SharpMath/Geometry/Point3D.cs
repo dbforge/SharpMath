@@ -1,227 +1,166 @@
-﻿// Point3D.cs, 07.11.2019
-// Copyright (C) Dominic Beger 07.11.2019
+using System.Globalization;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+namespace SharpMath.Geometry;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
-
-namespace SharpMath.Geometry
+/// <summary>
+///     Represents an immutable point in three-dimensional space.
+/// </summary>
+/// <remarks>
+///     Points follow affine-space rules: <c>point − point</c> is a <see cref="Vector3" />, <c>point ± vector</c> is a
+///     point. Equality is exact; use <see cref="ApproximatelyEquals(Point3D)" /> for tolerance-based comparisons.
+/// </remarks>
+public readonly struct Point3D : IEquatable<Point3D>
 {
-    [Serializable]
-    public struct Point3D : IEquatable<Point3D>, IEnumerable<double>
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Point3D" /> struct.
+    /// </summary>
+    /// <param name="x">The X coordinate.</param>
+    /// <param name="y">The Y coordinate.</param>
+    /// <param name="z">The Z coordinate.</param>
+    public Point3D(double x, double y, double z)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Point3D" /> class.
-        /// </summary>
-        /// <param name="x">The value of the X-coordinate.</param>
-        /// <param name="y">The value of the Y-coordinate.</param>
-        /// <param name="z">The value of the Z-coordinate.</param>
-        public Point3D(double x, double y, double z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Point3D" /> class.
-        /// </summary>
-        /// <param name="point">The exisiting <see cref="Point3D" /> to copy.</param>
-        public Point3D(Point3D point)
-        {
-            X = point.X;
-            Y = point.Y;
-            Z = point.Z;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Point3D" /> class.
-        /// </summary>
-        /// <param name="vector">The position <see cref="Vector3" /> of the <see cref="Point3D" /> to create.</param>
-        public Point3D(Vector3 vector)
-        {
-            X = vector.X;
-            Y = vector.Y;
-            Z = vector.Z;
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the coordinate at the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The value of the coordinate at the specified index.</returns>
-        public double this[uint index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0:
-                        return X;
-                    case 1:
-                        return Y;
-                    case 2:
-                        return Z;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0:
-                        X = value;
-                        break;
-                    case 1:
-                        Y = value;
-                        break;
-                    case 2:
-                        Z = value;
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException("The index must be between 0 and 2.");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the value of the X-coordinate.
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Y-coordinate.
-        /// </summary>
-        public double Y { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the value of the Z-coordinate.
-        /// </summary>
-        public double Z { get; set; }
-
-        /// <summary>
-        ///     Gets the position <see cref="Vector3" /> of this <see cref="Point3D" />.
-        /// </summary>
-        public Vector3 PositionVector => new Vector3(X, Y, Z);
-
-        public IEnumerator<double> GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++) yield return this[i];
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            for (uint i = 0; i < 3; i++) yield return this[i];
-        }
-
-        public bool Equals(Point3D other)
-        {
-            return this == other;
-        }
-
-        /// <summary>
-        ///     Implements the operator +.
-        /// </summary>
-        /// <param name="first">The first <see cref="Point3D" />.</param>
-        /// <param name="second">The second <see cref="Point3D" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static Point3D operator +(Point3D first, Point3D second)
-        {
-            var resultPoint = new Point3D();
-            for (uint i = 0; i < 3; ++i)
-                resultPoint[i] = first[i] + second[i];
-            return resultPoint;
-        }
-
-        /// <summary>
-        ///     Implements the operator -.
-        /// </summary>
-        /// <param name="first">The first <see cref="Point3D" />.</param>
-        /// <param name="second">The second <see cref="Point3D" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static Point3D operator -(Point3D first, Point3D second)
-        {
-            var resultPoint = new Point3D();
-            for (uint i = 0; i < 3; ++i)
-                resultPoint[i] = first[i] - second[i];
-            return resultPoint;
-        }
-
-        /// <summary>
-        ///     Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        ///     A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return $"Point3D [X: {this[0]}, Y: {this[1]}, Z: {this[2]}]";
-        }
-
-        /// <summary>
-        ///     Determines whether the specified <see cref="object" />, is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Point3D)
-                return this == (Point3D) obj;
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + X.GetHashCode();
-                hash = hash * 23 + Y.GetHashCode();
-                hash = hash * 23 + Z.GetHashCode();
-                return hash;
-            }
-        }
-
-        /// <summary>
-        ///     Implements the operator ==.
-        /// </summary>
-        /// <param name="left">The left <see cref="Point3D" />.</param>
-        /// <param name="right">The right <see cref="Point3D" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator ==(Point3D left, Point3D right)
-        {
-            return left.SequenceEqual(right);
-        }
-
-        /// <summary>
-        ///     Implements the operator !=.
-        /// </summary>
-        /// <param name="left">The left <see cref="Point3D" />.</param>
-        /// <param name="right">The right <see cref="Point3D" />.</param>
-        /// <returns>
-        ///     The result of the operator.
-        /// </returns>
-        public static bool operator !=(Point3D left, Point3D right)
-        {
-            return !left.SequenceEqual(right);
-        }
+        X = x;
+        Y = y;
+        Z = z;
     }
+
+    /// <summary>
+    ///     Gets the X coordinate.
+    /// </summary>
+    public double X { get; }
+
+    /// <summary>
+    ///     Gets the Y coordinate.
+    /// </summary>
+    public double Y { get; }
+
+    /// <summary>
+    ///     Gets the Z coordinate.
+    /// </summary>
+    public double Z { get; }
+
+    /// <summary>
+    ///     Gets the origin (0, 0, 0).
+    /// </summary>
+    public static Point3D Origin => default;
+
+    /// <summary>
+    ///     Gets the coordinate at the specified index (0 = X, 1 = Y, 2 = Z).
+    /// </summary>
+    /// <param name="index">The zero-based index.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="index" /> is not between 0 and 2.</exception>
+    public double this[int index] => index switch
+    {
+        0 => X,
+        1 => Y,
+        2 => Z,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "The index must be between 0 and 2.")
+    };
+
+    /// <summary>
+    ///     Returns the position vector of the point.
+    /// </summary>
+    /// <returns>The vector from the origin to the point.</returns>
+    public Vector3 ToVector() => new(X, Y, Z);
+
+    /// <summary>
+    ///     Calculates the distance to another point.
+    /// </summary>
+    /// <param name="other">The other point.</param>
+    /// <returns>The distance.</returns>
+    public double Distance(Point3D other) => (other - this).Length;
+
+    /// <summary>
+    ///     Calculates the distance between two points.
+    /// </summary>
+    /// <param name="left">The first point.</param>
+    /// <param name="right">The second point.</param>
+    /// <returns>The distance.</returns>
+    public static double Distance(Point3D left, Point3D right) => left.Distance(right);
+
+    /// <summary>
+    ///     Calculates the squared distance to another point.
+    /// </summary>
+    /// <param name="other">The other point.</param>
+    /// <returns>The squared distance.</returns>
+    public double DistanceSquared(Point3D other) => (other - this).LengthSquared;
+
+    /// <summary>
+    ///     Calculates the squared distance between two points.
+    /// </summary>
+    /// <param name="left">The first point.</param>
+    /// <param name="right">The second point.</param>
+    /// <returns>The squared distance.</returns>
+    public static double DistanceSquared(Point3D left, Point3D right) => left.DistanceSquared(right);
+
+    /// <summary>
+    ///     Determines whether this point equals another point within the default tolerances (coordinate-wise).
+    /// </summary>
+    /// <param name="other">The other point.</param>
+    /// <returns><see langword="true" /> if the points are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Point3D other) =>
+        ApproximatelyEquals(other, Tolerance.DefaultAbsolute, Tolerance.DefaultRelative);
+
+    /// <summary>
+    ///     Determines whether this point equals another point within the specified tolerances (coordinate-wise).
+    /// </summary>
+    /// <param name="other">The other point.</param>
+    /// <param name="absolute">The absolute tolerance.</param>
+    /// <param name="relative">The relative tolerance.</param>
+    /// <returns><see langword="true" /> if the points are approximately equal; otherwise, <see langword="false" />.</returns>
+    public bool ApproximatelyEquals(Point3D other, double absolute, double relative) =>
+        Tolerance.AreEqual(X, other.X, absolute, relative) && Tolerance.AreEqual(Y, other.Y, absolute, relative) &&
+        Tolerance.AreEqual(Z, other.Z, absolute, relative);
+
+    /// <inheritdoc />
+    public override string ToString() => string.Create(CultureInfo.InvariantCulture, $"Point3D [X: {X}, Y: {Y}, Z: {Z}]");
+
+    /// <inheritdoc />
+    public bool Equals(Point3D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is Point3D other && Equals(other);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+
+    /// <summary>
+    ///     Translates a point by a vector.
+    /// </summary>
+    /// <param name="point">The point.</param>
+    /// <param name="vector">The translation.</param>
+    /// <returns>The translated point.</returns>
+    public static Point3D operator +(Point3D point, Vector3 vector) => new(point.X + vector.X, point.Y + vector.Y, point.Z + vector.Z);
+
+    /// <summary>
+    ///     Translates a point by the negated vector.
+    /// </summary>
+    /// <param name="point">The point.</param>
+    /// <param name="vector">The translation to subtract.</param>
+    /// <returns>The translated point.</returns>
+    public static Point3D operator -(Point3D point, Vector3 vector) => new(point.X - vector.X, point.Y - vector.Y, point.Z - vector.Z);
+
+    /// <summary>
+    ///     Calculates the vector from one point to another.
+    /// </summary>
+    /// <param name="end">The point the vector points to.</param>
+    /// <param name="start">The point the vector starts at.</param>
+    /// <returns>The vector <c>end − start</c>.</returns>
+    public static Vector3 operator -(Point3D end, Point3D start) => new(end.X - start.X, end.Y - start.Y, end.Z - start.Z);
+
+    /// <summary>
+    ///     Determines whether two points are exactly equal (coordinate-wise <c>==</c>).
+    /// </summary>
+    /// <param name="left">The first point.</param>
+    /// <param name="right">The second point.</param>
+    /// <returns><see langword="true" /> if all coordinates are equal; otherwise, <see langword="false" />.</returns>
+    public static bool operator ==(Point3D left, Point3D right) => left.X == right.X && left.Y == right.Y && left.Z == right.Z;
+
+    /// <summary>
+    ///     Determines whether two points differ in at least one coordinate.
+    /// </summary>
+    /// <param name="left">The first point.</param>
+    /// <param name="right">The second point.</param>
+    /// <returns><see langword="true" /> if any coordinate differs; otherwise, <see langword="false" />.</returns>
+    public static bool operator !=(Point3D left, Point3D right) => !(left == right);
 }

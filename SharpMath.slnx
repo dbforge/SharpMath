@@ -1,4 +1,11 @@
 <Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/SharpMath.Samples.Canvas.Avalonia/SharpMath.Samples.Canvas.Avalonia.csproj" />
+    <Project Path="samples/SharpMath.Samples.Canvas.WinForms/SharpMath.Samples.Canvas.WinForms.csproj" />
+    <Project Path="samples/SharpMath.Samples.Export/SharpMath.Samples.Export.csproj" />
+    <Project Path="samples/SharpMath.Samples.Perspective.WinForms/SharpMath.Samples.Perspective.WinForms.csproj" />
+    <Project Path="samples/SharpMath.Samples.Polygon.WinForms/SharpMath.Samples.Polygon.WinForms.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/SharpMath.Canvas.Avalonia/SharpMath.Canvas.Avalonia.csproj" />
     <Project Path="src/SharpMath.Canvas.Skia/SharpMath.Canvas.Skia.csproj" />

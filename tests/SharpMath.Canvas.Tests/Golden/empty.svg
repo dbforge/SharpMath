@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">
+<defs>
+<clipPath id="clip1"><rect x="0" y="0" width="200" height="150"/></clipPath>
+</defs>
+<rect x="0" y="0" width="200" height="150" fill="#FFFFFF"/>
+<g clip-path="url(#clip1)">
+<line x1="0" y1="0" x2="0" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="20" y1="0" x2="20" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="40" y1="0" x2="40" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="60" y1="0" x2="60" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="80" y1="0" x2="80" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="100" y1="0" x2="100" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="120" y1="0" x2="120" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="140" y1="0" x2="140" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="180" y1="0" x2="180" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="200" y1="0" x2="200" y2="150" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="135" x2="200" y2="135" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="115" x2="200" y2="115" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="95" x2="200" y2="95" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="75" x2="200" y2="75" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="55" x2="200" y2="55" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="35" x2="200" y2="35" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="15" x2="200" y2="15" stroke="#D3D3D3" stroke-width="1"/>
+<text x="103" y="86.8" font-family="Segoe UI" font-size="11" text-anchor="start" fill="#000000">0</text>
+<line x1="0" y1="75" x2="200" y2="75" stroke="#F57D00" stroke-width="1"/>
+<line x1="100" y1="0" x2="100" y2="150" stroke="#F57D00" stroke-width="1"/>
+</g>
+</svg>

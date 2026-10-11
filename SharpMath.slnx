@@ -1,6 +1,5 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/SharpMath.Canvas.WinForms/SharpMath.Canvas.WinForms.csproj" />
     <Project Path="src/SharpMath/SharpMath.csproj" />
   </Folder>
   <Folder Name="/tests/">

@@ -50,7 +50,7 @@ public sealed class LinearEquationSystem
             results[row] = Equations[row].Result;
         }
 
-        var matrix = new MatrixMxN(count, count, coefficients);
+        var matrix = MatrixMxN.WrapRowMajor(count, count, coefficients);
         if (!matrix.TrySolve(results, out var solution))
             throw new EquationNotSolvableException("The linear equation system has no unique solution.");
         return solution;

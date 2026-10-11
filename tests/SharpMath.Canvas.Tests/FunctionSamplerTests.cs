@@ -12,11 +12,18 @@ public class FunctionSamplerTests
     private static CanvasRect GuardBand(Viewport viewport) =>
         new(-10 * viewport.Width, -10 * viewport.Height, 21 * viewport.Width, 21 * viewport.Height);
 
+    private static List<CanvasPoint[]> Sample(Func<double, double> function, Viewport viewport)
+    {
+        var sampler = new FunctionSampler();
+        sampler.Sample(function, viewport, GuardBand(viewport));
+        return Enumerable.Range(0, sampler.PolylineCount).Select(i => sampler.GetPolyline(i).ToArray()).ToList();
+    }
+
     [Fact]
     public void ContinuousFunction_IsOnePolyline()
     {
         var viewport = CreateViewport();
-        var polylines = FunctionSampler.Sample(x => x * x * x, viewport, GuardBand(viewport));
+        var polylines = Sample(x => x * x * x, viewport);
         Assert.Single(polylines);
         Assert.True(polylines[0].Length >= 401);
         Assert.All(polylines[0], point => Assert.InRange(point.Y, -3000, 3300));
@@ -27,7 +34,7 @@ public class FunctionSamplerTests
     {
         // Regression: the graph used to be connected across asymptotes.
         var viewport = CreateViewport();
-        var polylines = FunctionSampler.Sample(Math.Tan, viewport, GuardBand(viewport));
+        var polylines = Sample(Math.Tan, viewport);
 
         // tan has poles at ±π/2, ±3π/2, ±5π/2 within x ∈ [−10, 10].
         Assert.Equal(7, polylines.Count);
@@ -40,24 +47,40 @@ public class FunctionSamplerTests
     public void NonFiniteValuesAndArithmeticExceptions_LeaveGaps()
     {
         var viewport = CreateViewport();
-        var sqrt = FunctionSampler.Sample(Math.Sqrt, viewport, GuardBand(viewport));
+        var sqrt = Sample(Math.Sqrt, viewport);
         Assert.Single(sqrt);
         Assert.All(sqrt[0], point => Assert.True(point.X >= 199));
 
-        var throwing = FunctionSampler.Sample(x => x < 0 ? throw new OverflowException() : 1, viewport,
-            GuardBand(viewport));
+        var throwing = Sample(x => x < 0 ? throw new OverflowException() : 1, viewport);
         Assert.Single(throwing);
 
-        Assert.Empty(FunctionSampler.Sample(_ => double.NaN, viewport, GuardBand(viewport)));
-        var reciprocal = FunctionSampler.Sample(x => 1 / x, viewport, GuardBand(viewport));
+        Assert.Empty(Sample(_ => double.NaN, viewport));
+        var reciprocal = Sample(x => 1 / x, viewport);
         Assert.Equal(2, reciprocal.Count);
+    }
+
+    [Fact]
+    public void Buffers_AreReusedBetweenCalls()
+    {
+        var viewport = CreateViewport();
+        var sampler = new FunctionSampler();
+        sampler.Sample(Math.Tan, viewport, GuardBand(viewport));
+        Assert.Equal(7, sampler.PolylineCount);
+        sampler.Sample(x => x, viewport, GuardBand(viewport));
+        Assert.Equal(1, sampler.PolylineCount);
+        Assert.Equal(401, sampler.GetPolyline(0).Length);
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        sampler.Sample(Math.Tan, viewport, GuardBand(viewport));
+        sampler.Sample(x => x, viewport, GuardBand(viewport));
+        Assert.True(GC.GetAllocatedBytesForCurrentThread() - before < 1024);
     }
 
     [Fact]
     public void SteepParts_AreRefined()
     {
         var viewport = CreateViewport();
-        var polylines = FunctionSampler.Sample(x => Math.Exp(3 * x), viewport, GuardBand(viewport));
+        var polylines = Sample(x => Math.Exp(3 * x), viewport);
         Assert.True(polylines.Sum(polyline => polyline.Length) > 401);
     }
 }

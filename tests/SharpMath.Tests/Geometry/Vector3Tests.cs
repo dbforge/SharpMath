@@ -106,6 +106,23 @@ public class Vector3Tests
     }
 
     [Fact]
+    public void With_CreatesModifiedCopies()
+    {
+        var vector = new Vector3(1, 2, 3);
+        Assert.Equal(new Vector3(1, 2, 0), vector with { Z = 0 });
+        Assert.Equal(new Vector3(1, 2, 3), vector);
+        Assert.Equal(new Point3D(0, 2, 3), new Point3D(1, 2, 3) with { X = 0 });
+        Assert.Equal(new Vector4(1, 2, 3, 1), new Vector4(1, 2, 3, 4) with { W = 1 });
+        Assert.Equal(new Matrix4x4(1, 0, 0, 5, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1), Matrix4x4.Identity with { M14 = 5 });
+        Assert.Equal(new Matrix3x3(9, 0, 0, 0, 1, 0, 0, 0, 1), Matrix3x3.Identity with { M11 = 9 });
+        Assert.Equal(new Matrix2x2(1, 2, 0, 1), Matrix2x2.Identity with { M12 = 2 });
+        Assert.Equal(new Vector2(0, 1), Vector2.One with { X = 0 });
+        Assert.Equal(new Point2D(1, 0), new Point2D(1, 1) with { Y = 0 });
+        var segment = new LineSegment2D(Point2D.Origin, new Point2D(1, 1)) with { End = new Point2D(2, 2) };
+        Assert.Equal(new Point2D(2, 2), segment.End);
+    }
+
+    [Fact]
     public void FromHomogeneous_DividesByW()
     {
         Assert.Equal(new Vector3(1, 2, 3), Vector3.FromHomogeneous(new Vector4(2, 4, 6, 2)));

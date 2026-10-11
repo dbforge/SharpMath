@@ -25,12 +25,12 @@ public readonly struct LineSegment2D : IEquatable<LineSegment2D>
     /// <summary>
     ///     Gets the start point.
     /// </summary>
-    public Point2D Start { get; }
+    public Point2D Start { get; init; }
 
     /// <summary>
     ///     Gets the end point.
     /// </summary>
-    public Point2D End { get; }
+    public Point2D End { get; init; }
 
     /// <summary>
     ///     Gets the vector from <see cref="Start" /> to <see cref="End" />.

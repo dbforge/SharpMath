@@ -64,82 +64,82 @@ public readonly partial struct Matrix4x4 : ISquareMatrix, IEquatable<Matrix4x4>
     /// <summary>
     ///     Gets the entry in row 1, column 1.
     /// </summary>
-    public double M11 { get; }
+    public double M11 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 2.
     /// </summary>
-    public double M12 { get; }
+    public double M12 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 3.
     /// </summary>
-    public double M13 { get; }
+    public double M13 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 4.
     /// </summary>
-    public double M14 { get; }
+    public double M14 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 1.
     /// </summary>
-    public double M21 { get; }
+    public double M21 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 2.
     /// </summary>
-    public double M22 { get; }
+    public double M22 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 3.
     /// </summary>
-    public double M23 { get; }
+    public double M23 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 4.
     /// </summary>
-    public double M24 { get; }
+    public double M24 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 1.
     /// </summary>
-    public double M31 { get; }
+    public double M31 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 2.
     /// </summary>
-    public double M32 { get; }
+    public double M32 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 3.
     /// </summary>
-    public double M33 { get; }
+    public double M33 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 3, column 4.
     /// </summary>
-    public double M34 { get; }
+    public double M34 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 4, column 1.
     /// </summary>
-    public double M41 { get; }
+    public double M41 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 4, column 2.
     /// </summary>
-    public double M42 { get; }
+    public double M42 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 4, column 3.
     /// </summary>
-    public double M43 { get; }
+    public double M43 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 4, column 4.
     /// </summary>
-    public double M44 { get; }
+    public double M44 { get; init; }
 
     /// <summary>
     ///     Gets the zero matrix.

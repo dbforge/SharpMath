@@ -38,7 +38,7 @@ public class ReviewRegressionTests
     {
         Assert.True(new Matrix4x4(1, 2, 3, 4, 2, 4, 6, 8, 1, 1, 1, 1, 0, 1, 0, 1).IsSingular);
         Assert.True(new Matrix3x3(1, 2, 3, 4, 5, 6, 7, 8, 9).IsSingular);
-        Assert.True(new Matrix4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0).IsSingular);
+        Assert.True((Matrix4x4.Identity with { M44 = 0 }).IsSingular);
         Assert.True(new Matrix2x2(double.NaN, 0, 0, 1).IsSingular);
     }
 
@@ -137,8 +137,8 @@ public class ReviewRegressionTests
         Assert.True(Line3D.FromPointAndDirection(Point3D.Origin, Vector3.UnitX)
             .ApproximatelyEquals(Line3D.FromPointAndDirection(new Point3D(0, 0.001, 0), Vector3.UnitX), 0.01, 0));
         var segment = new LineSegment2D(Point2D.Origin, new Point2D(1, 1));
-        Assert.True(segment.ApproximatelyEquals(new LineSegment2D(Point2D.Origin, new Point2D(1.001, 1)), 0.01, 0));
-        Assert.False(segment.ApproximatelyEquals(new LineSegment2D(Point2D.Origin, new Point2D(1.001, 1))));
+        Assert.True(segment.ApproximatelyEquals(segment with { End = new Point2D(1.001, 1) }, 0.01, 0));
+        Assert.False(segment.ApproximatelyEquals(segment with { End = new Point2D(1.001, 1) }));
         var box = new BoundingBox2D(0, 0, 1, 1);
         Assert.True(box.ApproximatelyEquals(new BoundingBox2D(0, 0, 1 + 1e-12, 1)));
         Assert.True(box.ApproximatelyEquals(new BoundingBox2D(0, 0, 1.05, 1), 0.1, 0));

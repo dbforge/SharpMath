@@ -25,12 +25,12 @@ public readonly struct Point2D : IEquatable<Point2D>
     /// <summary>
     ///     Gets the X coordinate.
     /// </summary>
-    public double X { get; }
+    public double X { get; init; }
 
     /// <summary>
     ///     Gets the Y coordinate.
     /// </summary>
-    public double Y { get; }
+    public double Y { get; init; }
 
     /// <summary>
     ///     Gets the origin (0, 0).

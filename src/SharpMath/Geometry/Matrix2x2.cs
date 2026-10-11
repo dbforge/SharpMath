@@ -36,22 +36,22 @@ public readonly struct Matrix2x2 : ISquareMatrix, IEquatable<Matrix2x2>
     /// <summary>
     ///     Gets the entry in row 1, column 1.
     /// </summary>
-    public double M11 { get; }
+    public double M11 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 1, column 2.
     /// </summary>
-    public double M12 { get; }
+    public double M12 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 1.
     /// </summary>
-    public double M21 { get; }
+    public double M21 { get; init; }
 
     /// <summary>
     ///     Gets the entry in row 2, column 2.
     /// </summary>
-    public double M22 { get; }
+    public double M22 { get; init; }
 
     /// <summary>
     ///     Gets the zero matrix.

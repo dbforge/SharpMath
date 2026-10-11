@@ -38,22 +38,22 @@ public readonly struct Vector4 : IVector, IEquatable<Vector4>
     /// <summary>
     ///     Gets the X component.
     /// </summary>
-    public double X { get; }
+    public double X { get; init; }
 
     /// <summary>
     ///     Gets the Y component.
     /// </summary>
-    public double Y { get; }
+    public double Y { get; init; }
 
     /// <summary>
     ///     Gets the Z component.
     /// </summary>
-    public double Z { get; }
+    public double Z { get; init; }
 
     /// <summary>
     ///     Gets the W component.
     /// </summary>
-    public double W { get; }
+    public double W { get; init; }
 
     /// <summary>
     ///     Gets the vector (0, 0, 0, 0).

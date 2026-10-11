@@ -82,8 +82,7 @@ public sealed class MathExpression
             case 1 when string.Equals(Variables[0], name, StringComparison.OrdinalIgnoreCase):
                 return _root.Evaluate([value]);
             default:
-                throw MissingVariables(Variables.Where(variable =>
-                    !string.Equals(variable, name, StringComparison.OrdinalIgnoreCase)));
+                throw MissingVariablesExcept(name);
         }
     }
 
@@ -121,10 +120,8 @@ public sealed class MathExpression
     public Func<double, double> ToFunc(string variable)
     {
         ArgumentNullException.ThrowIfNull(variable);
-        var others = Variables.Where(name => !string.Equals(name, variable, StringComparison.OrdinalIgnoreCase))
-            .ToList();
-        if (others.Count > 0)
-            throw MissingVariables(others);
+        if (Variables.Any(name => !string.Equals(name, variable, StringComparison.OrdinalIgnoreCase)))
+            throw MissingVariablesExcept(variable);
 
         var root = _root;
         if (Variables.Count == 0)
@@ -149,6 +146,10 @@ public sealed class MathExpression
 
         return false;
     }
+
+    // A separate method keeps the closure over the name off the allocation-free success path.
+    private ArgumentException MissingVariablesExcept(string name) =>
+        MissingVariables(Variables.Where(variable => !string.Equals(variable, name, StringComparison.OrdinalIgnoreCase)));
 
     private static ArgumentException MissingVariables(IEnumerable<string> names) =>
         new($"No value was given for the variable(s): {string.Join(", ", names)}.");

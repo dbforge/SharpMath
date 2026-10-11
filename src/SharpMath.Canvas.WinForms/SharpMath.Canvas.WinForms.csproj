@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Description>WinForms control and GDI+ renderer for the SharpMath 2D canvas (Windows only).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SharpMath.Canvas/SharpMath.Canvas.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400">
+<defs>
+<clipPath id="clip1"><rect x="0" y="0" width="720" height="400"/></clipPath>
+</defs>
+<rect x="0" y="0" width="720" height="400" fill="#FFFFFF"/>
+<g clip-path="url(#clip1)">
+<line x1="0.5" y1="0" x2="0.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="30.5" y1="0" x2="30.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="60.5" y1="0" x2="60.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="90.5" y1="0" x2="90.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="120.5" y1="0" x2="120.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="150.5" y1="0" x2="150.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="180.5" y1="0" x2="180.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="210.5" y1="0" x2="210.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="240.5" y1="0" x2="240.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="270.5" y1="0" x2="270.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="300.5" y1="0" x2="300.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="330.5" y1="0" x2="330.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="360.5" y1="0" x2="360.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="390.5" y1="0" x2="390.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="420.5" y1="0" x2="420.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="450.5" y1="0" x2="450.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="480.5" y1="0" x2="480.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="510.5" y1="0" x2="510.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="540.5" y1="0" x2="540.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="570.5" y1="0" x2="570.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="600.5" y1="0" x2="600.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="630.5" y1="0" x2="630.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="660.5" y1="0" x2="660.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="690.5" y1="0" x2="690.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="720.5" y1="0" x2="720.5" y2="400" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="380.5" x2="720" y2="380.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="350.5" x2="720" y2="350.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="320.5" x2="720" y2="320.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="290.5" x2="720" y2="290.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="260.5" x2="720" y2="260.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="230.5" x2="720" y2="230.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="200.5" x2="720" y2="200.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="170.5" x2="720" y2="170.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="140.5" x2="720" y2="140.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="110.5" x2="720" y2="110.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="80.5" x2="720" y2="80.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="50.5" x2="720" y2="50.5" stroke="#D3D3D3" stroke-width="1"/>
+<line x1="0" y1="20.5" x2="720" y2="20.5" stroke="#D3D3D3" stroke-width="1"/>
+<text x="60" y="211.8" font-family="Segoe UI" font-size="11" text-anchor="middle" fill="#000000">-10</text>
+<text x="210" y="211.8" font-family="Segoe UI" font-size="11" text-anchor="middle" fill="#000000">-5</text>
+<text x="510" y="211.8" font-family="Segoe UI" font-size="11" text-anchor="middle" fill="#000000">5</text>
+<text x="660" y="211.8" font-family="Segoe UI" font-size="11" text-anchor="middle" fill="#000000">10</text>
+<text x="363" y="352.2" font-family="Segoe UI" font-size="11" text-anchor="start" fill="#000000">-5</text>
+<text x="363" y="211.8" font-family="Segoe UI" font-size="11" text-anchor="start" fill="#000000">0</text>
+<text x="363" y="52.2" font-family="Segoe UI" font-size="11" text-anchor="start" fill="#000000">5</text>
+<line x1="0" y1="200.5" x2="720" y2="200.5" stroke="#F57D00" stroke-width="1"/>
+<line x1="360.5" y1="0" x2="360.5" y2="400" stroke="#F57D00" stroke-width="1"/>
+<polygon points="390,170 510,170 540,80 420,50" fill="#2E8B57" fill-opacity="0.188" stroke="#2E8B57" stroke-width="1"/>
+<line x1="702" y1="401" x2="-1" y2="49.5" stroke="#008080" stroke-width="1"/>
+<line x1="150" y1="260" x2="300" y2="320" stroke="#008080" stroke-width="2"/>
+<line x1="360" y1="200" x2="248" y2="116" stroke="#7A7DC9" stroke-width="1"/>
+<polygon points="240,110 250.4,112.8 245.6,119.2" fill="#7A7DC9" stroke="#7A7DC9" stroke-width="1"/>
+<line x1="240" y1="110" x2="321.679" y2="164.453" stroke="#7A7DC9" stroke-width="1"/>
+<polygon points="330,170 319.461,167.781 323.898,161.125" fill="#7A7DC9" stroke="#7A7DC9" stroke-width="1"/>
+<ellipse cx="330" cy="110" rx="3" ry="3" fill="#000000" stroke="#000000" stroke-width="1"/>
+<line x1="560.5" y1="0" x2="560.5" y2="400" stroke="#808080" stroke-width="1"/>
+<line x1="0" y1="140.5" x2="720" y2="140.5" stroke="#808080" stroke-width="1"/>
+<rect x="575" y="155" width="80" height="25" fill="#FFFFFF" stroke="#D3D3D3" stroke-width="1"/>
+<text x="615" y="169.7" font-family="Segoe UI" font-size="11" text-anchor="middle" fill="#808080">6.67 | 2</text>
+</g>
+</svg>

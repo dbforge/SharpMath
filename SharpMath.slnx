@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/SharpMath.Benchmarks/SharpMath.Benchmarks.csproj" />
+  </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/SharpMath.Samples.Canvas.Avalonia/SharpMath.Samples.Canvas.Avalonia.csproj" />
     <Project Path="samples/SharpMath.Samples.Canvas.WinForms/SharpMath.Samples.Canvas.WinForms.csproj" />

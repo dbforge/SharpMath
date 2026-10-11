@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SharpMath.Canvas/SharpMath.Canvas.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Golden/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

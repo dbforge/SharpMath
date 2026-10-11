@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Platform-neutral 2D canvas for SharpMath: plots functions, vectors, points, lines and polygons through a renderer abstraction. Includes an SVG renderer.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SharpMath/SharpMath.csproj" />
+  </ItemGroup>
+
+</Project>

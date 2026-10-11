@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SharpMath.Canvas.Avalonia/SharpMath.Canvas.Avalonia.csproj" />
+  </ItemGroup>
+
+  <!--
+    Avalonia.Headless.XUnit is built against xUnit v3 3.2.x, which is binary-incompatible with 4.x, so this project stays
+    on 3.2.x. That line uses Microsoft.Testing.Platform v1, which the coverage extension no longer supports; coverage is
+    not gated for the Avalonia host anyway.
+  -->
+  <ItemGroup>
+    <PackageReference Update="xunit.v3" VersionOverride="3.2.2" />
+    <PackageReference Remove="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless.XUnit" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+  </ItemGroup>
+
+</Project>

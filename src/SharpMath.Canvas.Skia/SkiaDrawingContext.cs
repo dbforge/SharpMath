@@ -13,9 +13,8 @@ public sealed class SkiaDrawingContext : IDrawingContext, IDisposable
 {
     private readonly SKCanvas _canvas;
     private readonly Dictionary<Color, SKPaint> _fills = [];
-    private readonly Dictionary<FontSpec, SKFont> _fonts = [];
+    private readonly SkiaFonts _fonts = new();
     private readonly Dictionary<Stroke, SKPaint> _strokes = [];
-    private readonly Dictionary<string, SKTypeface> _typefaces = [];
     private readonly SKPath _path = new();
 
     /// <summary>
@@ -80,7 +79,7 @@ public sealed class SkiaDrawingContext : IDrawingContext, IDisposable
     public void DrawText(string text, CanvasPoint position, FontSpec font, Color color, TextAlignment alignment)
     {
         ArgumentNullException.ThrowIfNull(text);
-        var skFont = Font(font);
+        var skFont = _fonts.Get(font);
         var align = alignment switch
         {
             TextAlignment.Center => SKTextAlign.Center,
@@ -94,12 +93,7 @@ public sealed class SkiaDrawingContext : IDrawingContext, IDisposable
     }
 
     /// <inheritdoc />
-    public TextSize MeasureText(string text, FontSpec font)
-    {
-        ArgumentNullException.ThrowIfNull(text);
-        var skFont = Font(font);
-        return new TextSize(skFont.MeasureText(text), skFont.Spacing);
-    }
+    public TextSize MeasureText(string text, FontSpec font) => _fonts.Measure(text, font);
 
     /// <inheritdoc />
     public void PushClip(CanvasRect rect)
@@ -119,15 +113,10 @@ public sealed class SkiaDrawingContext : IDrawingContext, IDisposable
             paint.PathEffect?.Dispose();
             paint.Dispose();
         }
-        foreach (var font in _fonts.Values)
-            font.Dispose();
-        foreach (var typeface in _typefaces.Values)
-            typeface.Dispose();
+        _fonts.Dispose();
         _path.Dispose();
         _strokes.Clear();
         _fills.Clear();
-        _fonts.Clear();
-        _typefaces.Clear();
     }
 
     private static SKColor ToSkia(Color color) => new(color.R, color.G, color.B, color.A);
@@ -173,21 +162,5 @@ public sealed class SkiaDrawingContext : IDrawingContext, IDisposable
         paint = new SKPaint { Color = ToSkia(color), Style = SKPaintStyle.Fill, IsAntialias = true };
         _fills.Add(color, paint);
         return paint;
-    }
-
-    private SKFont Font(FontSpec font)
-    {
-        if (_fonts.TryGetValue(font, out var skFont))
-            return skFont;
-
-        if (!_typefaces.TryGetValue(font.Family, out var typeface))
-        {
-            typeface = SKTypeface.FromFamilyName(font.Family) ?? SKTypeface.CreateDefault();
-            _typefaces.Add(font.Family, typeface);
-        }
-
-        skFont = new SKFont(typeface, (float) font.Size) { Subpixel = true };
-        _fonts.Add(font, skFont);
-        return skFont;
     }
 }
